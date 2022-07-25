@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans:wght@500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Sigmar+One&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    font-family: 'Fredoka One', cursive;
+    background-color: #0F52BA;
+}
+
+.category-button,
+.operator {
+    caret-color: transparent;
+
+}
+
+.container-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.container-order-buttons {
+    width: 45%;
+    margin-right: 10px;
+    display: flex;
+    padding: 10px ;
+    height: 90vh;
+}
+
+.main-category{
+    display: flex;
+}
+
+.category-button {
+    /* border: 1px solid black; */
+    box-shadow: 0 -2px 10px inset #000;
+    background-color: #fff;
+    margin-right: 10px;
+    padding: 5px;
+    width: 100px;
+    height: 100px;
+    font-size: 22px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 1.2em;
+    
+}
+
+.category-button:hover{
+    cursor: pointer;
+    width: 110px;
+    height: 110px;
+    padding: 10px;
+    background-color: #eee;
+
+}
+
+.container-data {
+    width: 50%;
+    height: 95vh;
+}
+
+.container-data-content {
+    background-color: #eee;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 10px inset #000;
+}
+
+marquee {
+    color: #0F52BA;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.8em;
+    border-bottom:  1px solid #000;
+    padding-bottom: 10px;
+}
+
+.container-orders {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+}
+
+.reminder {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.your-order {
+    display: flex;
+    justify-content: space-between;
+    min-width: 100%;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0px;
+}
+
+.your-order section{
+    display: flex;
+    width: 80%;
+}
+
+.your-order section .product-name {
+    
+    width: 60%;
+    text-align: right;
+    padding: 5px 10px 5px 0px;
+}
+
+.your-order section .container-quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15%;
+    font-size: 18px;
+    font-family: 'Fredoka One', cursive;    
+}
+
+.your-order section .container-quantity input {
+    background-color: #fff;
+    width: 30px;
+    text-align: center;
+    margin: 0 10px;
+    padding: 5px 0px;
+    border: none;
+}
+
+.your-order input:focus {
+    outline: none;
+}
+
+.operator {
+    font-size: 22px;
+}
+
+.operator:hover{
+    cursor: pointer;
+}
+
+.your-order section .action {
+    display: flex;
+    align-items: center;
+    width: 20%;   
+    justify-content: center;
+}
+
+.your-order section .action button {
+
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;   
+    font-size: 16px;
+    font-family: 'Fredoka One', cursive;   
+    color: red;
+}
+
+.your-order .price {
+    width: 15%;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.your-order .price span{
+    width: 60px;
+}
+
+.container-total-price {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0px;
+}
+
+.container-total-price .total-text {
+    width: 25%;
+    padding-left: 10px;
+}
+
+.container-total-price .price {
+    width: 15%;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.container-total-price .price span {
+    width: 120px;
+    white-space: no-wrap;
+}
+
+.action-button{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+}
+
+.action-button button {
+    font-size: 16px;
+    font-family: 'Fredoka One', cursive; 
+    padding: 5px;
+    cursor: pointer;
+
+}
+
+#cancel {
+    margin-right: 8px;
+}
