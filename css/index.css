@@ -548,13 +548,13 @@ font-size: 12px;
     margin-top: 10px;
 }
 
-.preview-order .preview-orders .preview-oder-details,
+.preview-order .preview-orders .preview-order-details,
 .preview-order .preview-total{
     display: flex;
     justify-content: space-between;
 }
 
-.preview-order .preview-orders .preview-oder-details {
+.preview-order .preview-orders .preview-order-details {
     border-bottom: 1px solid #eee;
 }
 

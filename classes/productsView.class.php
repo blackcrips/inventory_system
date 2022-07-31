@@ -112,7 +112,8 @@ class productsView extends Model
 
             $arrayTemplate = array(
                 'orderId' => $value,
-                'storeName' => $getOrderDetails['store_name']
+                'storeName' => $getOrderDetails['store_name'],
+                'status' => $getOrderDetails['status']
             );
             array_push($orderIdTemplate,$arrayTemplate);
         }

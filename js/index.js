@@ -231,24 +231,40 @@ $(document).ready(function () {
 
 
   function appendPreviewOrder(orders){
-    for(let i = 1; i < orders.length; i++){
-      let createOrders = `<div class="preview-oder-details">
+    for(let i = 1; i < orders.length - 1; i++){
+      let createOrders = `<div class="preview-order-details">
                             <label>${orders[i].product_name}</label>
-                            <label>${orders[i].price}</label>
+                            <label class='preview-price'>${orders[i].price}</label>
                           </div>`;
       $('.preview-orders').append(createOrders);
     }
   }
 
+  function previewOrderTotalPrice(){
+    let price = 0;
+    let previewPrice = $(".preview-order-details");
+    // for(let i = 0; i < previewPrice.length; i++){
+    //   console.log(previewPrice[i])
+    // }
+
+    previewPrice.each(function(index,element) {
+      // console.log($(this).children().last().text())
+      price += parseInt($(this).children().last().text())
+    })
+    $('#total-price').html(price)
+    // console.log($('#total-price'))
+  }
+
   function createPreviewOrders(orderId){
     $.ajax({
       type: "POST",
-      url: "./includes/changeOrderStatus.inc.php",
+      url: "./includes/previewOrders.inc.php",
       data: {
         "request-status": orderId
       },
       success: function(data){
         let clientDetails = JSON.parse(data);
+        let orderId = clientDetails.length - 1;
         let previewDetails = `<div class="preview-order">
                                 <div class="preview-details">
                                     <label class='preview-store-name'>${clientDetails[0].store_name}</label>
@@ -261,14 +277,14 @@ $(document).ready(function () {
                                 </div>
                                 <div class="preview-total">
                                     <label>TOTAL</label>
-                                    <label>100</label>
+                                    <label id='total-price'></label>
                                 </div>
                                 <div class="preview-action">
-                                    <button>Cancel</button>
-                                    <button>Delivered</button>
+                                    <button id='preview-cancel'>Cancel</button>
+                                    <button id='preview-delivered'>Delivered</button>
+                                    <input type='hidden' id='order-id' value='${clientDetails[orderId]}' />
                                 </div>
                               </div>`;
-
         $("#container-body").children(".container-body-content").children("#body-left").children(".container-table").remove();
         $(".body-left").children(".title-group").children("label").text("ORDER DETAILS");
 
@@ -283,8 +299,8 @@ $(document).ready(function () {
           $("#container-body").children(".container-body-content").children("#body-left").append(previewDetails);
         }
 
-        console.log(appendPreviewOrder(clientDetails));
-        // console.log(clientDetails);
+        appendPreviewOrder(clientDetails);
+        previewOrderTotalPrice();
       },
       error: function (error) {
         console.log(error);
@@ -297,4 +313,25 @@ $(document).ready(function () {
     let orderId = $(this).parent().children("#order-id").html();
     createPreviewOrders(orderId);
   });
+
+  $(document).on('click','#preview-cancel',function(){
+    location.reload(true)
+  })
+
+  $(document).on('click','#preview-delivered',function(){
+    if(confirm('Is this order delivered?') == true){
+      $.ajax({
+        type: "POST",
+        url: "./includes/changeOrderStatus.inc.php",
+        data: {
+          'order-id': $("#order-id").val()
+        },
+        success: function(data){
+          console.log(data)
+        }
+      });
+    // console.log($('#order-id').val());
+    }
+  })
+  
 });

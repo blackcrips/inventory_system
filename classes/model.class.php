@@ -502,7 +502,7 @@ class Model extends Dbh
     }
 
     protected function singleOrderToday($id){
-        $sql = "SELECT cd.store_name FROM products_orders po JOIN clients_details cd ON po.client_id = cd.id WHERE po.order_id =? ";
+        $sql = "SELECT cd.store_name,po.status FROM products_orders po JOIN clients_details cd ON po.client_id = cd.id WHERE po.order_id =? ";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$id]);
 
@@ -536,6 +536,23 @@ class Model extends Dbh
 
         $result = $stmt->fetch();
         return $result;
+    }
+
+    protected function changeStutusOfOrder($orderId){
+        $sql = "SELECT id FROM products_orders WHERE order_id = ?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$orderId]);
+
+        $results = $stmt->fetchAll();
+        // exit(json_encode($results));
+        foreach($results as $result){
+            $id = $result["id"];
+            $sql = "UPDATE products_orders SET status = 'delivered' WHERE id = $id";
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->execute();
+        }
+
+
     }
 
 }

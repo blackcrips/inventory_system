@@ -304,6 +304,18 @@ class LoginController extends Model
         }
     }
 
+    public function changeOrderStatus(){
+        if(!isset($_POST['order-id'])){
+            header("LOCATION: ../index.php");
+        } else {
+            $orderId = htmlspecialchars($_POST['order-id']);
+            $this->changeStutusOfOrder($orderId);
+            header("REFRESH: 0");
+        }   
+
+
+    }
+
     
 
 

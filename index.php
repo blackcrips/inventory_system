@@ -133,7 +133,7 @@ $productsView = new productsView();
                                                     <button id='order-id' hidden><?php echo $value['orderId'] ?></button>
                                                 </td>
                                                 
-                                                <td>Pending</td>
+                                                <td><?php echo $value['status'] ?></td>
                                                
                                             </tr>
                                             <?php endforeach; ?>
