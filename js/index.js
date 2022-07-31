@@ -327,7 +327,8 @@ $(document).ready(function () {
           'order-id': $("#order-id").val()
         },
         success: function(data){
-          console.log(data)
+          alert('Done');
+          location.reload(true);
         }
       });
     // console.log($('#order-id').val());
@@ -335,3 +336,4 @@ $(document).ready(function () {
   })
   
 });
+

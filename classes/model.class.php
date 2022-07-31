@@ -450,12 +450,12 @@ class Model extends Dbh
         return $rowCount;
     }
 
-    protected function insertOrders($orderId,$productName,$quantity,$price,$productCode,$clientId){
-        $sql = "INSERT INTO products_orders (`order_id`,`product_name`,`quantity`,`price`,`product_code`,`client_id`) VALUES(?,?,?,?,?,?)";
+    protected function insertOrders($orderId,$productName,$quantity,$price,$productCode,$clientId,$orderStatus){
+        $sql = "INSERT INTO products_orders (`order_id`,`product_name`,`quantity`,`price`,`product_code`,`client_id`,`status`) VALUES(?,?,?,?,?,?,?)";
         $stmt = $this->connect()->prepare($sql);
         
 
-        if($stmt->execute([$orderId,$productName,$quantity,$price,$productCode,$clientId])){
+        if($stmt->execute([$orderId,$productName,$quantity,$price,$productCode,$clientId,$orderStatus])){
             return true;
         } else {
             return false;
@@ -493,7 +493,7 @@ class Model extends Dbh
     }
 
     protected function orderToday($today){
-        $sql = "SELECT order_id FROM products_orders WHERE added_at = ?";
+        $sql = "SELECT order_id FROM products_orders WHERE added_at = ? AND status='pending'";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$today]);
 

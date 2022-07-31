@@ -35,7 +35,7 @@ $productsView = new productsView();
                         <li class="add-edit"><span> ADD/EDIT </span>
                             <ul>
                                 <li><a href="addproduct.php">ADD PRODUCT</a></li>
-                                <li><a href="#">EDIT PRODUCT</a></li>
+                                <li><a href="editProducts.php">EDIT PRODUCT</a></li>
                                 <li><a href="./addSupplier.php">ADD SUPPLIER</a></li>
                             </ul>
                         </li>

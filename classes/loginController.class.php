@@ -286,8 +286,9 @@ class LoginController extends Model
             $quantity = htmlspecialchars($value['quantity']);
             $price = htmlspecialchars($value['price']);
             $clientId = htmlspecialchars($value['client-id']);
+            $orderStatus = "pending";
 
-                if($this->insertOrders($orderId,$productName,$quantity,$price,$productCode,$clientId)){
+                if($this->insertOrders($orderId,$productName,$quantity,$price,$productCode,$clientId,$orderStatus)){
                     $this->setNewQuantity($productCode,$quantity);
                     unset($_SESSION['client-id']);
                     $_SESSION['client-id'] = null;
