@@ -53,6 +53,10 @@ class LoginController extends Model
 
     public function redirectingUser()
     {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
         $serials = $this->getSessions();
         if (!isset($_SESSION['loginUser']) || !isset($_COOKIE['userLoginData'])) {
             return;
@@ -72,6 +76,10 @@ class LoginController extends Model
 
     public function redirectToLogin()
     {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        
         $serials = $this->getSessions();
         if (!isset($_SESSION['loginUser']) || !isset($_COOKIE['userLoginData'])) {
             header("Location: login.php");

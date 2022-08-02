@@ -1,9 +1,8 @@
 <?php
 include_once('./includes/autoLoadClassesMain.inc.php');
-session_start();
 $loginController = new LoginController();
 $loginController->redirectToLogin();
-$productsView = new productsView();
+$productsView = new ProductsView();
 
 ?>
 <!DOCTYPE html>

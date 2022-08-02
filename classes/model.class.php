@@ -110,6 +110,10 @@ class Model extends Dbh
     private function checkCookieState($getCookie)
     {
 
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
         if (!isset($_COOKIE['userLoginData'])) {
             $serial = $this->createCookie();
             $this->insertSerial($_SESSION['loginUser']['email'], $serial, $serial);

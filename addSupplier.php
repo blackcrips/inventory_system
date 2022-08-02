@@ -1,6 +1,5 @@
 <?php
 include_once('./includes/autoLoadClassesMain.inc.php');
-session_start();
 $loginController = new LoginController();
 $loginController->redirectToLogin();
 ?>
