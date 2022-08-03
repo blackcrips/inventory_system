@@ -34,7 +34,8 @@ class productsView extends Model
     public function getRequestedProduct()
     {
         if (!isset($_POST['request-status'])) {
-            header("LOCATION: ../login.php");
+            header("LOCATION: ../index.php");
+            exit;
         } else {
             $requestedProduct = htmlspecialchars($_POST['request-status']);
             $columnRequested = htmlspecialchars($_POST['get-column']);
@@ -80,7 +81,8 @@ class productsView extends Model
     public function showPrices()
     {
         if (!isset($_POST['category-name'])) {
-            header("LOCATION: ../login.php");
+            header("LOCATION: ../index.php");
+            exit;
         } else {
             $category = htmlspecialchars($_POST['category-name']);
             $productName = htmlspecialchars($_POST['product-name']);
@@ -125,7 +127,8 @@ class productsView extends Model
 
     public function checkCredentials(){
         if(!isset($_SESSION['client-id'])){
-            header("Location: ./login.php");
+            header("Location: ./index.php");
+            exit;
         }
 
         $clientId = htmlspecialchars($_SESSION['client-id']);
@@ -136,7 +139,8 @@ class productsView extends Model
 
     public function previewOrder(){
         if(!isset($_POST['request-status'])){
-            header("LOCATION: ../login.php");
+            header("LOCATION: ../index.php");
+            exit;
         } else {
             $orderId = htmlspecialchars($_POST['request-status']);
             $today = date("Y-m-d");

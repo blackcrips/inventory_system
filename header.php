@@ -5,7 +5,7 @@
                 </div>
                 <div class="header-navigation">
                     <ul>
-                        <li><a href="./login.php">HOME</a></li>
+                        <li><a href="./homePage.php">HOME</a></li>
                         <li><a href="#">ORDER HISTORY</a></li>
                         <li class="add-edit"><span> ADD/EDIT </span>
                             <ul>

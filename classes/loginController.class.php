@@ -7,17 +7,20 @@ class LoginController extends Model
     {
         if (count($_POST) != 6) {
             header("LOCATION: ../signup.php");
+            exit;
         }
 
         $postValues = $_POST;
         foreach ($postValues as $value) {
             if ($value == "") {
                 header("LOCATION: ../signup.php");
+                exit;
             }
         }
 
         if (!isset($_POST)) {
             header("LOCATION: ../signup.php");
+            exit;
         }
 
         $firstname = htmlspecialchars($_POST['firstname']);
@@ -36,9 +39,11 @@ class LoginController extends Model
     {
         if ($_POST['username'] == "" || $_POST['password'] == "") {
             echo "<script>alert('Invalid username or password')</script>";
-            echo "<script>window.location.href = '../login.php'</script>";
+            echo "<script>window.location.href = '../index.php'</script>";
         } else {
             $this->validateLogin($_POST['username'], $_POST['password']);
+            header("LOCATION: ../index.php");
+            exit;
         }
     }
 
@@ -47,7 +52,8 @@ class LoginController extends Model
         $valUsername = htmlentities($username);
         $valPassword = htmlentities($password);
         $this->loginUser($valUsername, $valPassword);
-        header("Location: ../index.php");
+        header("Location: ../homePage.php");
+        exit;
     }
 
 
@@ -68,7 +74,8 @@ class LoginController extends Model
                     $this->updateSerial($userLogin, $newSerial, $newSerial);
                     $arrayValue = $this->getUserData($userLogin);
                     $this->createSessionLogin($arrayValue);
-                    header("Location: index.php");
+                    header("Location: homePage.php");
+                    exit;
                 }
             }
         }
@@ -82,7 +89,8 @@ class LoginController extends Model
         
         $serials = $this->getSessions();
         if (!isset($_SESSION['loginUser']) || !isset($_COOKIE['userLoginData'])) {
-            header("Location: login.php");
+            header("Location: index.php");
+            exit;
         } else {
             for ($i = 0; $i < count($serials); $i++) {
                 if ($serials[$i]['PHPSESSION'] == $_SESSION['loginUser'] || $serials[$i]['COOKIESESSION'] == $_COOKIE['userLoginData']) {
@@ -100,7 +108,8 @@ class LoginController extends Model
     public function addProducts()
     {
         if (!isset($_POST['category'])) {
-            header("Location: ../login.php");
+            header("Location: ../index.php");
+            exit;
         } else {
             $category = htmlspecialchars($_POST['category']);
             $productName = htmlspecialchars($_POST['product_name']);
@@ -132,7 +141,7 @@ class LoginController extends Model
                     $this->insertProductPrice($serialCode, $productPrice, $resellerPrice, $supplierPrice, $quantity, $storeCode);
 
                     echo "<script>alert('Product Added!')</script>";
-                    echo "<script>window.location.href ='../login.php'</script>";
+                    echo "<script>window.location.href ='../index.php'</script>";
                     return;
                 }
             }
@@ -142,7 +151,8 @@ class LoginController extends Model
     public function addSupplier()
     {
         if (!isset($_POST['supplier-name'])) {
-            header("Location: ../login.php");
+            header("Location: ../index.php");
+            exit;
         } else {
             $supplierName = htmlspecialchars($_POST['supplier-name']);
             $supplierAddress = htmlspecialchars($_POST['supplier-address']);
@@ -166,8 +176,8 @@ class LoginController extends Model
             if (count($getSupplierCode) == 0) {
                 $serialCode = $generateCode;
                 $this->insertSupplierName($serialCode, $supplierName, $supplierAddress, $contactNo, $secondaryNo, $contactPerson, $products);
-                header("LOCATION: ../login.php");
-                return;
+                header("LOCATION: ../index.php");
+                exit;
             } else {
                 foreach ($getSupplierCode as $value) {
                     if ($value == $generateCode) {
@@ -180,7 +190,7 @@ class LoginController extends Model
                         } else {
                             $this->insertSupplierName($serialCode, $supplierName, $supplierAddress, $contactNo, $secondaryNo, $contactPerson, $products);
                             echo "<script>alert('Added successfully!')</script>";
-                            echo "<script>window.location.href ='../login.php'</script>";
+                            echo "<script>window.location.href ='../index.php'</script>";
                             return;
                         }
                     }
@@ -192,7 +202,8 @@ class LoginController extends Model
     public function addClient()
     {
         if (!isset($_POST['store-name'])) {
-            header("LOCATION: ../login.php");
+            header("LOCATION: ../index.php");
+            exit;
         } else {
             $storeName = htmlspecialchars($_POST['store-name']);
             $contactPerson = htmlspecialchars($_POST['contact-person']);
@@ -201,7 +212,7 @@ class LoginController extends Model
 
             if (empty($storeName) || empty($contactPerson) || empty($contactNo) || empty($address)) {
                 echo "<script>alert('Please fill up all field!')</script>";
-                echo "<script>window.location.href='../login.php'</script>";
+                echo "<script>window.location.href='../index.php'</script>";
             } else {
                 $this->insertClientDetails($storeName, $contactPerson, $contactNo, $address);
             }
@@ -211,7 +222,8 @@ class LoginController extends Model
     public function getContactNumbers()
     {
         if (!isset($_POST['request-status'])) {
-            header("LOCATION: ../login.php");
+            header("LOCATION: ../index.php");
+            exit;
         } else {
             $contactNo = htmlspecialchars($_POST['request-status']);
             $contactNumbers = $this->getAllContactNumbers($contactNo);
@@ -222,7 +234,8 @@ class LoginController extends Model
     public function getExistingClient()
     {
         if (!isset($_POST['request-status'])) {
-            header("LOCATION: ../login.php");
+            header("LOCATION: ../index.php");
+            exit;
         } else {
         }
 
@@ -233,21 +246,25 @@ class LoginController extends Model
 
     public function createSessionOrder(){
         if(!isset($_POST['client-id'])){
-            header("Location: ./login.php");
+            header("Location: ./index.php");
+            exit;
         } else {
             $_SESSION['client-id'] = htmlspecialchars($_POST['client-id']);
             header("LOCATION: ../createOrder.php");
+            exit;
         }
     }
 
     public function logout()
     {
         if (!isset($_POST['logout'])) {
-            header("Location: ./login.php");
+            header("Location: ./index.php");
+            exit;
         } else {
             $this->logoutUser($_SESSION['loginUser']['email']);
             $this->unsetSESSIONS();
-            header("LOCATION: ../login.php");
+            header("LOCATION: ../index.php");
+            exit;
         }
     }
 
@@ -275,13 +292,15 @@ class LoginController extends Model
     public function preventDoubleOrder(){
 
         if(!isset($_POST['client-id'])){
-                header("Location: ./login.php");
+                header("Location: ./index.php");
+                exit;
         }
     }
 
     public function createOrder(){
         if(!isset($_POST['request-status'])){
-            header("Location: ../login.php");
+            header("Location: ../index.php");
+            exit;
         } else {
             
             $orderId = $this->checkOrderId();    
@@ -315,11 +334,13 @@ class LoginController extends Model
 
     public function changeOrderStatus(){
         if(!isset($_POST['order-id'])){
-            header("LOCATION: ../index.php");
+            header("LOCATION: ../homePage.php");
+            exit;
         } else {
             $orderId = htmlspecialchars($_POST['order-id']);
             $this->changeStutusOfOrder($orderId);
             header("REFRESH: 0");
+            exit;
         }   
 
 
@@ -328,7 +349,8 @@ class LoginController extends Model
     public function editOrder(){
         
         if(!isset($_POST['category'])){
-            header("LOCATION: ../login.php");
+            header("LOCATION: ../index.php");
+            exit;
         } else {
             $category = htmlspecialchars($_POST['category']);
             $productName = htmlspecialchars($_POST['product-name']);

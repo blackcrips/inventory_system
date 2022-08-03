@@ -46,7 +46,8 @@ class Model extends Dbh
         if (!$stmt->execute([$firstname, $middlename, $lastname, $email, $hashPassword])) {
             die();
         } else {
-            header("Location: ../login.php");
+            header("Location: ../index.php");
+            exit;
         }
     }
 
@@ -77,7 +78,7 @@ class Model extends Dbh
 
         if ($stmt->rowCount() == 0) {
             echo "<script>alert('Invalid username or password!')</script>";
-            echo "<script>window.location.href = '../login.php'</script>";
+            echo "<script>window.location.href = '../index.php'</script>";
         } else {
             $hashedPassword = $stmt->fetch();
             if (password_verify($password, $hashedPassword['password'])) {
@@ -90,7 +91,7 @@ class Model extends Dbh
                 }
             } else {
                 echo "<script>alert('Invalid username or password!')</script>";
-                echo "<script>window.location.href = '../login.php'</script>";
+                echo "<script>window.location.href = '../index.php'</script>";
             }
         }
     }
@@ -122,7 +123,8 @@ class Model extends Dbh
             for ($i = 0; $i < count($getCookie); $i++) {
                 if ($getCookie[$i]['COOKIESESSION'] == $_COOKIE['userLoginData']) {
                     $this->updateSerial($getCookie[$i]['username'], $getCookie[$i]['PHPSESSION'], $getCookie[$i]['COOKIESESSION']);
-                    header("Location: ../index.php");
+                    header("Location: ../homePage.php");
+                    exit;
                 } else {
                     continue;
                 }
@@ -297,6 +299,7 @@ class Model extends Dbh
             $sql = "INSERT INTO supplier (`store_code`,`supplier_name`,`supplier_address`,`contact_no`,`secondary_no`,`contact_person`,`products`) VALUES(?,?,?,?,?,?,?)";
             $stmt = $this->connect()->prepare($sql);
             $stmt->execute([$serialCode, $supplierName, $supplierAddress, $contactNo, $secondaryNo, $contactPerson, $products]);
+            return true;
         }
     }
 

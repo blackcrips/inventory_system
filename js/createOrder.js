@@ -375,14 +375,14 @@ $(document).on('click', "#submit", function(){
     
   })
   createOrders(placedOrders);
-  window.location.href = "./login.php";
+  window.location.href = "./index.php";
   }
 
 });
 
 $(document).on("click", "#cancel", function(){
   if(confirm("Redirect to homepage? Order placed will not be saved?") == true){
-    window.location.href = "./index.php";
+    window.location.href = "./homePage.php";
   } else {
     return;
   }

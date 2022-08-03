@@ -14,10 +14,13 @@ $productsView = new ProductsView();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./css/addProduct.css">
+    <link rel="stylesheet" href="./css/header.css">
     <title>Add new product</title>
 </head>
 
 <body>
+
+<?php include_once('./header.php'); ?>
     <div class="container-body">
         <form action="./includes/addProducts.inc.php" method="POST">
             <table>

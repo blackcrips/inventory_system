@@ -11,12 +11,14 @@ $loginController->redirectToLogin();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="./css/addProduct.css">
+    <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/addSupplier.css">
     <title>Add new supplier</title>
 </head>
 
 <body>
+
+<?php include_once('./header.php'); ?>
     <div class="container-body">
         <form action="./includes/addSupplier.inc.php" method="POST">
             <table>

@@ -6,5 +6,6 @@ $loginController = new LoginController();
 $loginController->addSupplier();
 
 if (isset($_POST['cancel'])) {
-    header("Location: ../login.php");
+    header("Location: ../index.php");
+    exit;
 }

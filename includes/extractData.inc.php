@@ -3,7 +3,8 @@
 include_once('./autoLoadClasses.inc.php');
 
 if (!isset($_POST['request_status'])) {
-    header("Location: ../login.php");
+    header("Location: ../index.php");
+    exit;
 } else {
     getThisData();
 }
