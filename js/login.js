@@ -1,24 +1,7 @@
-$(document).ready(function () {
-  let signupFields = $("[data-signup]");
-  let loginButton = $("#login");
+// Demo or didn't happen
 
-  let stopMe = "";
-  loginButton.on("click", function (e) {
-    signupFields.each(function () {
-      if ($(this).val() == "") {
-        $(this).css("border", "2px solid red");
-        stopMe = 1;
-      }
-    });
-    if (stopMe != "") {
-      stopMe = "";
-      alert("Invalid Data");
-    }
+var signin = document.querySelector('#signin')
+var register = document.querySelector('#register')
+setTimeout(function(){ register.checked = true}, 1000)
+setTimeout(function(){ signin.checked = true}, 2000)
 
-    if ($("[data-signup]")[4].value != $("[data-signup]")[5].value) {
-      alert("Password not match!");
-    } else {
-      $("#form-signup").submit();
-    }
-  });
-});

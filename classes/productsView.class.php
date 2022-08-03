@@ -154,4 +154,13 @@ class productsView extends Model
             exit(json_encode($orderTemplate));
         }
     }
+
+    public function getProductsToEdit(){
+        return $this->displayEditProducts();
+    }
+
+    public function getSingleProductToEdit(){
+        $productId = htmlspecialchars($_POST['request-product']);
+        exit(json_encode($this->singleProduct($productId)));
+    }
 }

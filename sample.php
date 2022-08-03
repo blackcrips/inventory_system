@@ -18,17 +18,44 @@ $productsView = new ProductsView();
 <body>
 
 
-    <div class="preview-order">
-        <?php 
-        
-        echo "<pre>";
-        $arrayValue = $productsView->getNewClients();
-
-        var_dump($arrayValue);
-
-
-        ?>
-        </div>
+    <div class="container-edit">
+        <form action="./includes/editProducts.inc.php" method="POST"></form>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Category:</td>
+                    <td><input type="text" value="Shampoo"></td>
+                </tr>
+                <tr>
+                    <td>Produt name:</td>
+                    <td><input type="text" value="1"></td>
+                </tr>
+                <tr>
+                    <td>Product description:</td>
+                    <td><input type="text" value="1"></td>
+                </tr>
+                <tr>
+                    <td>Supplier price:</td>
+                    <td><input type="text" value="1"></td>
+                </tr>
+                <tr>
+                    <td>Retail price:</td>
+                    <td><input type="text" value="1"></td>
+                </tr>
+                <tr>
+                    <td>Reseller price:</td>
+                    <td><input type="text" value="1"></td>
+                </tr>
+                <tr>
+                    <td>Quantity:</td>
+                    <td><input type="text" value="1"></td>
+                </tr>
+                <tr>
+                    <td>Store name:</td>
+                    <td><input type="text" value="Shampoo"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 

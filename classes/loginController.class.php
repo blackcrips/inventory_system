@@ -325,6 +325,29 @@ class LoginController extends Model
 
     }
 
+    public function editOrder(){
+        
+        if(!isset($_POST['category'])){
+            header("LOCATION: ../login.php");
+        } else {
+            $category = htmlspecialchars($_POST['category']);
+            $productName = htmlspecialchars($_POST['product-name']);
+            $productDescription = htmlspecialchars($_POST['product-description']);
+            $supplierPrice = htmlspecialchars($_POST['supplier-price']);
+            $retailPrice = htmlspecialchars($_POST['retail-price']);
+            $resellerPrice = htmlspecialchars($_POST['reseller-price']);
+            $quantity = htmlspecialchars($_POST['quantity']);
+            $productCode = htmlspecialchars($_POST['product-code']);
+
+            $this->updateOrder($category,$productName,$productDescription,$supplierPrice,$retailPrice,$resellerPrice,$quantity,$productCode);
+
+            
+            echo "<script>alert('Product records successfully updated')</script>";
+            echo "<script>window.location.href = '../editProducts.php'</script>";
+
+        }
+    }
+
     
 
 

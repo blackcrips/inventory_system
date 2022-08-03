@@ -1,0 +1,108 @@
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    background-color: #0F52BA;
+    color: #fff;
+    height: 40px;
+}
+
+
+.header-left {
+    display: flex;
+}
+
+.store-name{
+    width: 200px;
+    text-align: center;
+}
+
+.store-name h4{
+    line-height: 1.6;
+    margin-bottom: 0;
+    height: 100%;
+    display: block;
+}
+
+.header-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;    
+    font-weight: bold;
+    
+}
+
+.header-navigation ul{
+    display: flex;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    height: 100%;
+    margin-bottom: 0;   
+    
+    line-height: 3.5;
+    
+}
+
+.header-navigation ul a{
+    text-decoration: none;
+    color: #fff;
+    line-height: 3.5;
+    margin-right: 15px; 
+    display: block;
+    height: 100%;
+    padding: 0 10px;
+}
+
+.header-navigation ul span{
+    display: block;
+    height: 100%;
+    width: 70px;
+    text-align: center;
+}
+
+.header-navigation ul li ul{
+    background-color: #0F52BA;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.header-navigation ul li ul a{
+    width: 100%;
+}
+
+.header-navigation a:hover{
+    cursor: pointer;
+    background-color: #2541B2;
+}
+
+.add-edit {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 40px;
+}
+
+.add-edit:hover{
+    cursor: pointer;
+    background-color: #2541B2;
+    height: 180px;
+    z-index: 3;
+}
+
+
+.header-right{
+    display: flex;
+    flex-direction: column;
+    height: 40px;
+    overflow: hidden;
+    margin-right: 20px;
+    transition: all .5s;
+}
+
+.header-right:hover{
+    cursor: pointer;
+    height: 84px;
+    z-index: 2;
+}

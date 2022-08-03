@@ -555,8 +555,40 @@ class Model extends Dbh
             $stmt = $this->connect()->prepare($sql);
             $stmt->execute();
         }
+    }
 
+    protected function displayEditProducts(){
+        $sql = "SELECT category,product_name,product_description,product_code,pp.store_code,pp.price,pp.reseller_price,pp.supplier_price,pp.quantity,s.supplier_name
+         FROM products_name po 
+         JOIN products_price pp 
+            ON po.product_code = pp.id
+        JOIN supplier s 
+            ON pp.store_code = s.store_code";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        
+        return $results;
+    }
 
+    protected function singleProduct($productId){
+        $sql = "SELECT category,product_name,product_description,product_code,pp.store_code,pp.price,pp.reseller_price,pp.supplier_price,pp.quantity FROM products_name po JOIN products_price pp ON po.product_code = pp.id WHERE po.product_code = ?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$productId]);
+        $results = $stmt->fetch();
+
+        return $results;
+        
+    }
+
+    protected function updateOrder($category,$productName,$productDescription,$supplierPrice,$retailPrice,$resellerPrice,$quantity,$productCode){
+        $sql = "UPDATE products_name SET `category` = ?, `product_name` = ?, `product_description` = ? WHERE `product_code` = ?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$category,$productName,$productDescription,$productCode]);
+
+        $sql = "UPDATE products_price SET `price` = ?, `reseller_price` = ?, `quantity` = ?, `supplier_price` = ? WHERE id = ? ";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$retailPrice,$resellerPrice,$quantity,$supplierPrice,$productCode]);
     }
 
 }
