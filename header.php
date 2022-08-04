@@ -6,7 +6,7 @@
                 <div class="header-navigation">
                     <ul>
                         <li><a href="./homePage.php">HOME</a></li>
-                        <li><a href="#">ORDER HISTORY</a></li>
+                        <li><a href="./orderHistory.php">ORDER HISTORY</a></li>
                         <li class="add-edit"><span> ADD/EDIT </span>
                             <ul>
                                 <li><a href="addproduct.php">ADD PRODUCT</a></li>

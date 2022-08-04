@@ -594,4 +594,50 @@ class Model extends Dbh
         $stmt->execute([$retailPrice,$resellerPrice,$quantity,$supplierPrice,$productCode]);
     }
 
+    private function getOrderHistoryOrderNumber(){
+        $sql = "SELECT order_id FROM products_orders";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        $emptyOrderId = [];
+
+        for($i = 0; $i < count($result); $i++){
+            array_push($emptyOrderId,$result[$i]['order_id']);
+        }
+
+        $uniqueOderId = array_unique($emptyOrderId);
+        $returnArray = [];
+
+        foreach($uniqueOderId as $id){
+            $sql = "SELECT store_name,contact_person,contact_no,address,po.status,po.added_at 
+            FROM clients_details cd
+            JOIN products_orders po
+                ON po.client_id = cd.id
+            WHERE po.order_id = $id";
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->execute();
+
+            $data = $stmt->fetch();
+
+            $dataTemplate = array(
+                'order_id' => $id,
+                'store_name' => $data['store_name'],
+                'contact_person' => $data['contact_person'],
+                'contact_no' => $data['contact_no'],
+                'address' => $data['address'],
+                'status' => $data['status'],
+                'order_date' => $data['added_at'],
+            );
+
+            array_push($returnArray,$dataTemplate);
+        }
+
+        return $returnArray;
+    }
+
+    protected function getOrderHistory(){
+        return $this->getOrderHistoryOrderNumber();
+    }
+
 }

@@ -143,7 +143,7 @@ $(document).ready(function () {
     </div>`;
 
   $(document).on("click", "#cancel", function () {
-    window.location.href = "login.php";
+    window.location.href = "index.php";
   });
 
   $(document).on("click", "[data-existing-button]", function () {

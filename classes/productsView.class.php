@@ -167,4 +167,9 @@ class productsView extends Model
         $productId = htmlspecialchars($_POST['request-product']);
         exit(json_encode($this->singleProduct($productId)));
     }
+    
+    public function viewOrderHistory(){
+        
+        return $this->getOrderHistory();
+    }
 }

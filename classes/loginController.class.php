@@ -368,7 +368,9 @@ class LoginController extends Model
             echo "<script>window.location.href = '../editProducts.php'</script>";
 
         }
+        
     }
+
 
     
 
