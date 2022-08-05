@@ -535,6 +535,15 @@ class Model extends Dbh
         return $result;
     }
 
+    protected function getAllOrder($orderId){
+        $sql = "SELECT product_name,quantity,price FROM products_orders WHERE order_id = ?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$orderId]);
+
+        $result = $stmt->fetchAll();
+        return $result;
+    }
+
     protected function getOrderDetails($id){
         $sql = "SELECT store_name,contact_person,contact_no,address FROM clients_details cd JOIN products_orders po ON cd.id = po.client_id
         WHERE po.order_id = ? ";

@@ -1,10 +1,7 @@
 <?php
 include_once('./includes/autoLoadClassesMain.inc.php');
 $productsView = new ProductsView();
-// $productsView->viewOrderHistory();
 
-// echo "<pre>";
-// var_dump($productsView->viewOrderHistory());
 
 ?>
 
@@ -23,6 +20,25 @@ $productsView = new ProductsView();
 </head>
 <body>
   <?php include_once("header.php"); ?>  
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="save-changes">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <div class="container">
     <div class="title">
         Order History
@@ -38,12 +54,11 @@ $productsView = new ProductsView();
                     <td>Address</td>
                     <td>Order date</td>
                     <td>Status</td>
-                    <!-- <td>Action</td> -->
                 </tr>
             </thead>
             <tbody>
             <?php foreach($productsView->viewOrderHistory() as $value) :?>
-                    <tr class="container-order-id">
+                    <tr class="container-order-id" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <td class="order-id"><?php echo $value['order_id']; ?></td>
                         <td><?php echo $value['store_name']; ?></td>
                         <td><?php echo $value['contact_person']; ?></td>
@@ -51,11 +66,6 @@ $productsView = new ProductsView();
                         <td><?php echo $value['address']; ?></td>
                         <td><?php echo $value['order_date']; ?></td>
                         <td><?php echo $value['status']; ?></td>
-                        <!-- <td>
-                            <div>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>                                
-                            </div>
-                        </td> -->
                     </tr>
                 <?php endforeach;?>
 

@@ -172,4 +172,26 @@ class productsView extends Model
         
         return $this->getOrderHistory();
     }
+
+    
+    public function viewAllOrder(){
+        if(!isset($_POST['request-product'])){
+            header("LOCATION: ../index.php");
+            exit;
+        } else {
+            $orderId = htmlspecialchars($_POST['request-product']);
+            $orderTemplate = [];
+
+            $orderDetails = $this->getOrderDetails($orderId);
+            array_push($orderTemplate,$orderDetails);
+
+            $products = $this->getAllOrder($orderId);
+
+            foreach($products as $value){
+                array_push($orderTemplate,$value);
+            }
+            array_push($orderTemplate,$orderId);
+            exit(json_encode($orderTemplate));
+        }
+    }
 }

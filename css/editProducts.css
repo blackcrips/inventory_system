@@ -7,7 +7,6 @@
 .container{
     display: flex;
     min-width:100%;
-    /* background-color: orange; */
     justify-content: center;
     margin-top: 10px;
 }
@@ -32,8 +31,6 @@
 .container-edit table tr{
     display: flex;
     justify-content: space-between;
-    /* background-color: orange; */
-    /* border-bottom: 1px solid #eee; */
     margin-bottom: 5px;
 }
 
