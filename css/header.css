@@ -1,9 +1,15 @@
 .header-content {
+    position: relative;
     display: flex;
     justify-content: space-between;
     background-color: #0F52BA;
     color: #fff;
     height: 40px;
+    min-width: 100%;
+}
+
+.header-toggle {
+    width: 100%;
 }
 
 

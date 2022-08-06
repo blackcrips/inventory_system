@@ -1,4 +1,4 @@
-<div class="header-content">
+<div class="header-content" id="header-content">
             <div class="header-left">
                 <div class="store-name">
                     <h4>DOTA STORE</h4>
@@ -24,3 +24,9 @@
                 </form>
             </div>
         </div>
+<script defer>
+    window.onresize = function(){
+        let headerDiv = document.getElementById('header-content');
+        headerDiv.classList.toggle('header-toggle');
+    }
+</script>

@@ -234,6 +234,7 @@ $(document).ready(function () {
     for(let i = 1; i < orders.length - 1; i++){
       let createOrders = `<div class="preview-order-details">
                             <label>${orders[i].product_name}</label>
+                            <label>${orders[i].quantity}</label>                            
                             <label class='preview-price'>${orders[i].price}</label>
                           </div>`;
       $('.preview-orders').append(createOrders);
@@ -243,16 +244,11 @@ $(document).ready(function () {
   function previewOrderTotalPrice(){
     let price = 0;
     let previewPrice = $(".preview-order-details");
-    // for(let i = 0; i < previewPrice.length; i++){
-    //   console.log(previewPrice[i])
-    // }
-
+    
     previewPrice.each(function(index,element) {
-      // console.log($(this).children().last().text())
-      price += parseInt($(this).children().last().text())
+            price += parseInt($(this).children().last().text())
     })
     $('#total-price').html(price)
-    // console.log($('#total-price'))
   }
 
   function createPreviewOrders(orderId){
@@ -280,8 +276,9 @@ $(document).ready(function () {
                                     <label id='total-price'></label>
                                 </div>
                                 <div class="preview-action">
-                                    <button id='preview-cancel'>Cancel</button>
-                                    <button id='preview-delivered'>Delivered</button>
+                                    <button id='preview-cancel' class='btn btn-secondary'>Back</button>
+                                    <button id='preview-delivered' class='btn btn-primary'>Delivered</button>
+                                    <button id='preview-delete' class='btn btn-danger'>Delete</button>
                                     <input type='hidden' id='order-id' value='${clientDetails[orderId]}' />
                                 </div>
                               </div>`;
@@ -331,8 +328,29 @@ $(document).ready(function () {
           location.reload(true);
         }
       });
-    // console.log($('#order-id').val());
     }
+  })
+
+  $(document).on('click', '#preview-delete', () => {
+    let orderId = $('#order-id').val();
+    $.ajax({
+      type: "POST",
+      url: "./includes/deleteOrder.inc.php",
+      data: {
+        'order-id': orderId
+      },
+      success: function(data){
+        if(!data){
+          alert('There was a problem deleting the record.')
+        } else {
+          alert('Success');
+          location.reload();
+        }
+      }, 
+      error: function(error){
+        console.log(error)
+      }
+    });
   })
   
 });

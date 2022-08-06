@@ -649,4 +649,25 @@ class Model extends Dbh
         return $this->getOrderHistoryOrderNumber();
     }
 
+    protected function deleteOrderHistory($orderId){
+        $sql = "DELETE FROM products_orders WHERE order_id = ? ";
+        $stmt = $this->connect()->prepare($sql);
+        
+        if(!$stmt->execute([$orderId])){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    protected function deleteSingleProduct($productCode){
+        $sql = "DELETE FROM products_name WHERE product_code = ?";
+        $stmt = $this->connect()->prepare($sql);
+        
+        if(!$stmt->execute([$productCode])){
+            exit(JSON_encode(false));
+        } else {
+            exit(json_encode(true));
+        }
+    }
 }

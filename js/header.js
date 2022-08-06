@@ -14,3 +14,5 @@ addEdit.addEventListener("click", () => {
     tableProducts.style.width = "100%";
   }
 });
+
+

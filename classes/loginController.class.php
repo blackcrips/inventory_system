@@ -371,6 +371,25 @@ class LoginController extends Model
         
     }
 
+    public function deleteOrder(){
+        if(!isset($_POST['order-id'])){
+            header("LOCATION: ../homePage.php");
+            exit;
+        }
+
+        $oderId = htmlspecialchars($_POST['order-id']);
+        exit(json_encode($this->deleteOrderHistory($oderId)));
+    }
+
+    public function deleteProduct(){
+        if(!isset($_POST['product-code'])){
+            header("LOCATION: ../homePage.php");
+            exit;
+        }
+
+        $productCode = htmlspecialchars($_POST['product-code']);
+        return $this->deleteSingleProduct($productCode);
+    }
 
     
 

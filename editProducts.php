@@ -69,6 +69,7 @@ $productsView = new ProductsView();
                         <td>
                             <div>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
+                                <button class="btn btn-danger" id="delete">Delete</button>
                                 <input type="hidden" id="product-code" value="<?php echo $value['product_code']; ?>">
                             </div>
                         </td>

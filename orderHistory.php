@@ -65,7 +65,7 @@ $productsView = new ProductsView();
                         <td><?php echo $value['contact_no']; ?></td>
                         <td><?php echo $value['address']; ?></td>
                         <td><?php echo $value['order_date']; ?></td>
-                        <td><?php echo $value['status']; ?></td>
+                        <td class="order-status"><?php echo $value['status']; ?></td>
                     </tr>
                 <?php endforeach;?>
 
