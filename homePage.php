@@ -31,7 +31,7 @@ $productsView = new ProductsView();
                 </div>
                 <div class="container-content" id="container-content">
                     <div class="container-reports">
-                        Sales report
+                        <a href="./salesReport.php">Sales report</a>
                     </div>
                     <div class="container-reports">
                         Product inventory

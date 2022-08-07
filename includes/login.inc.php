@@ -1,6 +1,7 @@
 <?php
 include_once('./autoLoadClasses.inc.php');
 date_default_timezone_set('Asia/Manila');
+
 $loginController = new LoginController();
 $loginController->loginData();
 

@@ -82,17 +82,20 @@ class Model extends Dbh
         } else {
             $hashedPassword = $stmt->fetch();
             if (password_verify($password, $hashedPassword['password'])) {
-                if ($this->getActiveSession($hashedPassword['email'])[1][0]['username'] > 0) {
+                if ($this->getActiveSession($hashedPassword['email'] > 0)) {
 
                     $getCookie = $this->getActiveSession($hashedPassword['email'])[1];     // array value
 
                     $this->createSessionLogin($hashedPassword);
                     $this->checkCookieState($getCookie);
+
+                    return true;
                 }
             } else {
                 echo "<script>alert('Invalid username or password!')</script>";
                 echo "<script>window.location.href = '../index.php'</script>";
             }
+
         }
     }
 

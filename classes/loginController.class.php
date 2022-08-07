@@ -41,19 +41,26 @@ class LoginController extends Model
             echo "<script>alert('Invalid username or password')</script>";
             echo "<script>window.location.href = '../index.php'</script>";
         } else {
-            $this->validateLogin($_POST['username'], $_POST['password']);
-            header("LOCATION: ../index.php");
-            exit;
+            // $this->validateLogin($_POST['username'], $_POST['password']);
+            $valUsername = $_POST['username'];
+            $valPassword = $_POST['password'];
+            return $this->validateLogin($valUsername,$valPassword);
+            
         }
     }
 
-    public function validateLogin($username, $password)
+    private function validateLogin($username, $password)
     {
         $valUsername = htmlentities($username);
         $valPassword = htmlentities($password);
-        $this->loginUser($valUsername, $valPassword);
-        header("Location: ../homePage.php");
-        exit;
+        if($this->loginUser($valUsername, $valPassword)){
+            header("Location: ../homePage.php");
+            exit;
+        } else {
+            header("Location: ../index.php");
+            exit;
+        }
+        
     }
 
 

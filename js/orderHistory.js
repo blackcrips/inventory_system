@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $("#data-table").DataTable({
+      // "serverSide": true,
       "fnDrawCallback": function(){
         $('[data-bs-toggle]').each(function(){
           $(this).on('click', () => {

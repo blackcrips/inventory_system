@@ -6,7 +6,7 @@
 
 .container{
     display: flex;
-    min-width:100%;
+    min-width: 85%;
     /* background-color: orange; */
     justify-content: center;
     margin-top: 20px;
