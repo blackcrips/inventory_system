@@ -65,25 +65,28 @@ $(document).ready(function(){
        });
 
        $(document).on('click', '#delete', () => {
-        let productCode = $('#product-code').val();
-        $.ajax({
-          type: "POST",
-          url: "./includes/deleteProduct.inc.php",
-          data: {
-            'product-code': productCode
-          },
-          success: function(data){
-            if(!data){
-              alert('There was a problem deleting the record.')
-            } else {
-              alert('Success');
-              location.reload();
+        if(confirm("Deleting this product cannot be undone") == true){
+          let productCode = $('#product-code').val();
+          $.ajax({
+            type: "POST",
+            url: "./includes/deleteProduct.inc.php",
+            data: {
+              'product-code': productCode
+            },
+            success: function(data){
+              if(!data){
+                alert('There was a problem deleting the record.')
+              } else {
+                alert('Success');
+                location.reload();
+              }
+            }, 
+            error: function(error){
+              console.log(error)
             }
-          }, 
-          error: function(error){
-            console.log(error)
-          }
-        });
+          });
+        }
+   
       })
       
     }

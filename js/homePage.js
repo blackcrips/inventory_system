@@ -324,9 +324,13 @@ $(document).ready(function () {
           'order-id': $("#order-id").val()
         },
         success: function(data){
-          alert('Done');
-          location.reload(true);
-        }
+          if(data){
+            alert('Order status updated');
+            location.reload(true);
+          }else{
+            alert('Error updating order status');
+          }
+        } 
       });
     }
   })

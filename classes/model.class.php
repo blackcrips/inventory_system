@@ -564,12 +564,18 @@ class Model extends Dbh
 
         $results = $stmt->fetchAll();
         // exit(json_encode($results));
+        $callBack = '';
         foreach($results as $result){
             $id = $result["id"];
             $sql = "UPDATE products_orders SET status = 'delivered' WHERE id = $id";
             $stmt = $this->connect()->prepare($sql);
-            $stmt->execute();
+            if($stmt->execute()){
+                $callBack = true;
+            }else{
+                $callBack = false;
+            }
         }
+        exit(json_encode($callBack));
     }
 
     protected function displayEditProducts(){

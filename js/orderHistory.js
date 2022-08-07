@@ -6,8 +6,7 @@ $(document).ready(function(){
           $(this).on('click', () => {
               let orderId = $(this).children('.order-id').html();
               let orderStatus = $(this).children('.order-status').html();
-  
-              console.log(orderStatus);
+
             $.ajax({
               type: "POST",
               url: "./includes/viewOrders.inc.php",
@@ -41,34 +40,54 @@ $(document).ready(function(){
                       previewOrderTotalPrice();
                       addModalTitle(orderId);
                     }
+              });
+          })
+       })
+  
+        $(document).on('click', '#preview-delete', () => {
+          let orderId = $('#order-id').val();
+            $.ajax({
+              type: "POST",
+              url: "./includes/deleteOrder.inc.php",
+              data: {
+                'order-id': orderId
+              },
+              success: function(data){
+                if(!data){
+                  alert('There was a problem deleting the record.')
+                } else {
+                  alert('Success');
+                  location.reload();
+                }
+              }, 
+              error: function(error){
+                console.log(error)
+              }
+            });
+        })
+
+        
+    $(document).on('click', "#save-changes", () => {
+      let orderId = $('#order-id').val();
+        $.ajax({
+          type: "POST",
+          url: './includes/changeOrderStatus.inc.php',
+          data: {
+            'order-id': orderId
+          },
+          success: function(data){
+            if(data){
+              alert('Order status updated');
+              location.reload(true);
+            }else{
+              alert('Error updating order status');
+            }
+          }
         });
       })
-  })
-  
-  $(document).on('click', '#preview-delete', () => {
-    let orderId = $('#order-id').val();
-    $.ajax({
-      type: "POST",
-      url: "./includes/deleteOrder.inc.php",
-      data: {
-        'order-id': orderId
-      },
-      success: function(data){
-        if(!data){
-          alert('There was a problem deleting the record.')
-        } else {
-          alert('Success');
-          location.reload();
-        }
-      }, 
-      error: function(error){
-        console.log(error)
-      }
-    });
-  })
   
       }
-    });
+    }); //end of data tables
     
 
     function appendPreviewOrder(orders){
@@ -122,8 +141,6 @@ $(document).ready(function(){
       }
 
       
-    $(document).on('click', "#save-changes", () => {
-    $('#form-edit').submit();
-    })
+    
 
 });

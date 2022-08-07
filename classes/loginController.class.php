@@ -345,9 +345,7 @@ class LoginController extends Model
             exit;
         } else {
             $orderId = htmlspecialchars($_POST['order-id']);
-            $this->changeStutusOfOrder($orderId);
-            header("REFRESH: 0");
-            exit;
+            return $this->changeStutusOfOrder($orderId);
         }   
 
 
