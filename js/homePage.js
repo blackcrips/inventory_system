@@ -171,11 +171,6 @@ $(document).ready(function () {
     }
 
     if (searchValue == "") {
-      $("#alert-message").text("TANGA MALI !!!");
-
-      alert("Mali Tanga!!!");
-      alert("Tanga !!!");
-      alert("BOBO !!!");
       $(".existing-form").remove($(".container-clients"));
     } else {
       $.ajax({

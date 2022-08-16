@@ -360,10 +360,10 @@ class Model extends Dbh
 
         if ($stmt->execute([$storeName, $contactPerson, $contactNo, $address])) {
             echo "<script>alert('Added successfully!')</script>";
-            echo "<script>window.location.href ='../kevin.php'</script>";
+            echo "<script>window.location.href ='../createOrder.php'</script>";
         } else {
             echo "<script>alert('Error creating data!')</script>";
-            echo "<script>window.location.href ='../kevin.php'</script>";
+            echo "<script>window.location.href ='../homePage.php'</script>";
         }
     }
 
