@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2022 at 12:45 AM
+-- Generation Time: Aug 27, 2022 at 07:51 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -21,7 +21,17 @@ SET time_zone = "+00:00";
 -- Database: `inventory_system`
 --
 
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getTableNames` (IN `tableName` VARCHAR(255))   SELECT
+  	COLUMN_NAME
+FROM
+  	INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = tableName$$
 
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -53,7 +63,7 @@ INSERT INTO `clients_details` (`id`, `store_name`, `contact_person`, `contact_no
 (10, '21321331', '132213312', '09254554545', 'a', '2022-06-10 23:34:49'),
 (23, 'Jimmy\'s Store', 'Jimmy', '09276469661', 'Katuparan Taguig', '2022-06-11 20:34:03'),
 (24, 'hguiy', 'ygfuyfgf', '098087445', 'uftyddit7d7d87', '2022-06-11 20:59:21'),
-(25, 'Kevin store', 'Kevin', '0956747172', 'North daang hari taguig', '2022-08-03 22:50:44');
+(28, 'Kapuring Store', 'Aling puring', '24685768', 'Tondo manila', '2022-08-28 01:03:03');
 
 -- --------------------------------------------------------
 
@@ -77,9 +87,7 @@ INSERT INTO `products_name` (`id`, `category`, `product_name`, `product_descript
 (2, 'Shampoo', 'Sunsilk', 'Green 3pcs', '123456'),
 (6, 'Body wash', 'Safeguard', 'White 50ml', 'yhKXm'),
 (9, 'Body wash', 'Safeguard', 'Goods :D', 'pCkAX'),
-(11, 'Coffee', 'Kopiko Brown', 'Twin pack', 'MyYQV'),
 (16, 'Shampoo', 'Clear', 'Clear blue 3pcs per sachet', 'yZWJp'),
-(17, 'Shampoo', 'Dove', 'Dove Gold', 'fYlei'),
 (18, 'Shampoo', 'Sunsilk', 'Green 3pcs per sachet', 'pmzjR');
 
 -- --------------------------------------------------------
@@ -263,9 +271,9 @@ INSERT INTO `products_orders` (`id`, `order_id`, `product_name`, `quantity`, `pr
 (167, '835874452527', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-03'),
 (168, '714871791006', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-03'),
 (169, '714871791006', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-03'),
-(170, '007936811230', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-31'),
-(171, '007936811230', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-31'),
-(172, '007936811230', 'Safeguard White 50ml', '5', 100, 'yhKXm', '23', '', '2022-07-03'),
+(170, '007936811230', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', 'delivered', '2022-08-07'),
+(171, '007936811230', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', 'delivered', '2022-07-31'),
+(172, '007936811230', 'Safeguard White 50ml', '5', 100, 'yhKXm', '23', 'delivered', '2022-07-03'),
 (173, '601008851006', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-03'),
 (174, '601008851006', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-03'),
 (175, '601008851006', 'Safeguard White 50ml', '5', 100, 'yhKXm', '23', '', '2022-07-03'),
@@ -274,7 +282,7 @@ INSERT INTO `products_orders` (`id`, `order_id`, `product_name`, `quantity`, `pr
 (178, '356991942315', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-03'),
 (179, '478553335236', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-03'),
 (180, '551019123986', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-03'),
-(181, '334209196194', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '2022-07-03'),
+(181, '334209196194', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', 'delivered', '2022-08-07'),
 (182, '680095959916', 'Kopiko Brown Twin pack', '1', 80, 'MyYQV', '7', 'delivered', '2022-07-31'),
 (183, '680095959916', 'Sunsilk Green 3pcs per sachet', '1', 55, 'pmzjR', '7', 'delivered', '2022-07-31');
 
@@ -305,7 +313,7 @@ INSERT INTO `products_price` (`id`, `price`, `reseller_price`, `quantity`, `supp
 ('pCkAX', '20', '15', '20', '', '1', '2022-06-08 00:10:09'),
 ('pmzjR', '55', '50', '28', '32', 'YGt3Q', '2022-06-09 19:45:01'),
 ('yhKXm', '20', '25', '16', '', '1', '2022-06-08 00:11:38'),
-('yZWJp', '50', '12', '29', '32', 'YGt3Q', '2022-06-09 19:37:38');
+('yZWJp', '50', '12', '42', '32', 'YGt3Q', '2022-06-09 19:37:38');
 
 -- --------------------------------------------------------
 
@@ -397,7 +405,14 @@ INSERT INTO `sessions` (`id`, `username`, `PHPSESSION`, `COOKIESESSION`, `date_c
 (55, 'test3@email.com', 'VovrF6RsEg5xNIRIHrsR4jXzSmsrNuvUiI27e5npQ1bUbUZSgnfDH1JWKpg5gh', 'VovrF6RsEg5xNIRIHrsR4jXzSmsrNuvUiI27e5npQ1bUbUZSgnfDH1JWKpg5gh', '2022-08-04 21-00-20', '2022-08-04 21:00:20'),
 (56, 'test3@email.com', 'rqoJssA4LtJXRFKiBX3FYsG89X6UIBZ5y3j7FxOIXtEYVoRMiabsuPEEMIOGHg', 'rqoJssA4LtJXRFKiBX3FYsG89X6UIBZ5y3j7FxOIXtEYVoRMiabsuPEEMIOGHg', '2022-08-05 10-25-47', '2022-08-05 10:25:47'),
 (57, 'test3@email.com', 'oPWYeFO2pwR19lx2U87gaNpkt7ACb3uX9WM9pNDXCwXJ7dVtKSvHq8ct3Yy6xP', 'oPWYeFO2pwR19lx2U87gaNpkt7ACb3uX9WM9pNDXCwXJ7dVtKSvHq8ct3Yy6xP', '2022-08-06 17-14-06', '2022-08-06 17:14:06'),
-(58, 'test3@email.com', 'AkH6OeZOBW4L7guH3QodGU8YEeFEKTqW4vPqw8izk78v12v2xB756tjycqNVti', 'AkH6OeZOBW4L7guH3QodGU8YEeFEKTqW4vPqw8izk78v12v2xB756tjycqNVti', '2022-08-07 05-32-47', '2022-08-07 05:32:47');
+(58, 'test3@email.com', 'AkH6OeZOBW4L7guH3QodGU8YEeFEKTqW4vPqw8izk78v12v2xB756tjycqNVti', 'AkH6OeZOBW4L7guH3QodGU8YEeFEKTqW4vPqw8izk78v12v2xB756tjycqNVti', '2022-08-07 05-32-47', '2022-08-07 05:32:47'),
+(59, 'test3@email.com', 'L8PYaHMwCl6iJsrkSY38kdMSoMoSqRbNUVecCOjfAbrUxd1VkPLsnfohflHKqa', 'L8PYaHMwCl6iJsrkSY38kdMSoMoSqRbNUVecCOjfAbrUxd1VkPLsnfohflHKqa', '2022-08-07 17-19-37', '2022-08-07 17:19:37'),
+(60, 'test3@email.com', 'm64hckkZeGU1OTdfYLkDNZEef4Gb2OIqH3pmzOg6KmSszulRtqcXQcA3jo3f9G', 'm64hckkZeGU1OTdfYLkDNZEef4Gb2OIqH3pmzOg6KmSszulRtqcXQcA3jo3f9G', '2022-08-07 17-23-52', '2022-08-07 17:23:52'),
+(61, 'test3@email.com', '1dYJ94l6LkJAm6tVNIGZRRLPRwMAhpXLyDNoLwOFYnNOviTswMzQR1PokYDLRP', '1dYJ94l6LkJAm6tVNIGZRRLPRwMAhpXLyDNoLwOFYnNOviTswMzQR1PokYDLRP', '2022-08-07 21-06-33', '2022-08-07 21:06:33'),
+(62, 'test3@email.com', 'sypjXhviyjEnOVShbd9rURFM1AQOEkCtobrCVkvkV38ZcNeHijudSibIQhPra5', 'sypjXhviyjEnOVShbd9rURFM1AQOEkCtobrCVkvkV38ZcNeHijudSibIQhPra5', '2022-08-08 22-48-14', '2022-08-08 22:48:14'),
+(63, 'test3@email.com', 'cIjMG7Z7mutlyrTFEgpDjnT3qYLhxDzDWj2crnCDrHUsPhyaiiXK6JwfVaIVdY', 'cIjMG7Z7mutlyrTFEgpDjnT3qYLhxDzDWj2crnCDrHUsPhyaiiXK6JwfVaIVdY', '2022-08-15 21-07-19', '2022-08-15 21:07:19'),
+(64, 'test3@email.com', 'IAuEAdyfeBkdD6kMg5EmxgksUcnWBFnJGwx1R1msfqiYonskbzK6Z62zRGhrTt', 'IAuEAdyfeBkdD6kMg5EmxgksUcnWBFnJGwx1R1msfqiYonskbzK6Z62zRGhrTt', '2022-08-16 23-39-10', '2022-08-16 23:39:10'),
+(65, 'test3@email.com', 'MPEvAZoUVQ71SIJAJTsa9BWXSTedoOSDU7hVSFm3uPSWlKWcfB5jHmuTOtDGAQ', 'MPEvAZoUVQ71SIJAJTsa9BWXSTedoOSDU7hVSFm3uPSWlKWcfB5jHmuTOtDGAQ', '2022-08-28 00-39-27', '2022-08-28 00:39:27');
 
 -- --------------------------------------------------------
 
@@ -515,7 +530,7 @@ ALTER TABLE `userlogin`
 -- AUTO_INCREMENT for table `clients_details`
 --
 ALTER TABLE `clients_details`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `products_name`
@@ -533,7 +548,7 @@ ALTER TABLE `products_orders`
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `userlogin`

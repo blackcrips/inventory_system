@@ -1,7 +1,8 @@
 <div class="header-content" id="header-content">
             <div class="header-left">
                 <div class="store-name">
-                    <h4>DOTA STORE</h4>
+                    <!-- <h4>Cheap n' Sulit</h4> -->
+                    <img src="./images/Store_name.png" alt="Cheap n' Sulit" height="40px" width="200px">
                 </div>
                 <div class="header-navigation">
                     <ul>

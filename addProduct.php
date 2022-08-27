@@ -79,6 +79,7 @@ $productsView = new ProductsView();
                         </td>
                         <td>
                             <select name="supplier_name" id="supplier_name" class="supplier_name">
+                                <option selected disabled>--SELECT STORE--</option>
                                 <?php foreach ($productsView->showSupplierName() as $supplier) : ?>
                                     <option value="<?php echo $supplier['store_code'] ?>"><?php echo $supplier['supplier_name'] ?></option>
                                 <?php endforeach; ?>

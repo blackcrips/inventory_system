@@ -27,7 +27,7 @@ $productsView = new ProductsView();
     <div class="container-join">
             <div class="container-navigation" id="container-navigation">
                 <div class="navigation-button" id="navigation-button">
-                    <span>Reports &#8594;</span>
+                    <span id="report">Reports &#8594;</span>
                 </div>
                 <div class="container-content" id="container-content">
                     <div class="container-reports">
