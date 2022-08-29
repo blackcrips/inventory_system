@@ -25,9 +25,19 @@
                 </form>
             </div>
         </div>
+        <div class="logo">
+            <div class="logo-content"></div>
+        </div>
+        
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script defer>
     window.onresize = function(){
         let headerDiv = document.getElementById('header-content');
         headerDiv.classList.toggle('header-toggle');
     }
+
+    $('.store-name').on('click', () => {
+        $('.logo').fadeIn(1000).delay(2000).fadeOut("slow");
+
+    });
 </script>

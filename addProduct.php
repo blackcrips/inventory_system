@@ -67,19 +67,11 @@ $productsView = new ProductsView();
                     </tr>
                     <tr>
                         <td>
-                            <label for="reseller_price">Reseller price: </label>
-                        </td>
-                        <td>
-                            <input type="text" name="reseller_price" id="reseller_price">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
                             <label for="supplier_name">Supplier name: </label>
                         </td>
                         <td>
                             <select name="supplier_name" id="supplier_name" class="supplier_name">
-                                <option selected disabled>--SELECT STORE--</option>
+                                <option selected disabled value="Default Online">Default Online</option>
                                 <?php foreach ($productsView->showSupplierName() as $supplier) : ?>
                                     <option value="<?php echo $supplier['store_code'] ?>"><?php echo $supplier['supplier_name'] ?></option>
                                 <?php endforeach; ?>

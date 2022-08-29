@@ -306,11 +306,11 @@ class Model extends Dbh
         }
     }
 
-    protected function insertProductPrice($id, $price, $resellerPrice, $supplierPrice, $quantity, $storeCode)
+    protected function insertProductPrice($id, $price, $supplierPrice, $quantity, $storeCode)
     {
-        $sql = "INSERT INTO products_price (`id`,`price`,`reseller_price`,`supplier_price`,`quantity`,`store_code`) VALUES(?,?,?,?,?,?)";
+        $sql = "INSERT INTO products_price (`id`,`price`,`supplier_price`,`quantity`,`store_code`) VALUES(?,?,?,?,?)";
         $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$id, $price, $resellerPrice, $supplierPrice, $quantity, $storeCode]);
+        $stmt->execute([$id, $price, $supplierPrice, $quantity, $storeCode]);
     }
 
     protected function getProductCode()
@@ -404,11 +404,15 @@ class Model extends Dbh
         return $result;
     }
 
-    protected function getProductByName($productName)
+    protected function getProductByName($category,$productName)
     {
-        $sql = "SELECT product_description FROM products_name WHERE product_name = ?";
+        $sql = "SELECT category,product_name,product_description,pp.price,pp.quantity 
+        FROM products_name pn
+        JOIN products_price pp
+            ON pn.product_code = pp.id
+         WHERE pn.category = ? AND pn.product_name = ?";
         $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$productName]);
+        $stmt->execute([$category,$productName]);
 
         $result = $stmt->fetchAll();
 

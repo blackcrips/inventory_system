@@ -6,6 +6,7 @@
     color: #fff;
     height: 40px;
     min-width: 100%;
+    z-index: 5;
 }
 
 .header-toggle {
@@ -111,4 +112,34 @@
     cursor: pointer;
     height: 84px;
     z-index: 2;
+}
+
+.store-name img:hover + .logo{
+    display: block;
+}
+
+.store-name:hover{
+    cursor: pointer;
+}
+
+.logo{
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* background-color:  transparent; */
+    backdrop-filter: blur(2px);
+    display: none;
+}
+
+.logo-content{
+    position: absolute;
+    background-image: url("../images/Store_name.png");
+    width: 80%;
+    height: 60%;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
 }

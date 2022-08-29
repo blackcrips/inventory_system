@@ -37,9 +37,11 @@ class productsView extends Model
             header("LOCATION: ../index.php");
             exit;
         } else {
-            $requestedProduct = htmlspecialchars($_POST['request-status']);
-            $columnRequested = htmlspecialchars($_POST['get-column']);
-            if ($columnRequested == 'product-name') {
+            $columnName = htmlspecialchars($_POST['get-column']);
+            $requestedProduct = htmlspecialchars($_POST['request-status']); 
+
+            if($columnName == 'product-name')
+            {
                 $fetchedProduct = $this->getProductBycategory($requestedProduct);
                 $arrayValues = [];
                 foreach ($fetchedProduct as $products) {
@@ -50,8 +52,10 @@ class productsView extends Model
                 $filteredArray = array_unique($arrayValues);
 
                 exit(json_encode($filteredArray));
-            } else if ($columnRequested == 'product-description') {
-                $fetchedProduct = $this->getProductByName($requestedProduct);
+            }
+            else
+            {
+                $fetchedProduct = $this->getProductByName($columnName,$requestedProduct);
                 $arrayValues = [];
                 foreach ($fetchedProduct as $products) {
                     foreach ($products as $product) {
@@ -60,8 +64,7 @@ class productsView extends Model
                 }
                 $filteredArray = array_unique($arrayValues);
 
-                exit(json_encode($filteredArray));
-            } else if ($columnRequested == 'product-description') {
+                exit(json_encode($fetchedProduct));
             }
         }
     }

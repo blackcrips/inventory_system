@@ -19,12 +19,12 @@ $loginController->redirectToLogin();
 <body>
     <div class="container-body">
         <div class="container-order-buttons">
+            <div id="container-description"></div>
             <div class="main-category">
                 <?php foreach ($productsView->showCategories() as $values) : ?>
-                    <div class="category-button" data-main-buttons id=""><?php echo $values; ?></div>
+                    <div class="category-button" data-main-buttons><?php echo $values; ?></div>
                 <?php endforeach; ?>
             </div>
-
         </div>
         <div class="container-data">
             <div class="container-data-content">

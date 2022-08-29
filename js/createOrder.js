@@ -10,12 +10,14 @@ $(document).ready(function () {
       success: function (data) {
         let productList = JSON.parse(data);
 
-        if (columnName == "product-name") {
+        if(columnName == 'product-name')
+        {
           createProductNameButton(productList, buttonName);
-        } else if (columnName == "product-description") {
-          createProductDescriptionButton(productList, buttonName);
-        } else {
-          createPriceOption();
+        }
+        else
+        {
+          showOrderDetails(productList);
+          storeProductDescription = productList;
         }
       },
       error: function (error) {
@@ -37,37 +39,9 @@ $(document).ready(function () {
     }
   }
 
-  function createProductDescriptionButton(productList, buttonName) {
-    let containerButtons = $(".container-order-buttons");
-    let itemButton = `
-    <div class='main-category' id='main-category'>
-      
-    </div>`;
-    containerButtons.append(itemButton);
-
-    for (let i = 0; i < productList.length; i++) {
-      let nameButtons = `<div class="category-button" data-description-buttons>${productList[i]}</div>`;
-      $("#main-category").append(nameButtons);
-    }
-  }
-
-  function createPriceOption() {
-    let containerButtons = $(".container-order-buttons");
-    let itemButton = `
-    <div class='main-category' id='main-category'>
-      
-    </div>`;
-    containerButtons.append(itemButton);
-
-    let itemButtons = `
-              <div class="category-button" data-option-buttons>ORIGINAL PRICE</div>
-              <div class="category-button" data-option-buttons>RESELLER PRICE</div>
-            `;
-    $("#main-category").append(itemButtons);
-  }
-
   let storeCategory = []; // order details are store here
 
+  // 1st action of button when placing an order
   $(document).on("click", "[data-main-buttons]", function () {
     let categoryName = $(this).html();
     getProducts(categoryName, "product-name");
@@ -75,19 +49,71 @@ $(document).ready(function () {
     storeCategory.push(categoryName);
   });
 
+  // Second action of button when placing an order
   $(document).on("click", "[data-name-buttons]", function () {
     let productName = $(this).html();
-    getProducts(productName, "product-description");
+    let categoryName = storeCategory[0];
+    getProducts(productName, categoryName);
     storeCategory.push(productName);
-    $(this).parent().remove();
+    $('#container-description').fadeIn();
+  });
+  
+  $(document).on('click','#enter-price',() => {
+    $('.manual-price').css('display','flex');
+  });
+  
+  function showOrderDetails(array)
+  {
+    let category = array[0]['category'];
+    let productName = array[0]['product_name'];
+    let orderDetails = `<div class="order-options">
+                              <div class="order-title">
+                                <div class='order-description'>
+                                  <div>${category}</div>
+                                  <div>${productName}</div>
+                                </div>
+                                <div class='show-price'>
+
+                                </div>
+                              </div>
+                          </div>
+                          <hr>
+                          <hr>
+                          <div class="order-lists">
+                              
+                          </div>
+                          <div class="manual-price">
+                              <label for="input-price">Input price:</label>
+                              <input type="input-price" id="input-price" name="input-price">
+                              <textarea name="remarks" id="remarks" cols="30" rows="10" placeholder="Remarks here"></textarea>
+                          </div>`;
+    $('#container-description').append(orderDetails);
+    getProductDescription(array);
+  }
+
+  // store product details upon choosing products
+  let storeProductDescription;
+  let buttonDescription;
+
+  $(document).on('click', "[data-product-description]", function() {
+    storeProductDescription.forEach(element => {
+      if($(this).html() == element['product_description']){
+        $('.show-price').html("P " + element['price']);
+      }
+    });
   });
 
-  $(document).on("click", "[data-description-buttons]", function () {
-    let productName = $(this).html();
-    storeCategory.push(productName);
-    $(this).parent().remove();
-    createPriceOption();
-  });
+  function getProductDescription(array)
+  {
+    array.forEach(element => {
+      let productDescription = `<button data-product-description class='button-description'>${element['product_description']}</button>`;
+      $('.order-lists').append(productDescription);
+    });
+    
+    let enterPrice = `<button id='enter-price'>Enter Price</button>`;
+    $('.order-lists').append(enterPrice);
+  }
+
 
   function getPrices(
     categoryName,

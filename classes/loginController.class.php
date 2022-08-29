@@ -125,7 +125,6 @@ class LoginController extends Model
             $quantity = htmlspecialchars($_POST['quantity']);
             $storeCode = htmlspecialchars($_POST['supplier_name']);
             $supplierPrice = htmlspecialchars($_POST['supplier_price']);
-            $resellerPrice = htmlspecialchars($_POST['reseller_price']);
 
             $fetchCodes = $this->getProductCode();
             $generateCode = $this->createSerial(5);
@@ -145,7 +144,7 @@ class LoginController extends Model
                 } else {
                     $serialCode = $generateCode;
                     $this->insertProductsName($category, $productName, $productDescription, $serialCode);
-                    $this->insertProductPrice($serialCode, $productPrice, $resellerPrice, $supplierPrice, $quantity, $storeCode);
+                    $this->insertProductPrice($serialCode, $productPrice, $supplierPrice, $quantity, $storeCode);
 
                     echo "<script>alert('Product Added!')</script>";
                     echo "<script>window.location.href ='../index.php'</script>";
