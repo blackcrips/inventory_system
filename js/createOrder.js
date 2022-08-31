@@ -93,15 +93,48 @@ $(document).ready(function () {
 
   // store product details upon choosing products
   let storeProductDescription;
-  let buttonDescription;
 
   $(document).on('click', "[data-product-description]", function() {
     storeProductDescription.forEach(element => {
       if($(this).html() == element['product_description']){
         $('.show-price').html("P " + element['price']);
+        let checkfolderName = [element['category'],element['product_name'],element['product_description']];
+        checkFolderNames(checkfolderName.join("-"));
       }
     });
+
+    checkActiveProductDescription();
+    $(this).addClass('active');
   });
+
+  //getting images folder content names
+  function checkFolderNames(folderName){
+    $.ajax({
+      type: "POST",
+      url: "./includes/getImagesContent.inc.php",
+      data: {"folder-name" : folderName},
+      success: function(data){
+        let parseData = JSON.parse(data);
+        console.log(parseData);
+      },
+      error: function(error){
+        console.log(error);
+      }
+    });
+  }
+
+  function getProductImages(folderName)
+  {
+    let imagesContainer = `<div class='container'></div>`;
+  }
+
+  function checkActiveProductDescription()
+  {
+    for (let index = 0; index < $('.button-description').length; index++) {
+      $('.button-description').removeClass('active');
+      
+    }
+  }
 
   function getProductDescription(array)
   {

@@ -130,7 +130,7 @@
     left: 0;
     right: 0;
     /* background-color:  transparent; */
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(4px);
     display: none;
 }
 

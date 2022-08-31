@@ -22,7 +22,7 @@ $productsView = new ProductsView();
 
 <?php include_once('./header.php'); ?>
     <div class="container-body">
-        <form action="./includes/addProducts.inc.php" method="POST">
+        <form action="./includes/addProducts.inc.php" method="POST" enctype="multipart/form-data">
             <table>
                 <caption>
                     <label>Add new product</label>
@@ -67,11 +67,22 @@ $productsView = new ProductsView();
                     </tr>
                     <tr>
                         <td>
+                            <label for="upload-files">Upload files:</label>                            
+                        </td>
+                        <td>
+                            <div class="upload-files">                                
+                                <input type="file" name="upload-files[]" id="upload-files" multiple>
+                                <span>* maximum 5 photo</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <label for="supplier_name">Supplier name: </label>
                         </td>
                         <td>
                             <select name="supplier_name" id="supplier_name" class="supplier_name">
-                                <option selected disabled value="Default Online">Default Online</option>
+                                <option selected hidden value="Default Online">Default Online</option>
                                 <?php foreach ($productsView->showSupplierName() as $supplier) : ?>
                                     <option value="<?php echo $supplier['store_code'] ?>"><?php echo $supplier['supplier_name'] ?></option>
                                 <?php endforeach; ?>
@@ -99,6 +110,8 @@ $productsView = new ProductsView();
         </form>
     </div>
 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./js/addProducts.js"></script>
 </body>
 
 </html>

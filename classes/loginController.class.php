@@ -129,6 +129,7 @@ class LoginController extends Model
             $fetchCodes = $this->getProductCode();
             $generateCode = $this->createSerial(5);
             $serialCode = '';
+            $foldername = $category . "-" . $productName . "-" . $productDescription;
 
             foreach ($_POST as $post) {
                 if ($post == '') {
@@ -145,12 +146,41 @@ class LoginController extends Model
                     $serialCode = $generateCode;
                     $this->insertProductsName($category, $productName, $productDescription, $serialCode);
                     $this->insertProductPrice($serialCode, $productPrice, $supplierPrice, $quantity, $storeCode);
-
+                        $this->uploadProductPhoto($_FILES['upload-files'],$foldername);
                     echo "<script>alert('Product Added!')</script>";
                     echo "<script>window.location.href ='../index.php'</script>";
                     return;
                 }
             }
+        }
+    }
+
+    protected function uploadProductPhoto($productPhotos,$foldername){
+        $products = [];
+
+        for($i = 0; $i < count($productPhotos['name']); $i++){
+            $constructProduct = array(
+                'name' => $productPhotos['name'][$i],
+                'full_path' => $productPhotos['full_path'][$i],
+                'type' => $productPhotos['type'][$i],
+                'tmp_name' => $productPhotos['tmp_name'][$i],
+                'error' => $productPhotos['error'][$i],
+                'size' => $productPhotos['size'][$i],
+                
+            );
+            array_push($products,$constructProduct);
+        }
+
+        $fileDestination = '../images/Products/' . $foldername . '/';
+        
+        for($y = 0; $y < count($products); $y++){
+            if (!file_exists($fileDestination)) {
+                mkdir($fileDestination, 077, true);
+            }
+
+            $fileNewDestination = $fileDestination . "Photo" . $y . ".jpeg";
+    
+            move_uploaded_file($products[$y]['tmp_name'],$fileNewDestination);
         }
     }
 
@@ -393,6 +423,32 @@ class LoginController extends Model
 
         $productCode = htmlspecialchars($_POST['product-code']);
         return $this->deleteSingleProduct($productCode);
+    }
+    
+    public function getImagesFolderNames()
+    {
+        
+        if(!isset($_POST['folder-name'])){
+            header("Location: ../createOrder.php");
+            exit();
+        }
+        
+        $folderName = htmlspecialchars($_POST['folder-name']);
+        $path = "../images/products/";
+        $files = scandir($path);
+
+        for($i = 0; $i < count($files);$i++)
+        {
+
+            if($files[$i] == $folderName){
+                $sampleFiles = array
+                (
+                    'folder-name' => $files[$i],
+                    'photo-count' => count($files)
+                );
+                exit(json_encode($sampleFiles));
+            }
+        }
     }
 
     
