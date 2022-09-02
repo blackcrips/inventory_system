@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  let slideIndex = 1;
   function getProducts(buttonName, columnName) {
     $.ajax({
       type: "POST",
@@ -25,6 +26,7 @@ $(document).ready(function () {
       },
     });
   }
+
 
   function createProductNameButton(productList, buttonName) {
     let containerButtons = $(".container-order-buttons");
@@ -78,6 +80,11 @@ $(document).ready(function () {
                               </div>
                           </div>
                           <hr>
+                          <div class='images-content'>
+                            <div class='container-image'>
+                            
+                            </div>
+                          </div>
                           <hr>
                           <div class="order-lists">
                               
@@ -102,8 +109,8 @@ $(document).ready(function () {
         checkFolderNames(checkfolderName.join("-"));
       }
     });
-
-    checkActiveProductDescription();
+    
+    // checkActiveProductDescription();
     $(this).addClass('active');
   });
 
@@ -115,7 +122,7 @@ $(document).ready(function () {
       data: {"folder-name" : folderName},
       success: function(data){
         let parseData = JSON.parse(data);
-        console.log(parseData);
+        checkExistingImageView(parseData);
       },
       error: function(error){
         console.log(error);
@@ -123,18 +130,95 @@ $(document).ready(function () {
     });
   }
 
-  function getProductImages(folderName)
-  {
-    let imagesContainer = `<div class='container'></div>`;
+  
+// slides images jsScript
+
+function checkExistingImageView(description)
+{
+  if($('.mySlides').length > 0){
+    $('.container-image').remove();
+    $('.images-option').remove();
+    let containerImages = `<div class='container-image'></div>`;
+    $('.images-content').append(containerImages);
+    getProductImages(description);
+  } else {
+    getProductImages(description);
+  }
+}
+
+function getProductImages(description)
+{
+  for (let index = 0; index < description['photo-count']; index++) {
+    let mySlides = `<div class="mySlides">
+                      <div class="numbertext">${index + 1} / ${description['photo-count']}</div>
+                      <div class='background-image' style="background-image: url('./images/products/${description['folder-name']}/Photo${index}.jpeg')"></div>
+                    </div>`;
+
+    $('.container-image').append(mySlides);
   }
 
-  function checkActiveProductDescription()
-  {
-    for (let index = 0; index < $('.button-description').length; index++) {
-      $('.button-description').removeClass('active');
-      
-    }
+  let prev = `<a class="prev">❮</a>`;
+  let next = `<a class="next">❯</a>`;
+  let rowImages = `<div class='row'></div>`;
+  let imagesOption = `<div class='images-option'></div>`;
+  $('.images-content').append(imagesOption);
+  $('.container-image').append(prev);
+  $('.container-image').append(next);
+  $('.images-option').append(rowImages);
+
+  rowImagesShow(description);
+ 
+  showSlides(slideIndex); 
+}
+
+$(document).on('click', '.prev', function(){
+  plusSlides(-1);
+});
+
+$(document).on('click', '.next', function(){
+  plusSlides(1);
+});
+
+function rowImagesShow(description)
+{
+  for (let index = 0; index < description['photo-count']; index++) {
+    let rowImagesOption = `<div class="column">
+                            <img class="demo cursor" src="./images/products/${description['folder-name']}/Photo${index}.jpeg" style="width:100%" alt="Photo">
+                            <input type='text' hidden id='image-count' value='${index + 1}'>
+                          </div>`;
+    $('.row').append(rowImagesOption);
   }
+}
+
+
+$(document).on('click', '.demo', function(){
+  let imageCount = $(this).parent().children('#image-count').val();
+  currentSlide(parseInt(imageCount));
+});
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("demo");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+}
 
   function getProductDescription(array)
   {
@@ -448,4 +532,6 @@ $(document).on("click", "#cancel", function(){
 })
 
 });
+
+
 

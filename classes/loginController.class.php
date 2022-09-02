@@ -158,29 +158,42 @@ class LoginController extends Model
     protected function uploadProductPhoto($productPhotos,$foldername){
         $products = [];
 
-        for($i = 0; $i < count($productPhotos['name']); $i++){
-            $constructProduct = array(
-                'name' => $productPhotos['name'][$i],
-                'full_path' => $productPhotos['full_path'][$i],
-                'type' => $productPhotos['type'][$i],
-                'tmp_name' => $productPhotos['tmp_name'][$i],
-                'error' => $productPhotos['error'][$i],
-                'size' => $productPhotos['size'][$i],
-                
-            );
-            array_push($products,$constructProduct);
-        }
+        if($productPhotos['name'] != ''){
+            for($i = 0; $i < count($productPhotos['name']); $i++){
+                $constructProduct = array(
+                    'name' => $productPhotos['name'][$i],
+                    'full_path' => $productPhotos['full_path'][$i],
+                    'type' => $productPhotos['type'][$i],
+                    'tmp_name' => $productPhotos['tmp_name'][$i],
+                    'error' => $productPhotos['error'][$i],
+                    'size' => $productPhotos['size'][$i],
+                    
+                );
+                array_push($products,$constructProduct);
+            }
 
-        $fileDestination = '../images/Products/' . $foldername . '/';
+            $fileDestination = '../images/Products/' . $foldername . '/';
+            
+            for($y = 0; $y < count($products); $y++){
+                if (!file_exists($fileDestination)) {
+                    mkdir($fileDestination, 077, true);
+                }
+
+                $fileNewDestination = $fileDestination . "Photo" . $y . ".jpeg";
         
-        for($y = 0; $y < count($products); $y++){
+                move_uploaded_file($products[$y]['tmp_name'],$fileNewDestination);
+            }
+        } else {
+            $fileDestination = '../images/products/' . $foldername . '/';
+
             if (!file_exists($fileDestination)) {
                 mkdir($fileDestination, 077, true);
             }
 
-            $fileNewDestination = $fileDestination . "Photo" . $y . ".jpeg";
+            $fileNewDestination = $fileDestination . "Photo.jpeg";
+            $fileTmpDestination = '../images/products/noImageAvailable.jpeg';
     
-            move_uploaded_file($products[$y]['tmp_name'],$fileNewDestination);
+            move_uploaded_file($fileTmpDestination,$fileNewDestination);
         }
     }
 
