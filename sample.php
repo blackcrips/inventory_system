@@ -8,16 +8,10 @@
   <title>Document</title>
 </head>
 <body>
-  <?php 
-  if(isset($_POST['submit'])){
-    echo 'True';
-    var_dump($_FILES);
-  }
-  ?>
   <div>
-    <form action="" method="POST">
-    <input type="file" name="Files">
-    <button type="submit" name="submit">Submit</button>
+    <form action="sample2.php" method="POST" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <button type="submit" name="submit">Submit</button>
     </form>
   </div>
 

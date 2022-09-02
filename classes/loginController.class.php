@@ -452,12 +452,12 @@ class LoginController extends Model
 
         for($i = 0; $i < count($files);$i++)
         {
-
+            $fileFolderName = array_diff(scandir($path . $folderName),array('.','..'));
             if($files[$i] == $folderName){
                 $sampleFiles = array
                 (
                     'folder-name' => $files[$i],
-                    'photo-count' => count($files)
+                    'photo-count' => count($fileFolderName)
                 );
                 exit(json_encode($sampleFiles));
             }
