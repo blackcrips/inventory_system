@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2022 at 07:51 PM
+-- Generation Time: Sep 02, 2022 at 04:48 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -88,7 +88,15 @@ INSERT INTO `products_name` (`id`, `category`, `product_name`, `product_descript
 (6, 'Body wash', 'Safeguard', 'White 50ml', 'yhKXm'),
 (9, 'Body wash', 'Safeguard', 'Goods :D', 'pCkAX'),
 (16, 'Shampoo', 'Clear', 'Clear blue 3pcs per sachet', 'yZWJp'),
-(18, 'Shampoo', 'Sunsilk', 'Green 3pcs per sachet', 'pmzjR');
+(18, 'Shampoo', 'Sunsilk', 'Green 3pcs per sachet', 'pmzjR'),
+(19, 'Hard Disk', 'Seagate', '1TB', 'nIeCk'),
+(22, 'Hard Disk', 'Toshiba', '500gb', 'am88Z'),
+(23, 'Hard Disk', 'Toshiba', '1TB', 'Fvjyv'),
+(24, 'Hard Disk', 'Seagate', '2TB', 'VxBVY'),
+(25, 'Hard Disk', 'Toshiba', '3 TB', 'HfG3G'),
+(26, 'Hard Disk', 'Toshiba', '3 TB', 'n8TK4'),
+(27, 'Hard Disk', 'Toshiba', '4 TB', 'aUWw1'),
+(28, 'Hard Disk', 'Toshiba', '5 TB', 'wuY1K');
 
 -- --------------------------------------------------------
 
@@ -308,10 +316,18 @@ CREATE TABLE `products_price` (
 
 INSERT INTO `products_price` (`id`, `price`, `reseller_price`, `quantity`, `supplier_price`, `store_code`, `added_at`) VALUES
 ('123456', '55', '50', '28', '', '', '2022-06-02 21:22:52'),
+('am88Z', '500', '', '2', '200', 'Default Online', '2022-08-31 22:25:07'),
+('aUWw1', '3000', '', '6', '700', 'Default Online', '2022-09-02 10:27:35'),
+('Fvjyv', '5000', '', '5', '600', 'Default Online', '2022-08-31 23:03:10'),
 ('fYlei', '55', '55', '30', '34', '2y8JU', '2022-06-09 19:41:01'),
+('HfG3G', '2000', '', '4', '600', 'Default Online', '2022-09-02 10:25:44'),
 ('MyYQV', '80', '50', '80', '50', 'YGt3Q', '2022-06-09 19:33:59'),
+('n8TK4', '2000', '', '4', '600', 'Default Online', '2022-09-02 10:26:55'),
+('nIeCk', '1000', '', '1', '500', 'YGt3Q', '2022-08-28 14:05:17'),
 ('pCkAX', '20', '15', '20', '', '1', '2022-06-08 00:10:09'),
 ('pmzjR', '55', '50', '28', '32', 'YGt3Q', '2022-06-09 19:45:01'),
+('VxBVY', '1000', '', '5', '400', 'f8ukg', '2022-09-02 10:12:06'),
+('wuY1K', '7000', '', '8', '800', 'Default Online', '2022-09-02 10:30:14'),
 ('yhKXm', '20', '25', '16', '', '1', '2022-06-08 00:11:38'),
 ('yZWJp', '50', '12', '42', '32', 'YGt3Q', '2022-06-09 19:37:38');
 
@@ -412,7 +428,15 @@ INSERT INTO `sessions` (`id`, `username`, `PHPSESSION`, `COOKIESESSION`, `date_c
 (62, 'test3@email.com', 'sypjXhviyjEnOVShbd9rURFM1AQOEkCtobrCVkvkV38ZcNeHijudSibIQhPra5', 'sypjXhviyjEnOVShbd9rURFM1AQOEkCtobrCVkvkV38ZcNeHijudSibIQhPra5', '2022-08-08 22-48-14', '2022-08-08 22:48:14'),
 (63, 'test3@email.com', 'cIjMG7Z7mutlyrTFEgpDjnT3qYLhxDzDWj2crnCDrHUsPhyaiiXK6JwfVaIVdY', 'cIjMG7Z7mutlyrTFEgpDjnT3qYLhxDzDWj2crnCDrHUsPhyaiiXK6JwfVaIVdY', '2022-08-15 21-07-19', '2022-08-15 21:07:19'),
 (64, 'test3@email.com', 'IAuEAdyfeBkdD6kMg5EmxgksUcnWBFnJGwx1R1msfqiYonskbzK6Z62zRGhrTt', 'IAuEAdyfeBkdD6kMg5EmxgksUcnWBFnJGwx1R1msfqiYonskbzK6Z62zRGhrTt', '2022-08-16 23-39-10', '2022-08-16 23:39:10'),
-(65, 'test3@email.com', 'MPEvAZoUVQ71SIJAJTsa9BWXSTedoOSDU7hVSFm3uPSWlKWcfB5jHmuTOtDGAQ', 'MPEvAZoUVQ71SIJAJTsa9BWXSTedoOSDU7hVSFm3uPSWlKWcfB5jHmuTOtDGAQ', '2022-08-28 00-39-27', '2022-08-28 00:39:27');
+(65, 'test3@email.com', 'MPEvAZoUVQ71SIJAJTsa9BWXSTedoOSDU7hVSFm3uPSWlKWcfB5jHmuTOtDGAQ', 'MPEvAZoUVQ71SIJAJTsa9BWXSTedoOSDU7hVSFm3uPSWlKWcfB5jHmuTOtDGAQ', '2022-08-28 00-39-27', '2022-08-28 00:39:27'),
+(66, 'test3@email.com', 'XG8qke6xVCSZEiNMmDhahesRLTiPjQcsmbI88qqM9h5t5P3yodnzEdpQRC3AxG', 'XG8qke6xVCSZEiNMmDhahesRLTiPjQcsmbI88qqM9h5t5P3yodnzEdpQRC3AxG', '2022-08-28 11-55-14', '2022-08-28 11:55:14'),
+(67, 'test3@email.com', 'fLut5rCXox1lUDYrU9xSec8vcX1bfl6HmKJhy7FiEase5tPixAMDZzkGV5kmnI', 'fLut5rCXox1lUDYrU9xSec8vcX1bfl6HmKJhy7FiEase5tPixAMDZzkGV5kmnI', '2022-08-28 14-00-05', '2022-08-28 14:00:05'),
+(68, 'test3@email.com', '6m1zDKooryNWFjTEiQCEX6u34X48oAu5hpRiEV9dxpiukGJbC1kS9Z9cbRuk83', '6m1zDKooryNWFjTEiQCEX6u34X48oAu5hpRiEV9dxpiukGJbC1kS9Z9cbRuk83', '2022-08-30 07-39-11', '2022-08-29 22:10:49'),
+(69, 'test3@email.com', 'dxfULTIt5pmwTYKR87ZHsmdGi8UM3nnk8T1WN8Akv8bqPPvMpVGRCxpoHoTWWO', 'dxfULTIt5pmwTYKR87ZHsmdGi8UM3nnk8T1WN8Akv8bqPPvMpVGRCxpoHoTWWO', '2022-08-31 21-43-51', '2022-08-31 21:43:51'),
+(70, 'test3@email.com', 'fawyQIwKZqfFxcU7d3Mv9hL9i5yEgbZgY57pYvopvHDpxvvcgNVTyeOTLUAcqd', 'fawyQIwKZqfFxcU7d3Mv9hL9i5yEgbZgY57pYvopvHDpxvvcgNVTyeOTLUAcqd', '2022-09-01 09-12-26', '2022-09-01 09:12:26'),
+(71, 'test3@email.com', 'RDt5hN486t1UaeUFTeDGHGNA3ksblpkezhU6v6PSsZexlDZIlgv9Vf7GbJmMfS', 'RDt5hN486t1UaeUFTeDGHGNA3ksblpkezhU6v6PSsZexlDZIlgv9Vf7GbJmMfS', '2022-09-01 21-06-07', '2022-09-01 21:06:07'),
+(72, 'test3@email.com', 'LPYk3L9T8Lc4q6OBaQqnRzdarNTfjFmRT6T6W4ZslCTpcLM5ctSGT7KIz6yJFm', 'LPYk3L9T8Lc4q6OBaQqnRzdarNTfjFmRT6T6W4ZslCTpcLM5ctSGT7KIz6yJFm', '2022-09-02 09-46-27', '2022-09-02 09:46:27'),
+(73, 'test3@email.com', 'gskx4GHWTPUdEzvAFEs2Y8eTPbSuY8hkwgjuEodfX2Z6vNHUWdutblC35fkutL', 'gskx4GHWTPUdEzvAFEs2Y8eTPbSuY8hkwgjuEodfX2Z6vNHUWdutblC35fkutL', '2022-09-02 22-20-10', '2022-09-02 22:20:10');
 
 -- --------------------------------------------------------
 
@@ -438,9 +462,23 @@ CREATE TABLE `supplier` (
 INSERT INTO `supplier` (`store_code`, `supplier_name`, `supplier_address`, `contact_no`, `secondary_no`, `contact_person`, `products`, `added_at`) VALUES
 ('2y8JU', 'Asiong Store', 'Katuparan Taguig', '123456', '2468910', 'Asion', 'Cosmetics Again', '2022-06-09 19:00:05'),
 ('9WXnQ', 'Kevin', 'North daang hari taguig', '0956747172', 'none', 'Kevin Rosal', 'Titan gel', '2022-08-03 22:52:35'),
+('f8ukg', 'Default Online', 'Online', '00', '00', 'None', 'Random\r\n\r\n', '2022-08-28 14:07:15'),
 ('q2EZo', 'Joffrey', 'taguig', '09267929831', 'none', 'Kevin Rosal', 'LuckyMe Beef', '2022-08-03 22:56:16'),
 ('suRvO', 'Asiong Store', 'Katuparan Taguig', '123456', '2468910', 'Asion', 'Cosmetics', '2022-06-08 21:38:12'),
 ('YGt3Q', 'Magdalene', 'Katuparan Taguig', '546879879', '513215649787', 'Elijah', 'Detergent', '2022-06-09 18:58:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `uploaded_files`
+--
+
+CREATE TABLE `uploaded_files` (
+  `file_name` varchar(250) NOT NULL,
+  `product_code` varchar(50) NOT NULL,
+  `extension` varchar(25) NOT NULL,
+  `added_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -517,6 +555,12 @@ ALTER TABLE `supplier`
   ADD PRIMARY KEY (`store_code`);
 
 --
+-- Indexes for table `uploaded_files`
+--
+ALTER TABLE `uploaded_files`
+  ADD PRIMARY KEY (`file_name`);
+
+--
 -- Indexes for table `userlogin`
 --
 ALTER TABLE `userlogin`
@@ -536,7 +580,7 @@ ALTER TABLE `clients_details`
 -- AUTO_INCREMENT for table `products_name`
 --
 ALTER TABLE `products_name`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `products_orders`
@@ -548,7 +592,7 @@ ALTER TABLE `products_orders`
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `userlogin`
