@@ -42,6 +42,7 @@ $(document).ready(function () {
   }
 
   let storeCategory = []; // order details are store here
+  let categoryOrder = ''; // store order description here per click of category button
 
   // 1st action of button when placing an order
   $(document).on("click", "[data-main-buttons]", function () {
@@ -62,6 +63,7 @@ $(document).ready(function () {
   
   $(document).on('click','#enter-price',() => {
     $('.manual-price').css('display','flex');
+    
   });
   
   function showOrderDetails(array)
@@ -74,25 +76,29 @@ $(document).ready(function () {
                                   <div>${category}</div>
                                   <div>${productName}</div>
                                 </div>
-                                <div class='show-price'>
 
-                                </div>
+                                <div! class='show-price'></div>
                               </div>
-                          </div>
-                          <hr>
+                        </div>
+                        <hr>
                           <div class='images-content'>
                             <div class='container-image'>
                             
                             </div>
                           </div>
-                          <hr>
+                        <hr>
                           <div class="order-lists">
                               
                           </div>
                           <div class="manual-price">
                               <label for="input-price">Input price:</label>
-                              <input type="input-price" id="input-price" name="input-price">
+                              <input type="text" id="input-price" name="input-price">
                               <textarea name="remarks" id="remarks" cols="30" rows="10" placeholder="Remarks here"></textarea>
+                          </div>
+                          
+                          <div id='add-order'>
+                            <button id='add' class='btn btn-primary'> Add </button>
+                            <button id='back' class='btn btn-danger'> Back </button>
                           </div>`;
     $('#container-description').append(orderDetails);
     getProductDescription(array);
@@ -107,6 +113,12 @@ $(document).ready(function () {
         $('.show-price').html("P " + element['price']);
         let checkfolderName = [element['category'],element['product_name'],element['product_description']];
         checkFolderNames(checkfolderName.join("-"));
+        categoryOrder = $(this).html();
+        storeCategory[2] = categoryOrder;
+        storeCategory[3] = element['product_code'];
+        storeCategory[4] = element['price'];
+        storeCategory.splice(5,1);
+        $('#input-price').val('');
       }
     });
     
@@ -129,7 +141,6 @@ $(document).ready(function () {
       }
     });
   }
-
   
 // slides images jsScript
 
@@ -220,6 +231,35 @@ function showSlides(n) {
   dots[slideIndex-1].className += " active";
 }
 
+   // store order selected to storeCategory
+$(document).on('click', '#add', function(){
+  checkInputPrice();
+
+});
+
+function checkInputPrice()
+{
+  let matchThis = /^[0-9]+$/;
+  let inputPrice = $('#input-price').val();
+  let showPrice = $('.show-price').html();
+
+  if(inputPrice == '' && showPrice == ''){
+    alert('Please selece order');
+  } else if(inputPrice == '' && showPrice != ''){
+    addToCart();
+  } else {
+    if(!inputPrice.match(matchThis)){
+      alert('This is not a number');
+    } else {
+      storeCategory[4] = inputPrice;
+      if($('#remarks').val() != ''){
+        storeCategory.push($('#remarks').val());
+      }
+      addToCart();
+    }
+  }
+}
+
   function getProductDescription(array)
   {
     array.forEach(element => {
@@ -230,65 +270,6 @@ function showSlides(n) {
     let enterPrice = `<button id='enter-price'>Enter Price</button>`;
     $('.order-lists').append(enterPrice);
   }
-
-
-  function getPrices(
-    categoryName,
-    productName,
-    productDescription,
-    buttonName
-  ) {
-    $.ajax({
-      type: "POST",
-      url: "./includes/getPrices.inc.php",
-      data: {
-        "category-name": categoryName,
-        "product-name": productName,
-        "product-description": productDescription,
-      },
-      success: function (data) {
-        let productList = JSON.parse(data);
-
-        prices(buttonName, productList);
-        storeCategory.push(productList[0].id)
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
-  }
-
-  function prices(buttonName, productList) {
-    let containerButtons = $(".container-order-buttons");
-    let itemButtons = `
-    <div class='main-category' id='main-category'>
-      
-    </div>`;
-    containerButtons.append(itemButtons);
-    if (buttonName == "ORIGINAL PRICE") {
-      let itemButton = `
-              <div class="category-button" data-price-buttons>${productList[0].price}</div>
-            `;
-      $("#main-category").append(itemButton);
-    } else {
-      let itemButton = `
-              <div class="category-button" data-price-buttons>${productList[0].reseller_price}</div>
-            `;
-      $("#main-category").append(itemButton);
-    }
-  }
-
-  $(document).on("click", "[data-option-buttons]", function () {
-    let productName = $(this).html();
-    getPrices(
-      storeCategory[0],
-      storeCategory[1],
-      storeCategory[2],
-      productName
-    );
-    storeCategory.push(productName);
-    $(this).parent().remove();
-  });
 
   function getTotal(prices) {
     let zeroValue = 0;
@@ -302,9 +283,7 @@ function showSlides(n) {
     }
   }
 
-  $(document).on("click", "[data-price-buttons]", function () {
-    let buttonName = $(this).html();
-
+  function addToCart (){
     let createDivOrders = `<div class="your-order">
                               <section>
                                   <div class="product-name" id="product-name">${
@@ -327,9 +306,9 @@ function showSlides(n) {
                               </section>
                               <div class="price" id="price">
                                   PHP <span id='data-price' data-price>${parseFloat(
-                                    buttonName
+                                    storeCategory[4]
                                   ).toFixed(2)}</span>
-                                  <input type"text" hidden id="original-price" value="${buttonName}" />
+                                  <input type"text" hidden id="original-price" value="${storeCategory[4]}" />
                               </div>
                           </div>`;
 
@@ -338,8 +317,7 @@ function showSlides(n) {
     $(this).parent().remove();
     $(".main-category").show();
     getTotal($("[data-price]"));
-    storeCategory = [];
-  });
+  }
 
   function changeQuantity(button, action) {
     let quantity = button
@@ -457,7 +435,6 @@ function showSlides(n) {
   });
 
   //function to create data for create orders
-
   let successOrder = '';
   function createOrders(addOrders){
     $.ajax({
@@ -518,6 +495,7 @@ $(document).on('click', "#submit", function(){
     
   })
   createOrders(placedOrders);
+  alert('Order successfully created');
   window.location.href = "./index.php";
   }
 
@@ -530,6 +508,14 @@ $(document).on("click", "#cancel", function(){
     return;
   }
 })
+
+$(document).on('click', '#back', function(){
+  $('#main-category').remove();
+  $('#container-description').children().remove();
+  $('#container-description').hide();
+  $('.main-category').show();
+  console.log(storeCategory);
+});
 
 });
 

@@ -1,7 +1,17 @@
 <?php 
-    // var_dump($_FILES);
-    $files = $_FILES;
-    var_dump($files);
+    if(isset($_POST['submit'])){
+        $fileDestination = "./images/products/New Destination/";
+        $fileDirectory = './images/products/Original Destination/forest.jpg';
+
+            if (!file_exists($fileDestination)) {
+                mkdir($fileDestination, 077, true);
+            }
+
+            $fileNewDestination = $fileDestination . 'Photo.jpeg' ;
+            // $fileTmpDestination = '../images/products/noImageAvailable.jpeg';
+    
+            copy($fileDirectory,$fileNewDestination);
+    }
   
 ?>
 
@@ -14,6 +24,10 @@
     <title>Document</title>
 </head>
 <body>
+    <form action="#" method="POST">
+        <img src="./images/products/New Destination/forest.jpg" alt="Forest">
+        <button type="submit" name="submit">Sumit</button>
+    </form>
     
 </body>
 </html>

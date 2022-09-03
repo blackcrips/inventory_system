@@ -406,7 +406,7 @@ class Model extends Dbh
 
     protected function getProductByName($category,$productName)
     {
-        $sql = "SELECT category,product_name,product_description,pp.price,pp.quantity 
+        $sql = "SELECT category,product_name,product_description,pp.price,pp.quantity,pn.product_code 
         FROM products_name pn
         JOIN products_price pp
             ON pn.product_code = pp.id
@@ -428,7 +428,10 @@ class Model extends Dbh
         $result = $stmt->fetch();
 
 
-        $sql = "SELECT * FROM products_price WHERE id = ?";
+        $sql = "SELECT category FROM products_price pp
+        JOIN products_name pn
+            ON pp.id = pn.product_code
+        WHERE id = ?";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$result['product_code']]);
 

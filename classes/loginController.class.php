@@ -144,9 +144,9 @@ class LoginController extends Model
                     continue;
                 } else {
                     $serialCode = $generateCode;
+                    $this->uploadProductPhoto($_FILES['upload-files'],$foldername);
                     $this->insertProductsName($category, $productName, $productDescription, $serialCode);
                     $this->insertProductPrice($serialCode, $productPrice, $supplierPrice, $quantity, $storeCode);
-                        $this->uploadProductPhoto($_FILES['upload-files'],$foldername);
                     echo "<script>alert('Product Added!')</script>";
                     echo "<script>window.location.href ='../index.php'</script>";
                     return;
@@ -158,7 +158,14 @@ class LoginController extends Model
     protected function uploadProductPhoto($productPhotos,$foldername){
         $products = [];
 
-        if($productPhotos['name'] != ''){
+       
+
+        if($productPhotos['name'][0] == ''){
+            $this->uploadEmptyPhoto($foldername);
+            
+        } else {
+            $this->validateUploadFile($productPhotos);
+
             for($i = 0; $i < count($productPhotos['name']); $i++){
                 $constructProduct = array(
                     'name' => $productPhotos['name'][$i],
@@ -180,21 +187,45 @@ class LoginController extends Model
                 }
 
                 $fileNewDestination = $fileDestination . "Photo" . $y . ".jpeg";
-        
-                move_uploaded_file($products[$y]['tmp_name'],$fileNewDestination);
+                $fileTmpDestination = $products[$y]['tmp_name'];
+
+                    move_uploaded_file($fileTmpDestination,$fileNewDestination);
             }
-        } else {
-            $fileDestination = '../images/products/' . $foldername . '/';
+        }
+    }
+
+    private function uploadEmptyPhoto($foldername)
+    {
+        $fileDestination = '../images/products/' . $foldername . '/';
 
             if (!file_exists($fileDestination)) {
                 mkdir($fileDestination, 077, true);
             }
 
             $fileNewDestination = $fileDestination . "Photo.jpeg";
-            $fileTmpDestination = '../images/products/noImageAvailable.jpeg';
+            $fileTmpDestination = '../images/products/noImageAvailable.jpg';
     
-            move_uploaded_file($fileTmpDestination,$fileNewDestination);
-        }
+            copy($fileTmpDestination,$fileNewDestination);
+    }
+
+    private function validateUploadFile($productPhotos)
+    {
+        $imgType = explode('/', $productPhotos["type"][0]);
+        $fileExt = $imgType[1];
+
+        $approvedExt = ['jpg','jpeg','png'];
+
+        if($imgType[0] == 'image'){
+            if(!array_search($fileExt,$approvedExt)){
+                echo "<script>alert('Invalid file upload!')</script>";
+                echo "<script>window.location.href ='../addProduct.php'</script>";
+                exit();
+            }
+        } else {
+            echo "<script>alert('Invalid file upload!')</script>";
+            echo "<script>window.location.href ='../addProduct.php'</script>";
+            exit();
+        } 
     }
 
     public function addSupplier()
@@ -453,6 +484,7 @@ class LoginController extends Model
         for($i = 0; $i < count($files);$i++)
         {
             $fileFolderName = array_diff(scandir($path . $folderName),array('.','..'));
+
             if($files[$i] == $folderName){
                 $sampleFiles = array
                 (

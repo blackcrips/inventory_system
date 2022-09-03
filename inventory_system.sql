@@ -21,17 +21,6 @@ SET time_zone = "+00:00";
 -- Database: `inventory_system`
 --
 
-DELIMITER $$
---
--- Procedures
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getTableNames` (IN `tableName` VARCHAR(255))   SELECT
-  	COLUMN_NAME
-FROM
-  	INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = tableName$$
-
-DELIMITER ;
 
 -- --------------------------------------------------------
 
