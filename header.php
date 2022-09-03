@@ -8,6 +8,12 @@
                     <ul>
                         <li><a href="./homePage.php">HOME</a></li>
                         <li><a href="./orderHistory.php">ORDER HISTORY</a></li>
+                        <li class="lending"><span> LENDING </span>
+                            <ul>
+                                <li><a href="lending.php">ADD</a></li>
+                                <li><a href="editLending.php">EDIT</a></li>
+                            </ul>
+                        </li>
                         <li class="add-edit"><span> ADD/EDIT </span>
                             <ul>
                                 <li><a href="addproduct.php">ADD PRODUCT</a></li>

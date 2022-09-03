@@ -8,12 +8,15 @@
   <title>Document</title>
 </head>
 <body>
-  <div>
-    <form action="sample2.php" method="POST" enctype="multipart/form-data">
-      <input type="file" name="file">
-      <button type="submit" name="submit">Submit</button>
-    </form>
-  </div>
+  
+
+<script>
+  let price = '123.00';
+
+  let priceLength = price.length;
+
+  console.log(price.slice(0,-3))
+</script>
 
 </body>
 </html>

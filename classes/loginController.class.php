@@ -393,9 +393,10 @@ class LoginController extends Model
             $quantity = htmlspecialchars($value['quantity']);
             $price = htmlspecialchars($value['price']);
             $clientId = htmlspecialchars($value['client-id']);
+            $remarks = htmlspecialchars($value['remarks']);
             $orderStatus = "pending";
 
-                if($this->insertOrders($orderId,$productName,$quantity,$price,$productCode,$clientId,$orderStatus)){
+                if($this->insertOrders($orderId,$productName,$quantity,$price,$productCode,$clientId,$remarks,$orderStatus)){
                     $this->setNewQuantity($productCode,$quantity);
                     unset($_SESSION['client-id']);
                     $_SESSION['client-id'] = null;
@@ -494,6 +495,40 @@ class LoginController extends Model
                 exit(json_encode($sampleFiles));
             }
         }
+    }
+
+    public function addNewBorrowMoney()
+    {
+        if(!isset($_POST['borrower-name'])){
+            header("Location: ../homePage.php");
+            exit();
+        }
+
+        foreach ($_POST as $key => $value) {
+            if($value == ''){
+                echo "<script>alert('Please check all fields')</script>";
+            echo "<script>window.location.href = '../lending.php'</script>";
+            die();
+            }
+        }
+
+        $borrowerName = htmlspecialchars($_POST['borrower-name']);
+        $dateBorrowed = htmlspecialchars($_POST['date-borrowed']);
+        $borrowedAmount = htmlspecialchars($_POST['borrowed-amount']);
+        $status = 'active';
+
+
+
+        
+        if($this->insertBorrowRecord($borrowerName,$dateBorrowed,$borrowedAmount,$status)){
+            echo "<script>alert('Record added')</script>";
+            echo "<script>window.location.href = '../lending.php'</script>";
+        } else {
+            echo "<script>alert('Error server! Contact your admin.')</script>";
+            echo "<script>window.location.href = '../lending.php'</script>";
+        }
+
+        
     }
 
     

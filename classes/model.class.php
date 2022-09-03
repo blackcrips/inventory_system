@@ -467,12 +467,12 @@ class Model extends Dbh
         return $rowCount;
     }
 
-    protected function insertOrders($orderId,$productName,$quantity,$price,$productCode,$clientId,$orderStatus){
-        $sql = "INSERT INTO products_orders (`order_id`,`product_name`,`quantity`,`price`,`product_code`,`client_id`,`status`) VALUES(?,?,?,?,?,?,?)";
+    protected function insertOrders($orderId,$productName,$quantity,$price,$productCode,$clientId,$remarks,$orderStatus){
+        $sql = "INSERT INTO products_orders (`order_id`,`product_name`,`quantity`,`price`,`product_code`,`client_id`,`remarks`,`status`) VALUES(?,?,?,?,?,?,?,?)";
         $stmt = $this->connect()->prepare($sql);
         
 
-        if($stmt->execute([$orderId,$productName,$quantity,$price,$productCode,$clientId,$orderStatus])){
+        if($stmt->execute([$orderId,$productName,$quantity,$price,$productCode,$clientId,$remarks,$orderStatus])){
             return true;
         } else {
             return false;
@@ -685,5 +685,18 @@ class Model extends Dbh
         } else {
             exit(json_encode(true));
         }
+    }
+
+    protected function insertBorrowRecord($borrowerName,$dateBorrowed,$borrowedAmount,$status)
+    {
+        $sql = "INSERT INTO lending (`borrower_name`,`borrow_date`,`borrow_amount`,`status`) VALUES (?,?,?,?)";
+        $stmt = $this->connect()->prepare($sql);
+        if($stmt->execute([$borrowerName,$dateBorrowed,$borrowedAmount,$status])){
+            return true;
+        } else {
+            return false;
+            die();
+        }
+        
     }
 }

@@ -43,6 +43,7 @@ $(document).ready(function () {
 
   let storeCategory = []; // order details are store here
   let categoryOrder = ''; // store order description here per click of category button
+  let remarksPerProduct = [];
 
   // 1st action of button when placing an order
   $(document).on("click", "[data-main-buttons]", function () {
@@ -234,8 +235,18 @@ function showSlides(n) {
    // store order selected to storeCategory
 $(document).on('click', '#add', function(){
   checkInputPrice();
-
 });
+
+function storeOrderRemarks(prouctId,price,remarks)
+{
+  let storeRemarks = {
+    'productId':prouctId,
+    'price': price,
+    'remarks': remarks,
+  }
+
+  remarksPerProduct.push(storeRemarks);
+}
 
 function checkInputPrice()
 {
@@ -252,8 +263,9 @@ function checkInputPrice()
       alert('This is not a number');
     } else {
       storeCategory[4] = inputPrice;
-      if($('#remarks').val() != ''){
-        storeCategory.push($('#remarks').val());
+      let remarks = $('#remarks').val();
+      if(remarks != ''){
+        storeOrderRemarks(storeCategory[3],storeCategory[4],remarks);
       }
       addToCart();
     }
@@ -289,7 +301,7 @@ function checkInputPrice()
                                   <div class="product-name" id="product-name">${
                                     storeCategory[1] + " " + storeCategory[2]
                                   }</div>
-                                  <div hidden class="product-code" id="product-code">${storeCategory[4]}</div>
+                                  <div hidden class="product-code" id="product-code">${storeCategory[3]}</div>
                                   <div class="container-quantity" id="container-quantity">
                                       <span class="operator" id='decrease'>
                                           &#x2D;
@@ -314,8 +326,6 @@ function checkInputPrice()
 
     $(".reminder").hide();
     $("#orders").append(createDivOrders);
-    $(this).parent().remove();
-    $(".main-category").show();
     getTotal($("[data-price]"));
   }
 
@@ -460,16 +470,17 @@ function checkInputPrice()
   // construct orders
   let placedOrders = [];
 
-  function constructOrders(productName,productCode,quantity,price,clientId){
+  function constructOrders(productName,productCode,quantity,price,clientId,remarks){
     let orders = {
       "product-name": productName,
       "product-code": productCode,
       "quantity": quantity,
       "price":price,
-      "client-id":clientId
+      "client-id":clientId,
+      'remarks': remarks
 
     };
-    placedOrders.push(orders)
+    placedOrders.push(orders);
   }
 
 
@@ -488,11 +499,10 @@ $(document).on('click', "#submit", function(){
     let quantity = $(this).children('section').children('#container-quantity').children('#quantity').val()
     let price = $(this).children('#price').children('span').text()
     let clientId = $('#client-id').html()
+    let remarks = saveRemarks(productCode,price);
 
 
-    constructOrders(productName,productCode,quantity,price,clientId);
-
-    
+    constructOrders(productName,productCode,quantity,price,clientId,remarks);
   })
   createOrders(placedOrders);
   alert('Order successfully created');
@@ -500,6 +510,21 @@ $(document).on('click', "#submit", function(){
   }
 
 });
+
+function saveRemarks(productId,price)
+{
+  for (let index = 0; index < remarksPerProduct.length; index++) {
+    if(remarksPerProduct[index].productId == productId){
+      if(remarksPerProduct[index].price == price.slice(0,-3)){
+        let remarks = remarksPerProduct[index].remarks;
+        return remarks;
+      } else {        
+        let remarks = "";
+        return remarks;
+      }
+    }
+  }
+}
 
 $(document).on("click", "#cancel", function(){
   if(confirm("Redirect to homepage? Order placed will not be saved?") == true){
@@ -518,6 +543,3 @@ $(document).on('click', '#back', function(){
 });
 
 });
-
-
-

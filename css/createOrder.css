@@ -29,7 +29,7 @@ body {
     margin-right: 10px;
     display: flex;
     padding: 10px ;
-    height: 95vh;
+    min-height: 95vh;
     position:relative;
 }
 
@@ -304,7 +304,6 @@ marquee {
     align-items: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    /* flex-direction: column; */
   }
   
   /* Position the image container (needed to position the left and right arrows) */
@@ -425,7 +424,7 @@ marquee {
   }
 
   #add-order{
-    margin-top: 80px;
+    margin-top: 20px;
     display: flex;
     justify-content: flex-end;
   }

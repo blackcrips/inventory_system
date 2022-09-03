@@ -1,3 +1,9 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 .header-content {
     position: relative;
     display: flex;
@@ -45,8 +51,7 @@
     list-style: none;
     text-decoration: none;
     height: 100%;
-    margin-bottom: 0;   
-    
+    margin-bottom: 0;
     line-height: 3.5;
     
 }
@@ -84,17 +89,23 @@
     background-color: #2541B2;
 }
 
-.add-edit {
+.add-edit,
+.lending {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 40px;
 }
 
-.add-edit:hover{
+.lending ul {
+    display: none;
+}
+
+.add-edit:hover,
+.lending:hover{
     cursor: pointer;
     background-color: #2541B2;
-    height: 180px;
+    overflow: visible;
+    display: grid;
     z-index: 3;
 }
 
