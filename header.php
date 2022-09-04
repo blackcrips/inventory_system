@@ -1,40 +1,49 @@
-<div class="header-content" id="header-content">
-            <div class="header-left">
-                <div class="store-name">
-                    <!-- <h4>Cheap n' Sulit</h4> -->
-                    <img src="./images/Store_name.png" alt="Cheap n' Sulit" height="40px" width="200px">
-                </div>
-                <div class="header-navigation">
-                    <ul>
-                        <li><a href="./homePage.php">HOME</a></li>
-                        <li><a href="./orderHistory.php">ORDER HISTORY</a></li>
-                        <li class="lending"><span> LENDING </span>
-                            <ul>
-                                <li><a href="lending.php">ADD</a></li>
-                                <li><a href="editLending.php">EDIT</a></li>
-                            </ul>
-                        </li>
-                        <li class="add-edit"><span> ADD/EDIT </span>
-                            <ul>
-                                <li><a href="addproduct.php">ADD PRODUCT</a></li>
-                                <li><a href="editProducts.php">EDIT PRODUCT</a></li>
-                                <li><a href="./addSupplier.php">ADD SUPPLIER</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="header-right">
-                <h3>Menu</h3>
-                <form action="./includes/logout.inc.php" method="POST">
-                    <button type="submit" name="logout">Logout</button>
-                </form>
-            </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="navigation">
+    <div class="store-name">
+      <img src="./images/Store_name.png" alt="Cheap n' Sulit" height="50px" width="200px">
+    </div>
+
+    <ul>
+      <li class="active"><a href="homePage.php">HOME</a></li>
+      <li>HISTORY
+        <div class="sub-menu-1">
+          <ul>
+            <li><a href="lending.php">LENDING HISTORY</a><i class="fa fa-angle-right"></i></li>
+            <li><a href="orderHistory.php">ORDER HISTORY</a><i class="fa fa-angle-right"></i></li>
+          </ul>
         </div>
-        <div class="logo">
+      </li>
+      <li>LENDING
+        <div class="sub-menu-1">
+            <ul>
+              <li><a href="lending.php">ADD NEW</a><i class="fa fa-angle-right"></i></li>
+              <li><a href="editLending.php">EDIT RECORD</a><i class="fa fa-angle-right"></i></li>
+            </ul>
+          </div>
+      </li>
+      <li>ADD/EDIT
+      <div class="sub-menu-1">
+            <ul>
+              <li><a href="addProduct.php">ADD PRODUCT</a><i class="fa fa-angle-right"></i></li>
+              <li><a href="editProduct.php">EDIT PRODUCT</a><i class="fa fa-angle-right"></i></li>
+              <li><a href="addSupplier.php">ADD SUPPLIER</a><i class="fa fa-angle-right"></i></li>
+            </ul>
+          </div>
+      </li>
+    </ul>
+    <div class="header-right">
+      <h3>Menu</h3>
+      <form action="./includes/logout.inc.php" method="POST">
+          <button type="submit" name="logout">Logout</button>
+      </form>
+    </div>
+    
+    <div class="logo">
             <div class="logo-content"></div>
         </div>
-        
+  </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script defer>
     window.onresize = function(){

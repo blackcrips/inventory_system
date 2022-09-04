@@ -1,137 +1,122 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&display=swap');
 
-.header-content {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
+.navigation {
     background-color: #0F52BA;
-    color: #fff;
-    height: 40px;
-    min-width: 100%;
-    z-index: 5;
-}
-
-.header-toggle {
-    width: 100%;
-}
-
-
-.header-left {
+    text-align: left;
     display: flex;
+    height: 50px;
+}
+
+.navigation ul {
+    display: flex;
+    height: 100%;
+    list-style: none;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Poppins',sans-serif;
+    font-weight: bold;
+}
+
+.navigation ul li {
+    width: auto;
+    padding: 5px 10px 5px 10px;
+    margin: 10px 5px 10px 5px;
+}
+
+.navigation ul li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.navigation ul li.active, .navigation ul li:hover {
+    background-color: #2541B2;
+}
+
+.sub-menu-1 {
+    display: none;
+}
+
+.sub-menu-1 ul li a {
+    margin-right: 20px;
+}
+
+.navigation ul li:hover .sub-menu-1 {
+    display: block;
+    position: absolute;
+    background-color: #0F52BA;
+    margin-left: -10px;
+    z-index: 3;
+}
+
+.navigation ul li:hover .sub-menu-1 ul {
+    display: block;
+    margin-left: -25px;
+    padding-right: 10px;
+}
+
+.navigation ul li:hover .sub-menu-1 ul li {
+    width: auto;
+    white-space: nowrap;
+    padding: 10px 0px 10px 0;
+    border-bottom: 1px dotted #fff;
+    background: transparent;
+    border-radius: 0;
+    text-align: left;
+}
+
+.navigation ul li:hover .sub-menu-1 ul li:last-child {
+    border-bottom: none;
+}
+
+.navigation ul li:hover .sub-menu-1 ul li a:hover {
+    color: #a9a9a9;
+}
+
+.fa-angle-right {
+    float: right;
 }
 
 .store-name{
     width: 200px;
-    text-align: center;
+    margin-right: 10px;
+    display: inline-flex;
+    margin-top: 1px;
 }
-
-.store-name h4{
-    line-height: 1.6;
-    margin-bottom: 0;
-    height: 100%;
-    display: block;
-}
-
-.header-navigation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;    
-    font-weight: bold;
-    
-}
-
-.header-navigation ul{
-    display: flex;
-    padding: 0;
-    list-style: none;
-    text-decoration: none;
-    height: 100%;
-    margin-bottom: 0;
-    line-height: 3.5;
-    
-}
-
-.header-navigation ul a{
-    text-decoration: none;
-    color: #fff;
-    line-height: 3.5;
-    margin-right: 15px; 
-    display: block;
-    height: 100%;
-    padding: 0 10px;
-}
-
-.header-navigation ul span{
-    display: block;
-    height: 100%;
-    width: 70px;
-    text-align: center;
-}
-
-.header-navigation ul li ul{
-    background-color: #0F52BA;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-
-.header-navigation ul li ul a{
-    width: 100%;
-}
-
-.header-navigation a:hover{
-    cursor: pointer;
-    background-color: #2541B2;
-}
-
-.add-edit,
-.lending {
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.lending ul {
-    display: none;
-}
-
-.add-edit:hover,
-.lending:hover{
-    cursor: pointer;
-    background-color: #2541B2;
-    overflow: visible;
-    display: grid;
-    z-index: 3;
-}
-
 
 .header-right{
-    display: flex;
-    flex-direction: column;
-    height: 40px;
-    overflow: hidden;
-    margin-right: 20px;
+    position: absolute;
+    right: 0;
+    color: #fff;
     transition: all .5s;
+    width: auto;
+    margin-right: 10px;
+    margin-top: 5px;
+    /* border: 1px solid black; */
+
 }
 
-.header-right:hover{
-    cursor: pointer;
-    height: 84px;
-    z-index: 2;
-}
-
-.store-name img:hover + .logo{
+.header-right:hover form{
     display: block;
+    position: absolute;
+    padding-top: 10px;
 }
 
-.store-name:hover{
-    cursor: pointer;
+.header-right form {
+    display: none;
+    background-color: #0F52BA;
 }
+
+.header-right form button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 0 10px 10px 10px;
+}
+
+.header-right form button:hover {
+    color: #a9a9a9;
+}
+
 
 .logo{
     position: absolute;
@@ -140,7 +125,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    /* background-color:  transparent; */
     backdrop-filter: blur(4px);
     display: none;
 }
