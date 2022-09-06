@@ -564,17 +564,17 @@ class Model extends Dbh
         return $result;
     }
 
-    protected function changeStutusOfOrder($orderId){
+    protected function changeStatusOfOrder($orderId){
         $sql = "SELECT id FROM products_orders WHERE order_id = ?";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$orderId]);
 
         $results = $stmt->fetchAll();
-        // exit(json_encode($results));
+        
         $callBack = '';
         foreach($results as $result){
             $id = $result["id"];
-            $sql = "UPDATE products_orders SET status = 'delivered' WHERE id = $id";
+            $sql = "UPDATE products_orders SET status = 'delivered' WHERE id = $id ";
             $stmt = $this->connect()->prepare($sql);
             if($stmt->execute()){
                 $callBack = true;
@@ -583,6 +583,7 @@ class Model extends Dbh
             }
         }
         exit(json_encode($callBack));
+        
     }
 
     protected function displayEditProducts(){
@@ -698,5 +699,59 @@ class Model extends Dbh
             die();
         }
         
+    }
+
+    protected function showLendingHistory()
+    {
+        $sql = "SELECT * FROM lending";
+        $stmt = $this->connect()->prepare($sql);
+        
+        if($stmt->execute()){
+            $results = $stmt->fetchAll();
+            return $results;
+        } else {
+            die();
+        }
+    }
+
+    protected function showSingleLending($id)
+    {
+        $sql = "SELECT * FROM lending WHERE id = ?";
+        $stmt = $this->connect()->prepare($sql);
+        
+        if($stmt->execute([$id])){
+            $results = $stmt->fetchAll();
+            return $results;
+        } else {
+            die();
+        }
+    }
+
+    protected function deleteBorrow($id)
+    {
+        $sql = "DELETE FROM lending WHERE id =?";
+        $stmt = $this->connect()->prepare($sql);
+        
+        if(!$stmt->execute([$id])){
+            exit(json_encode(false));
+        } else {
+            exit(json_encode(true));
+        }
+    }
+
+    protected function lendingChanges($borrowerName,$borrowDate,$borrowAmount,$status,$id)
+    {
+        $sql = "INSERT INTO lending SET (`borrwer_name`,`borrow_date`,`borrow_amount`,`status`) VALUES (?,?,?,?)";
+        $sql = "UPDATE lending SET `borrower_name` = ? , `borrow_date` = ?, `borrow_amount` = ?, `status` = ? WHERE id = ?";
+        $stmt = $this->connect()->prepare($sql);
+
+        if($stmt->execute([$borrowerName,$borrowDate,$borrowAmount,$status,$id])){
+            echo "<script>alert('Record successfully updated!')</script>";
+            echo "<script>window.location.href = '../lendingHistory.php'</script>";
+        } else {
+            echo "<script>alert('Error updating record. Please contact your admin!')</script>";
+            echo "<script>window.location.href = '../lendingHistory.php'</script>";
+            exit();
+        }
     }
 }

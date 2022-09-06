@@ -65,30 +65,29 @@ $(document).ready(function(){
               }
             });
         })
-
-        
-    $(document).on('click', "#save-changes", () => {
-      let orderId = $('#order-id').val();
-        $.ajax({
-          type: "POST",
-          url: './includes/changeOrderStatus.inc.php',
-          data: {
-            'order-id': orderId
-          },
-          success: function(data){
-            if(data){
-              alert('Order status updated');
-              location.reload(true);
-            }else{
-              alert('Error updating order status');
-            }
-          }
-        });
-      })
+    }
+  }); //end of data tables
   
-      }
-    }); //end of data tables
-    
+  $(document).on('click', "#save-changes", () => {
+    let orderId = $('#order-id').val();
+
+    console.log('clicked');
+      $.ajax({
+        type: "POST",
+        url: './includes/changeOrderStatus.inc.php',
+        data: {
+          'order-id': orderId
+        },
+        success: function(data){
+          if(data){
+            alert('Order status updated');
+            location.reload(true);
+          }else{
+            alert('Error updating order status');
+          }
+        }
+      });
+    });
 
     function appendPreviewOrder(orders){
         for(let i = 1; i < orders.length - 1; i++){

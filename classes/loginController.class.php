@@ -419,7 +419,7 @@ class LoginController extends Model
             exit;
         } else {
             $orderId = htmlspecialchars($_POST['order-id']);
-            return $this->changeStutusOfOrder($orderId);
+            $this->changeStatusOfOrder($orderId);
         }   
 
 
@@ -529,6 +529,43 @@ class LoginController extends Model
         }
 
         
+    }
+
+    public function deleteBorrowRecord()
+    {
+        if(!isset($_POST['request-id'])){
+            header("Location: ../lendingHistory.php");
+            exit();
+        }
+
+        $id = htmlspecialchars($_POST['request-id']);
+
+        $this->deleteBorrow($id);
+    }
+
+    public function saveLendingChanges()
+    {
+        if(!isset($_POST['order-id'])){
+            header("Location: ../lendingHistory.php");
+        }
+
+        $status = '';
+
+        if(!isset($_POST['order-status'])){
+            $status = 'active';
+        } else {
+            $status = htmlspecialchars($_POST['order-status']);
+        }
+
+        $borrowerName = htmlspecialchars($_POST['borrower-name']);
+        $borrowDate = htmlspecialchars($_POST['borrow-date']);
+        $borrowAmount = htmlspecialchars($_POST['borrowed-amount']);
+        $orderId = htmlspecialchars($_POST['order-id']);
+
+        $id = explode(' ', $orderId);
+        
+
+        $this->lendingChanges($borrowerName,$borrowDate,$borrowAmount,$status,$id[0]);
     }
 
     

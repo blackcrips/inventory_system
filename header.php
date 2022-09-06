@@ -10,7 +10,7 @@
       <li>HISTORY
         <div class="sub-menu-1">
           <ul>
-            <li><a href="lending.php">LENDING HISTORY</a><i class="fa fa-angle-right"></i></li>
+            <li><a href="lendingHistory.php">LENDING HISTORY</a><i class="fa fa-angle-right"></i></li>
             <li><a href="orderHistory.php">ORDER HISTORY</a><i class="fa fa-angle-right"></i></li>
           </ul>
         </div>
@@ -27,7 +27,7 @@
       <div class="sub-menu-1">
             <ul>
               <li><a href="addProduct.php">ADD PRODUCT</a><i class="fa fa-angle-right"></i></li>
-              <li><a href="editProduct.php">EDIT PRODUCT</a><i class="fa fa-angle-right"></i></li>
+              <li><a href="editProducts.php">EDIT PRODUCT</a><i class="fa fa-angle-right"></i></li>
               <li><a href="addSupplier.php">ADD SUPPLIER</a><i class="fa fa-angle-right"></i></li>
             </ul>
           </div>

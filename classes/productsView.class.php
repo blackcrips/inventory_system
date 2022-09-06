@@ -197,4 +197,17 @@ class productsView extends Model
             exit(json_encode($orderTemplate));
         }
     }
+
+    public function viewLendingHistory()
+    {
+        return $this->showLendingHistory();
+        
+    }
+
+    public function singleView(){
+        if(isset($_POST['request-product'])){
+            $id = htmlspecialchars($_POST['request-product']);
+            exit(json_encode($this->showSingleLending($id)));
+        }
+    }
 }
