@@ -1,6 +1,9 @@
 <?php
 include_once('./includes/autoLoadClassesMain.inc.php');
 $productsView = new ProductsView();
+$loginController = new LoginController();
+$loginController->addInterest();
+// var_dump($loginController->addInterest());
 
 
 ?>
@@ -50,8 +53,13 @@ $productsView = new ProductsView();
                     <td>ID</td>
                     <td>Borrower name</td>
                     <td>Borrower date</td>
-                    <td>Borrowed Amount</td>
+                    <td>Borrowed amount</td>
+                    <td>Interest</td>
+                    <td>Due date</td>
+                    <td>Amount to pay</td>
+                    <td>Total w/ interest</td>
                     <td>Status</td>
+                    <td>Amount paid</td>
                     <td>Action</td>
                 </tr>
             </thead>
@@ -62,8 +70,13 @@ $productsView = new ProductsView();
                         <td><?php echo $value['borrower_name']; ?></td>
                         <td><?php echo $value['borrow_date']; ?></td>
                         <td><?php echo $value['borrow_amount']; ?></td>
+                        <td><?php echo $value['interest']; ?></td>
+                        <td><?php echo $value['due_date']; ?></td>
+                        <td><?php echo $value['amount_to_pay']; ?></td>
+                        <td><?php echo $value['total_with_interest']; ?></td>
                         <td class="status"><?php echo $value['status']; ?></td>
-                        <td>
+                        <td class="status"><?php echo $value['amount_paid']; ?></td>
+                        <td class="nth-td">
                           <?php 
                           if($value['status'] == "paid"){
                             echo "<button class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>View</button>";

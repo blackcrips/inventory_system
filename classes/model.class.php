@@ -223,8 +223,8 @@ class Model extends Dbh
         product_name,
         product_description,
         product_code,
-        price,
-        quantity 
+        pp.price,
+        pp.quantity 
         FROM products_name pn
         JOIN products_price pp
             ON pn.product_code = pp.id";
@@ -241,6 +241,7 @@ class Model extends Dbh
                 "data"   => $rowCount,
             );
             exit(json_encode($output));
+            return $output;
         } else {
 
             foreach ($result as $rowData) {
@@ -248,8 +249,8 @@ class Model extends Dbh
                 $sub_array[] = $rowData['product_name'];
                 $sub_array[] = $rowData['product_description'];
                 $sub_array[] = $rowData['product_code'];
-                $sub_array[] = $rowData['price'];
                 $sub_array[] = $rowData['quantity'];
+                $sub_array[] = $rowData['price'];
                 $sub_array[] = "<div class='action-buttons'>
                                     <form action='#' id='form-action-buttons' method='post'>
                                         <input type='button' class='btn btn-primary' data-view-details value='Edit'>
@@ -282,11 +283,11 @@ class Model extends Dbh
         }
     }
 
-    protected function insertProductsName($category, $productName, $productDescription, $productCode)
+    protected function insertProductsName($category, $productName, $productDescription, $serviceFee, $productCode)
     {
-        $sql = "INSERT INTO products_name (`category`,`product_name`,`product_description`,`product_code`) VALUES(?,?,?,?)";
+        $sql = "INSERT INTO products_name (`category`,`product_name`,`product_description`,`service_fee`,`product_code`) VALUES(?,?,?,?,?)";
         $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$category, $productName, $productDescription, $productCode]);
+        $stmt->execute([$category, $productName, $productDescription, $serviceFee, $productCode]);
     }
 
     protected function insertSupplierName($serialCode, $supplierName, $supplierAddress, $contactNo, $secondaryNo, $contactPerson, $products)
@@ -320,7 +321,13 @@ class Model extends Dbh
         $stmt->execute();
 
         $result = $stmt->fetchAll();
-        return $result;
+        $rowCount = $stmt->rowCount();
+
+        if($rowCount == 0){
+            return $rowCount;
+        } else {
+            return $result;
+        }
     }
 
     protected function getSupplierCode()
@@ -586,7 +593,7 @@ class Model extends Dbh
         
     }
 
-    protected function displayEditProducts(){
+protected function displayEditProducts(){
         $sql = "SELECT category,product_name,product_description,product_code,pp.store_code,pp.price,pp.reseller_price,pp.supplier_price,pp.quantity,s.supplier_name
          FROM products_name po 
          JOIN products_price pp 
@@ -688,11 +695,11 @@ class Model extends Dbh
         }
     }
 
-    protected function insertBorrowRecord($borrowerName,$dateBorrowed,$borrowedAmount,$status)
+    protected function insertBorrowRecord($borrowerName,$dateBorrowed,$borrowedAmount,$dueDate,$status)
     {
-        $sql = "INSERT INTO lending (`borrower_name`,`borrow_date`,`borrow_amount`,`status`) VALUES (?,?,?,?)";
+        $sql = "INSERT INTO lending (`borrower_name`,`borrow_date`,`borrow_amount`,`amount_to_pay`,`due_date`,`status`) VALUES (?,?,?,?,?,?)";
         $stmt = $this->connect()->prepare($sql);
-        if($stmt->execute([$borrowerName,$dateBorrowed,$borrowedAmount,$status])){
+        if($stmt->execute([$borrowerName,$dateBorrowed,$borrowedAmount,$borrowedAmount,$dueDate,$status])){
             return true;
         } else {
             return false;
@@ -739,13 +746,12 @@ class Model extends Dbh
         }
     }
 
-    protected function lendingChanges($borrowerName,$borrowDate,$borrowAmount,$status,$id)
+    protected function lendingChanges($borrowerName,$borrowDate,$amountTopay,$status,$amountPaid,$id)
     {
-        $sql = "INSERT INTO lending SET (`borrwer_name`,`borrow_date`,`borrow_amount`,`status`) VALUES (?,?,?,?)";
-        $sql = "UPDATE lending SET `borrower_name` = ? , `borrow_date` = ?, `borrow_amount` = ?, `status` = ? WHERE id = ?";
+        $sql = "UPDATE lending SET `borrower_name` = ? , `borrow_date` = ?, `amount_to_pay` = ?, `status` = ?, `amount_paid` = ? WHERE id = ?";
         $stmt = $this->connect()->prepare($sql);
 
-        if($stmt->execute([$borrowerName,$borrowDate,$borrowAmount,$status,$id])){
+        if($stmt->execute([$borrowerName,$borrowDate,$amountTopay,$status,$amountPaid,$id])){
             echo "<script>alert('Record successfully updated!')</script>";
             echo "<script>window.location.href = '../lendingHistory.php'</script>";
         } else {
@@ -753,5 +759,51 @@ class Model extends Dbh
             echo "<script>window.location.href = '../lendingHistory.php'</script>";
             exit();
         }
+    }
+
+    protected function staticAmountToPay($amountToPay,$interestRate,$id)
+    {
+        $sql = "UPDATE lending SET `total_with_interest` = ?, `interest` = ? WHERE id =?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$amountToPay,$interestRate,$id]);
+    }
+
+    protected function getAllExpenses()
+    {
+        $sql = "SELECT SUM(pn.service_fee) AS service_fee, SUM(pp.price) AS price
+        FROM products_name pn 
+        JOIN products_price pp
+            ON pn.product_code = pp.id";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute();
+
+        $results = $stmt->fetch();
+
+        $totalExpenses = $results['service_fee'] + $results['price'];
+        return $totalExpenses;
+    }
+
+    protected function getAllSales()
+    {
+      $sql = "SELECT SUM(price) AS total_price FROM products_orders";  
+      $stmt = $this->connect()->prepare($sql);
+      $stmt->execute();
+
+      $results = $stmt->fetch();
+
+      return $results;
+    }
+
+    protected function totalMoney()
+    {
+        $money = $this->getAllExpenses() - $this->getAllSales()['total_price'];
+        return $money;
+    }
+
+    protected function saveLendingAction($saveId,$saveAction,$saveHistory)
+    {
+        $sql = "INSERT INTO lendingAction (`id`,`action`,`history`) VALUES (?,?,?)";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$saveId,$saveAction,$saveHistory]);
     }
 }

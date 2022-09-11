@@ -504,6 +504,7 @@ $(document).on('click', "#submit", function(){
 
     constructOrders(productName,productCode,quantity,price,clientId,remarks);
   })
+  
   createOrders(placedOrders);
   alert('Order successfully created');
   window.location.href = "./index.php";

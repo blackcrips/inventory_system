@@ -91,6 +91,14 @@ $productsView = new ProductsView();
                     </tr>
                     <tr>
                         <td>
+                            <label for="service_fee">Service fee: </label>
+                        </td>
+                        <td>
+                            <input type="text" name="service_fee" id="service_fee" value="0">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <label for="supplier_price">Supplier price: </label>
                         </td>
                         <td>

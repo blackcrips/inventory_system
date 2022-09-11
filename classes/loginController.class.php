@@ -125,6 +125,7 @@ class LoginController extends Model
             $quantity = htmlspecialchars($_POST['quantity']);
             $storeCode = htmlspecialchars($_POST['supplier_name']);
             $supplierPrice = htmlspecialchars($_POST['supplier_price']);
+            $serviceFee = htmlspecialchars($_POST['service_fee']);
 
             $fetchCodes = $this->getProductCode();
             $generateCode = $this->createSerial(5);
@@ -138,18 +139,29 @@ class LoginController extends Model
                     return;
                 }
             }
-
-            foreach ($fetchCodes as $value) {
-                if ($value == $generateCode) {
-                    continue;
-                } else {
-                    $serialCode = $generateCode;
-                    $this->uploadProductPhoto($_FILES['upload-files'],$foldername);
-                    $this->insertProductsName($category, $productName, $productDescription, $serialCode);
-                    $this->insertProductPrice($serialCode, $productPrice, $supplierPrice, $quantity, $storeCode);
-                    echo "<script>alert('Product Added!')</script>";
-                    echo "<script>window.location.href ='../index.php'</script>";
-                    return;
+            if($fetchCodes == 0){
+                $serialCode = $generateCode;
+                $this->uploadProductPhoto($_FILES['upload-files'],$foldername);
+                $this->insertProductsName($category, $productName, $productDescription,$serviceFee, $serialCode);
+                $this->insertProductPrice($serialCode, $productPrice, $supplierPrice, $quantity, $storeCode);
+                echo "<script>alert('Product Added!')</script>";
+                echo "<script>window.location.href ='../index.php'</script>";
+                return;
+            } else {
+                foreach ($fetchCodes as $value) {
+                    if ($value == $generateCode) {
+                        continue;
+                    } elseif($value == ''){
+                        continue;
+                    } else {
+                        $serialCode = $generateCode;
+                        $this->uploadProductPhoto($_FILES['upload-files'],$foldername);
+                        $this->insertProductsName($category, $productName, $productDescription,$serviceFee, $serialCode);
+                        $this->insertProductPrice($serialCode, $productPrice, $supplierPrice, $quantity, $storeCode);
+                        echo "<script>alert('Product Added!')</script>";
+                        echo "<script>window.location.href ='../index.php'</script>";
+                        return;
+                    }
                 }
             }
         }
@@ -507,7 +519,7 @@ class LoginController extends Model
         foreach ($_POST as $key => $value) {
             if($value == ''){
                 echo "<script>alert('Please check all fields')</script>";
-            echo "<script>window.location.href = '../lending.php'</script>";
+                echo "<script>window.location.href = '../lending.php'</script>";
             die();
             }
         }
@@ -517,10 +529,13 @@ class LoginController extends Model
         $borrowedAmount = htmlspecialchars($_POST['borrowed-amount']);
         $status = 'active';
 
-
+        
+        $createDate = date_create($dateBorrowed);
+        
+        $dueDate = date_add($createDate, date_interval_create_from_date_string('30 days'));
 
         
-        if($this->insertBorrowRecord($borrowerName,$dateBorrowed,$borrowedAmount,$status)){
+        if($this->insertBorrowRecord($borrowerName,$dateBorrowed,$borrowedAmount,$dueDate->format('Y-m-d'),$status)){
             echo "<script>alert('Record added')</script>";
             echo "<script>window.location.href = '../lending.php'</script>";
         } else {
@@ -549,24 +564,81 @@ class LoginController extends Model
             header("Location: ../lendingHistory.php");
         }
 
-        $status = '';
-
-        if(!isset($_POST['order-status'])){
-            $status = 'active';
-        } else {
-            $status = htmlspecialchars($_POST['order-status']);
-        }
-
         $borrowerName = htmlspecialchars($_POST['borrower-name']);
         $borrowDate = htmlspecialchars($_POST['borrow-date']);
-        $borrowAmount = htmlspecialchars($_POST['borrowed-amount']);
+        $totalBalance = htmlspecialchars($_POST['total-balance']);
         $orderId = htmlspecialchars($_POST['order-id']);
-
         $id = explode(' ', $orderId);
+        $amountPaid = htmlspecialchars($_POST['amount-paid']);
+        $amountTopay = htmlspecialchars($_POST['amount-to-pay']);
         
-
-        $this->lendingChanges($borrowerName,$borrowDate,$borrowAmount,$status,$id[0]);
+        if(!isset($_POST['order-status']) || $_POST['order-status'] == ''){
+            $status = 'active';
+            $amountPaid = 0;
+            $action = "Edit record";
+            $history = "Change to: " . $borrowerName . " Change to: " . $borrowDate;
+            $this->lendingAction($id[0],$action,$history);
+            $this->lendingChanges($borrowerName,$borrowDate,$amountTopay,$status,$amountPaid,$id[0]);
+        }else {
+            $paymentType = htmlspecialchars($_POST['order-status']);
+            if($paymentType == 'paid'){
+            $action = "Paid borrow amount";
+            $history = "Amount paid: " . $amountPaid;
+            $this->lendingAction($id[0],$action,$history);
+                $this->lendingChanges($borrowerName,$borrowDate,0,$paymentType,$amountPaid,$id[0]);
+            } else {
+                $action = "Partial payment";
+                $history = "Amount paid: " . $amountPaid;
+                $newBorrow = intval($totalBalance) - intval($amountPaid);
+                $newDueDate = date('Y-m-d');
+                $this->lendingAction($id[0],$action,$history);
+                $this->lendingChanges($borrowerName,$newDueDate,$newBorrow,$paymentType,$amountPaid,$id[0]);
+            }
+        }
     }
+
+    public function addInterest()
+    {
+        $lendingRecord = $this->showLendingHistory();
+
+        for ($i=0; $i < count($lendingRecord); $i++) { 
+            $this->checkPastDue($lendingRecord[$i]);
+        }
+    }
+
+    protected function checkPastDue($singleRecord)
+    {
+        $dateBorrow = date_create($singleRecord['borrow_date']);
+        $dateToday = date_create(date('Y-m-d'));
+
+        $diffDate = date_diff($dateBorrow,$dateToday)->days;
+        $monthsPastDue = round($diffDate/30);
+        $interestRate = floor(intval($singleRecord['amount_to_pay']) * .05);
+
+        if($monthsPastDue <= 1){
+            $amountToPay =  $interestRate + intval($singleRecord['amount_to_pay']);
+
+            return $this->staticAmountToPay($amountToPay,$interestRate,$singleRecord['id']);
+        } else {
+            $interest = round(.05 * $monthsPastDue,2);
+            $totalInterest = $interest * $singleRecord['amount_to_pay'];
+            $amountToPay = $totalInterest + $singleRecord['amount_to_pay'];
+            $interestRate = floor(intval($singleRecord['amount_to_pay']) * $interest);
+            
+            return $this->staticAmountToPay($amountToPay,$interestRate,$singleRecord['id']);   
+        }
+
+    }
+
+    public function lendingAction($id,$action,$history)
+    {
+        $saveId = $id;
+        $saveAction = $action;
+        $saveHistory = $history;
+
+        $this->saveLendingAction($saveId,$saveAction,$saveHistory);
+    }
+
 
     
 

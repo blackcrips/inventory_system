@@ -19,7 +19,7 @@
         <div class="sub-menu-1">
             <ul>
               <li><a href="lending.php">ADD NEW</a><i class="fa fa-angle-right"></i></li>
-              <li><a href="editLending.php">EDIT RECORD</a><i class="fa fa-angle-right"></i></li>
+              <!-- <li><a href="editLending.php">EDIT RECORD</a><i class="fa fa-angle-right"></i></li> -->
             </ul>
           </div>
       </li>
@@ -33,6 +33,17 @@
           </div>
       </li>
     </ul>
+
+    <?php
+
+    include_once('./includes/autoLoadClassesMain.inc.php');
+
+    $loginControllerHeader = new LoginController();
+    $productsView = new productsView();
+    
+    echo "<span class='sales'> Money on hand: P". number_format($productsView->showSales()) . "</span>";
+
+    ?>
     <div class="header-right">
       <h3>Menu</h3>
       <form action="./includes/logout.inc.php" method="POST">

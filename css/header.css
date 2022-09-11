@@ -139,3 +139,11 @@
     transform: translate(-50%,-50%);
     background-repeat: no-repeat;
 }
+
+.sales {
+    width: 15%;
+    padding-left: 40px;
+    line-height: 50px;
+    color: white;
+    font-weight: bold;
+}

@@ -93,9 +93,21 @@ $(document).ready(function(){
                   <td><input type='text' id='borrowed-amount' name='borrowed-amount' class='details' value='${orders[i].borrow_amount}' /></td>
                 </tr>
                 <tr>
-                  <td><input type='text' hidden id='form-id' name='order-id' value='${orders[i].id}' /></td>
-                  <td  id='checkBox'></td>                
-                </tr>  
+                  <td><label for='amount-to-pay'>Remaining balance:</label></td>
+                  <td><input type='test' id='amount-to-pay' name='amount-to-pay' class='details' value='${orders[i].amount_to_pay}' /></td>
+                </tr>
+                <tr>
+                  <td><label for='total-balance'>Balance w/ interest:</label></td>
+                  <td><input type='test' id='total-balance' name='total-balance' class='details' value='${orders[i].  total_with_interest}' /></td>
+                </tr>
+                <tr>
+                    <td><input type='text' hidden id='form-id' name='order-id' value='${orders[i].id}' /></td>
+                    <td  id='checkBox'></td>                
+                  </tr>
+                <tr id='container-paid'>
+                  <td><label for='amount-paid'>Amount paid:</label></td>
+                  <td><input type='text' id='amount-paid' name='amount-paid' class='details' value='' /></td>
+              </tr>  
               </table>
             </form>
             </div>`;
@@ -119,7 +131,7 @@ $(document).ready(function(){
       }
 
       function checkOrderStatus(orderStatus,orderId){
-        if(orderStatus == "active"){
+        if(orderStatus == "active" || orderStatus == 'partial'){
           $("#save-changes").text('Save changes')
           $("#save-changes").show()
           addCheckBoxPaid();     
@@ -132,10 +144,27 @@ $(document).ready(function(){
       
       function addCheckBoxPaid()
       {
-        let checkBox = `<input type="checkbox" id="check-box" name='order-status' value='paid'>
-                        <label for="check-box">Paid</label>`;
+        let checkBox = `<input type="radio" class="check-box" name='order-status' value='paid'>
+                        <label for="check-box">Fully paid</label>
+
+                        <input type="radio" class="check-box" name='order-status' value='partial'>
+                        <label for="check-box">Partial payment</label>
+                        `;
 
         $('#checkBox').append(checkBox);
       }
+
+      function activateCheckBox()
+      {
+        $(document).on('change', '.check-box', function(event){
+          if($(this).is(":checked")){
+            $('#container-paid').fadeIn();
+          } else {
+            $('#container-paid').fadeOut();
+            $('#amount-paid').val('');
+          }
+        });
+      }
+      activateCheckBox();
       
 });

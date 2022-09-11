@@ -210,4 +210,11 @@ class productsView extends Model
             exit(json_encode($this->showSingleLending($id)));
         }
     }
+    
+    public function showSales()
+    {
+        return $this->totalMoney();
+    }
+
+    
 }
