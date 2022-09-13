@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 04, 2022 at 09:45 AM
+-- Generation Time: Sep 13, 2022 at 04:19 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -76,7 +76,12 @@ CREATE TABLE `lending` (
   `borrower_name` varchar(50) NOT NULL,
   `borrow_date` varchar(50) NOT NULL,
   `borrow_amount` varchar(50) NOT NULL,
+  `interest` varchar(50) NOT NULL,
+  `amount_to_pay` varchar(50) NOT NULL,
+  `total_with_interest` varchar(50) NOT NULL,
+  `due_date` varchar(50) NOT NULL,
   `status` varchar(50) NOT NULL,
+  `amount_paid` varchar(50) NOT NULL,
   `added_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -84,8 +89,65 @@ CREATE TABLE `lending` (
 -- Dumping data for table `lending`
 --
 
-INSERT INTO `lending` (`id`, `borrower_name`, `borrow_date`, `borrow_amount`, `status`, `added_at`) VALUES
-(1, 'Joffrey', '2022-09-04', '500', 'active', '2022-09-04 00:41:50');
+INSERT INTO `lending` (`id`, `borrower_name`, `borrow_date`, `borrow_amount`, `interest`, `amount_to_pay`, `total_with_interest`, `due_date`, `status`, `amount_paid`, `added_at`) VALUES
+(18, 'Kevin', '2022-09-12', '4000', '200', '4000', '4200', '2022-10-12', 'active', '0', '2022-09-12 23:28:48'),
+(19, 'Joffrey', '2022-09-12', '7100', '355', '7100', '7455', '2022-10-12', 'active', '', '2022-09-13 09:17:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lendingaction`
+--
+
+CREATE TABLE `lendingaction` (
+  `count` int(11) NOT NULL,
+  `id` int(50) NOT NULL,
+  `action` varchar(150) NOT NULL,
+  `history` text NOT NULL,
+  `amount` varchar(50) NOT NULL,
+  `added_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `lendingaction`
+--
+
+INSERT INTO `lendingaction` (`count`, `id`, `action`, `history`, `amount`, `added_at`) VALUES
+(8, 18, 'Edit record', 'Change to: Kevin Change to: 2022-09-12', '0', '2022-09-13 09:15:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `miscellaneous`
+--
+
+CREATE TABLE `miscellaneous` (
+  `id` int(10) NOT NULL,
+  `item` varchar(250) NOT NULL,
+  `product_price` varchar(50) NOT NULL,
+  `quantity` varchar(50) NOT NULL,
+  `service_fee` varchar(50) NOT NULL,
+  `remarks` text NOT NULL,
+  `added_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `miscellaneous`
+--
+
+INSERT INTO `miscellaneous` (`id`, `item`, `product_price`, `quantity`, `service_fee`, `remarks`, `added_at`) VALUES
+(7, 'Printer cable', '250', '1', '0', 'power cable for GSM Modem', '2022-09-12 23:12:57'),
+(8, 'Contact Share', '1000', '1', '0', 'Jops cousin share for giving us item', '2022-09-12 23:14:03'),
+(9, 'Own pocket', '100', '1', '0', 'Own money, use because of no cash available', '2022-09-12 23:14:53'),
+(10, 'Chill Out', '3050', '5', '0', 'Family chill out, sangyup', '2022-09-12 23:18:38'),
+(11, 'Keyboard and Mouse', '200', '2', '0', '2 sets of keyboard and mouse', '2022-09-12 23:22:59'),
+(12, 'Prodesk power cable', '400', '1', '50', 'For prodesk', '2022-09-12 23:24:42'),
+(13, 'GSM adaptor', '300', '1', '70', 'For GSM', '2022-09-12 23:25:11'),
+(14, 'Prodesk power cable', '500', '1', '226', 'For GSM', '2022-09-12 23:25:56'),
+(15, 'Load', '190', '17', '0', 'For GSM Bulk sms', '2022-09-12 23:26:31'),
+(16, 'Sim Card', '400', '50', '80', 'Bought for GSM Bulk sms', '2022-09-12 23:27:04'),
+(17, 'Load', '320', '16', '0', 'For GSM Bulk SMS', '2022-09-12 23:27:25'),
+(18, 'Load', '183', '16', '0', 'Bulk SMS', '2022-09-13 10:16:35');
 
 -- --------------------------------------------------------
 
@@ -98,6 +160,7 @@ CREATE TABLE `products_name` (
   `category` varchar(150) NOT NULL,
   `product_name` varchar(150) NOT NULL,
   `product_description` varchar(150) NOT NULL,
+  `service_fee` varchar(100) NOT NULL,
   `product_code` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -105,20 +168,17 @@ CREATE TABLE `products_name` (
 -- Dumping data for table `products_name`
 --
 
-INSERT INTO `products_name` (`id`, `category`, `product_name`, `product_description`, `product_code`) VALUES
-(2, 'Shampoo', 'Sunsilk', 'Green 3pcs', '123456'),
-(6, 'Body wash', 'Safeguard', 'White 50ml', 'yhKXm'),
-(9, 'Body wash', 'Safeguard', 'Goods :D', 'pCkAX'),
-(16, 'Shampoo', 'Clear', 'Clear blue 3pcs per sachet', 'yZWJp'),
-(18, 'Shampoo', 'Sunsilk', 'Green 3pcs per sachet', 'pmzjR'),
-(19, 'Hard Disk', 'Seagate', '1TB', 'nIeCk'),
-(22, 'Hard Disk', 'Toshiba', '500gb', 'am88Z'),
-(23, 'Hard Disk', 'Toshiba', '1TB', 'Fvjyv'),
-(24, 'Hard Disk', 'Seagate', '2TB', 'VxBVY'),
-(25, 'Hard Disk', 'Toshiba', '3 TB', 'HfG3G'),
-(26, 'Hard Disk', 'Toshiba', '3 TB', 'n8TK4'),
-(27, 'Hard Disk', 'Toshiba', '4 TB', 'aUWw1'),
-(28, 'Hard Disk', 'Toshiba', '5 TB', 'wuY1K');
+INSERT INTO `products_name` (`id`, `category`, `product_name`, `product_description`, `service_fee`, `product_code`) VALUES
+(35, 'Shampoo', 'Sunsilk', 'Green 3pcs', '0', 'Qer2j'),
+(37, 'Hard Disk', 'Toshiba', '4TB', '0', 'L4jmd'),
+(38, 'Hard Disk', 'Toshiba', '6 TB', '0', 'EMNGQ'),
+(39, 'GSM MODEM', 'GSM', 'Modem 16ports', '0', '6byp9'),
+(40, 'Shampoo', 'Dove', 'Blue 3pcs', '0', 'NcBon'),
+(41, 'Prodesk', 'Mini computer', 'i5 7th Gen', '250', '9wo99'),
+(42, 'Monitor', 'HP', '22&quot; HP monitor', '0', 'AuJwn'),
+(43, 'Desktop', 'HP', 'i5 6th Gen', '0', 'hVBJo'),
+(44, 'Desktop', 'HP', 'i5 2nd Gen', '0', 'VH2so'),
+(45, 'Monitor', 'HP', '24&quot; HP monitor', '0', 'jNrRt');
 
 -- --------------------------------------------------------
 
@@ -144,188 +204,16 @@ CREATE TABLE `products_orders` (
 --
 
 INSERT INTO `products_orders` (`id`, `order_id`, `product_name`, `quantity`, `price`, `product_code`, `client_id`, `remarks`, `status`, `added_at`) VALUES
-(1, '991453034466', 'Safeguard Goods :D', 'pCkAX', 1, '20.0055.00', '23', '', '', '2022-07-03'),
-(2, '123831241115', 'Safeguard Goods :D', 'pCkAX', 1, '20.0055.00', '23', '', '', '2022-07-03'),
-(3, '376928477344', 'Sunsilk Green 3pcs', '12345', 1, '55.0055.00', '23', '', '', '2022-07-03'),
-(4, '034272143613', 'Sunsilk Green 3pcs', '12345', 1, '55.0055.00', '23', '', '', '2022-07-03'),
-(5, '112318529478', 'Safeguard White 50ml', 'yhKXm', 1, '20.0050.00', '23', '', '', '2022-07-03'),
-(6, '716322604218', 'Safeguard White 50ml', 'yhKXm', 1, '20.0050.00', '23', '', '', '2022-07-03'),
-(7, '207458708551', 'Safeguard White 50ml', 'yhKXm', 1, '20.0055.00', '23', '', '', '2022-07-03'),
-(8, '616654349748', 'Safeguard White 50ml', 'yhKXm', 1, '20.0055.00', '23', '', '', '2022-07-03'),
-(9, '348195085309', 'Sunsilk Green 3pcs', '12345', 1, '55.0050.00', '23', '', '', '2022-07-04'),
-(10, '348195085309', 'Sunsilk Green 3pcs', '12345', 1, '55.0050.00', '23', '', '', '2022-07-04'),
-(11, '563108553973', 'Sunsilk Green 3pcs', '12345', 1, '55.0020.00', '23', '', '', '2022-07-06'),
-(12, '496961654942', 'Sunsilk Green 3pcs', '12345', 1, '55.0020.00', '23', '', '', '2022-07-03'),
-(13, '183299007726', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(14, '614999901548', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(15, '309785877813', 'Safeguard White 50ml', 'yhKXm', 1, '20.00', '23', '', '', '2022-07-03'),
-(16, '956904204493', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-30'),
-(17, '132911184191', 'Safeguard White 50ml', 'yhKXm', 1, '20.00', '23', '', '', '2022-07-12'),
-(18, '175406505305', 'Clear Clear blue 3pcs per sachet', 'yZWJp', 1, '50.00', '23', '', '', '2022-07-06'),
-(19, '175406505305', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-30'),
-(20, '175406505305', 'Safeguard White 50ml', 'yhKXm', 1, '20.00', '23', '', '', '2022-07-30'),
-(21, '894809849192', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-06'),
-(22, '894809849192', 'Safeguard White 50ml', 'yhKXm', 1, '20.00', '23', '', '', '2022-07-06'),
-(23, '783781844598', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(24, '339850115051', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(25, '170170903726', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(26, '791653475491', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(27, '416739337853', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(28, '869364028315', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(29, '336840260001', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(30, '091354424417', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(31, '923191341011', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(32, '923191341011', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(33, '931549545728', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(34, '515942493988', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(35, '502324164488', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(36, '502324164488', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(37, '721833728089', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(38, '795423730387', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(39, '919177586301', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(40, '254488890708', 'Safeguard White 50ml', 'yhKXm', 1, '20.00', '23', '', '', '2022-07-03'),
-(41, '435122382893', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(42, '255107590302', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(43, '255107590302', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(44, '069848192005', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(45, '442138506471', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(46, '442138506471', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(47, '469205226226', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(48, '469205226226', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(49, '469205226226', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(50, '667448664239', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(51, '272266404212', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(52, '272266404212', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(53, '789790792998', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(54, '649815511984', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(55, '269209463466', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(56, '740485554696', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(57, '732823192416', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(58, '732823192416', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(59, '345499135595', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(60, '345499135595', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(61, '345499135595', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(62, '603822895664', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(63, '931581825187', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(64, '433487198989', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(65, '433487198989', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(66, '941265594363', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(67, '142871202719', 'Safeguard White 50ml', 'yhKXm', 1, '20.00', '23', '', '', '2022-07-03'),
-(68, '917050202201', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(69, '993436964962', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(70, '789542724268', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(71, '486138682728', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(72, '044804312933', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(73, '044804312933', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(74, '317401717688', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(75, '808211633678', 'Sunsilk Green 3pcs', '12345', 1, '55.00', '23', '', '', '2022-07-03'),
-(76, '938210057582', 'Safeguard White 50ml', 'yhKXm', 1, '20.00', '7', '', '', '2022-07-03'),
-(77, '454517889686', 'Safeguard White 50ml', 'yhKXm', 1, '20.00', '2', '', '', '2022-07-03'),
-(78, '316957842139', 'Safeguard White 50ml', 'yhKXm', 2, '40.00', '9', '', '', '2022-07-06'),
-(79, '583115800901', 'Safeguard White 50ml', 'yhKXm', 2, '40.00', '23', '', '', '2022-07-03'),
-(80, '595865706873', 'Safeguard White 50ml', 'yhKXm', 1, '20.00', '23', '', '', '2022-07-03'),
-(81, '446668410812', 'Clear Clear blue 3pcs per sachet', '1', 50, 'yZWJp', '7', '', '', '2022-07-03'),
-(82, '969613075900', 'Safeguard White 50ml', '1', 20, 'yhKXm', '7', '', '', '2022-07-03'),
-(83, '779988864841', 'Safeguard White 50ml', '1', 20, 'yhKXm', '7', '', '', '2022-07-03'),
-(84, '886343962977', 'Safeguard White 50ml', '1', 20, 'yhKXm', '7', '', '', '2022-07-03'),
-(85, '634058370859', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(86, '135364315547', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(87, '458557534830', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(88, '197137635937', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(90, '323104892831', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(91, '709844363039', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(92, '480539508054', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(93, '480539508054', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(94, '845507077163', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(95, '429105153911', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(96, '109638132143', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(97, '109638132143', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(98, '224992171496', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(99, '547535759323', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(100, '997332047304', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(101, '997332047304', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(102, '668560351834', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(103, '668560351834', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(104, '668560351834', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(105, '808801442427', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(106, '808801442427', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(107, '808801442427', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(108, '808801442427', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(109, '623642147715', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(110, '954384998959', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(111, '954384998959', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(112, '053839746570', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(113, '053839746570', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(114, '053839746570', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(115, '071858142329', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(116, '071858142329', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(117, '071858142329', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(118, '071858142329', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(119, '032618237341', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(120, '032618237341', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(121, '032618237341', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(122, '032618237341', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(123, '032618237341', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(124, '009996591557', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(125, '009996591557', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(126, '009996591557', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(127, '009996591557', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(128, '009996591557', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(129, '009996591557', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(130, '735796555952', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(131, '735796555952', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(132, '735796555952', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(133, '735796555952', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(134, '735796555952', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(135, '735796555952', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(136, '735796555952', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(137, '696434072515', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(138, '696434072515', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(139, '696434072515', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(140, '696434072515', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(141, '696434072515', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(142, '696434072515', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(143, '696434072515', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(144, '696434072515', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(145, '197463931175', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(146, '197463931175', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(147, '197463931175', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(148, '197463931175', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(149, '197463931175', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(150, '197463931175', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(151, '197463931175', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(152, '197463931175', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(153, '197463931175', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(164, '151739590824', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(165, '012769958493', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(166, '308474885210', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(167, '835874452527', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(168, '714871791006', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(169, '714871791006', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(170, '007936811230', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', 'delivered', '2022-08-07'),
-(171, '007936811230', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', 'delivered', '2022-07-31'),
-(172, '007936811230', 'Safeguard White 50ml', '5', 100, 'yhKXm', '23', '', 'delivered', '2022-07-03'),
-(173, '601008851006', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(174, '601008851006', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(175, '601008851006', 'Safeguard White 50ml', '5', 100, 'yhKXm', '23', '', '', '2022-07-03'),
-(176, '601008851006', 'Safeguard White 50ml', '3', 60, 'yhKXm', '23', '', '', '2022-07-03'),
-(177, '675128230472', 'Safeguard White 50ml', '10', 200, 'yhKXm', '23', '', '', '2022-07-03'),
-(178, '356991942315', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(179, '478553335236', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(180, '551019123986', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', '', '2022-07-03'),
-(181, '334209196194', 'Safeguard White 50ml', '1', 20, 'yhKXm', '23', '', 'delivered', '2022-08-07'),
-(182, '680095959916', 'Kopiko Brown Twin pack', '1', 80, 'MyYQV', '7', '', 'delivered', '2022-07-31'),
-(183, '680095959916', 'Sunsilk Green 3pcs per sachet', '1', 55, 'pmzjR', '7', '', 'delivered', '2022-07-31'),
-(189, '561029775730', 'Toshiba 500gb', '1', 400, '400', '28', '', 'pending', '2022-09-03'),
-(190, '778356010124', 'Toshiba 500gb', '1', 400, 'am88Z', '28', 'pending', '', '2022-09-03'),
-(191, '778356010124', 'Toshiba 500gb', '1', 500, 'am88Z', '28', 'pending', '', '2022-09-03'),
-(192, '345075504955', 'Toshiba 500gb', '1', 123, 'am88Z', '28', '', 'pending', '2022-09-03'),
-(193, '345075504955', 'Toshiba 500gb', '1', 500, 'am88Z', '28', '', 'pending', '2022-09-03'),
-(194, '656580709134', 'Toshiba 500gb', '1', 12312312, 'am88Z', '28', '', 'pending', '2022-09-03'),
-(195, '656580709134', 'Toshiba 500gb', '1', 500, 'am88Z', '28', '', 'pending', '2022-09-03'),
-(196, '935794804599', 'Toshiba 500gb', '1', 300, 'am88Z', '28', 'Binarat', 'pending', '2022-09-03'),
-(197, '348510480241', 'Toshiba 500gb', '1', 200, 'am88Z', '23', 'Sobrang tawad', 'pending', '2022-09-03'),
-(198, '348510480241', 'Toshiba 500gb', '1', 500, 'am88Z', '23', '', 'pending', '2022-09-03');
+(201, '408239698439', 'Sunsilk Green 3pcs', '164', 9840, 'Qer2j', '23', '', 'delivered', '2022-09-12'),
+(202, '600092320868', 'Dove Blue 3pcs', '40', 1600, 'NcBon', '23', '', 'delivered', '2022-09-12'),
+(203, '586967992646', 'Toshiba 4TB', '1', 2500, 'L4jmd', '23', 'NOne', 'delivered', '2022-09-12'),
+(204, '349903196967', 'Toshiba 4TB', '2', 4600, 'L4jmd', '23', '', 'delivered', '2022-09-12'),
+(205, '480382857245', 'Toshiba 6 TB', '1', 3300, 'EMNGQ', '23', 'none', 'delivered', '2022-09-12'),
+(206, '734516557522', 'Toshiba 6 TB', '1', 2500, 'EMNGQ', '23', 'None', 'delivered', '2022-09-12'),
+(207, '971188329270', 'Toshiba 4TB', '1', 2500, 'L4jmd', '23', 'None', 'delivered', '2022-09-12'),
+(208, '839131054867', 'GSM Modem 16ports', '1', 7000, '6byp9', '23', '', 'delivered', '2022-09-12'),
+(209, '349641029584', 'GSM Modem 16ports', '1', 4888, '6byp9', '23', '', 'delivered', '2022-09-12'),
+(210, '088110648718', 'Mini computer i5 7th Gen', '1', 7250, '9wo99', '23', '', 'delivered', '2022-09-12');
 
 -- --------------------------------------------------------
 
@@ -348,21 +236,16 @@ CREATE TABLE `products_price` (
 --
 
 INSERT INTO `products_price` (`id`, `price`, `reseller_price`, `quantity`, `supplier_price`, `store_code`, `added_at`) VALUES
-('123456', '55', '50', '28', '', '', '2022-06-02 21:22:52'),
-('am88Z', '500', '', '-7', '200', 'Default Online', '2022-08-31 22:25:07'),
-('aUWw1', '3000', '', '6', '700', 'Default Online', '2022-09-02 10:27:35'),
-('Fvjyv', '5000', '', '5', '600', 'Default Online', '2022-08-31 23:03:10'),
-('fYlei', '55', '55', '30', '34', '2y8JU', '2022-06-09 19:41:01'),
-('HfG3G', '2000', '', '4', '600', 'Default Online', '2022-09-02 10:25:44'),
-('MyYQV', '80', '50', '80', '50', 'YGt3Q', '2022-06-09 19:33:59'),
-('n8TK4', '2000', '', '4', '600', 'Default Online', '2022-09-02 10:26:55'),
-('nIeCk', '1000', '', '1', '500', 'YGt3Q', '2022-08-28 14:05:17'),
-('pCkAX', '20', '15', '20', '', '1', '2022-06-08 00:10:09'),
-('pmzjR', '55', '50', '28', '32', 'YGt3Q', '2022-06-09 19:45:01'),
-('VxBVY', '1000', '', '5', '400', 'f8ukg', '2022-09-02 10:12:06'),
-('wuY1K', '7000', '', '8', '800', 'Default Online', '2022-09-02 10:30:14'),
-('yhKXm', '20', '25', '16', '', '1', '2022-06-08 00:11:38'),
-('yZWJp', '50', '12', '42', '32', 'YGt3Q', '2022-06-09 19:37:38');
+('6byp9', '5000', '', '6', '3300', 'f8ukg', '2022-09-11 17:21:58'),
+('9wo99', '7000', '', '0', '5000', 'f8ukg', '2022-09-12 23:16:36'),
+('AuJwn', '2000', '', '1', '1500', 'f8ukg', '2022-09-12 23:19:55'),
+('EMNGQ', '2000', '', '0', '4000', 'f8ukg', '2022-09-11 17:12:47'),
+('hVBJo', '5000', '', '1', '5000', 'f8ukg', '2022-09-12 23:20:45'),
+('jNrRt', '2000', '', '1', '2000', 'f8ukg', '2022-09-12 23:22:19'),
+('L4jmd', '3000', '', '0', '3200', 'f8ukg', '2022-09-11 17:11:41'),
+('NcBon', '1600', '', '0', '50', 'f8ukg', '2022-09-11 18:26:00'),
+('Qer2j', '9000', '', '0', '50', 'f8ukg', '2022-09-11 17:07:00'),
+('VH2so', '3000', '', '1', '3000', 'f8ukg', '2022-09-12 23:21:52');
 
 -- --------------------------------------------------------
 
@@ -473,7 +356,14 @@ INSERT INTO `sessions` (`id`, `username`, `PHPSESSION`, `COOKIESESSION`, `date_c
 (74, 'test3@email.com', 'xpIGlxKflVrPRjrUZNgX2OJGfuU4ovdGrNdVZqsPpmRKrWU1aA61ocvg9QK2cu', 'xpIGlxKflVrPRjrUZNgX2OJGfuU4ovdGrNdVZqsPpmRKrWU1aA61ocvg9QK2cu', '2022-09-04 00-55-28', '2022-09-03 21:51:12'),
 (75, 'test3@email.com', 'oCePL2Fx2V3GPZlSPigm2CHQzVtY5dvxkcin8kpEj7v6ZEobRXYGhiiXMYrHlO', 'oCePL2Fx2V3GPZlSPigm2CHQzVtY5dvxkcin8kpEj7v6ZEobRXYGhiiXMYrHlO', '2022-09-04 11-51-56', '2022-09-04 11:51:56'),
 (76, 'test3@email.com', 'wojCgza5hioB4XSZ86IizypvCvr189IlQbfWlXtjpOwJV5ICQAaFFjAebQRcCy', 'wojCgza5hioB4XSZ86IizypvCvr189IlQbfWlXtjpOwJV5ICQAaFFjAebQRcCy', '2022-09-04 14-31-42', '2022-09-04 14:31:42'),
-(77, 'test3@email.com', 'ZdDiakhkCx8oKsOEheFsoQD1oMLKjd2kteUazws3hU5AYhK1Ds8XVOltQpN7N4', 'ZdDiakhkCx8oKsOEheFsoQD1oMLKjd2kteUazws3hU5AYhK1Ds8XVOltQpN7N4', '2022-09-04 15-19-49', '2022-09-04 15:19:49');
+(77, 'test3@email.com', 'ZdDiakhkCx8oKsOEheFsoQD1oMLKjd2kteUazws3hU5AYhK1Ds8XVOltQpN7N4', 'ZdDiakhkCx8oKsOEheFsoQD1oMLKjd2kteUazws3hU5AYhK1Ds8XVOltQpN7N4', '2022-09-04 15-19-49', '2022-09-04 15:19:49'),
+(78, 'test3@email.com', 'E8HBTjaXFAhuJuF7ZbpaphqJbBJSGydxa9hZpGM4yKJH3ROkYK2DH5qzw7fTG2', 'E8HBTjaXFAhuJuF7ZbpaphqJbBJSGydxa9hZpGM4yKJH3ROkYK2DH5qzw7fTG2', '2022-09-05 21-19-31', '2022-09-05 21:19:31'),
+(79, 'test3@email.com', 'yso8TW5HLKXHmGdI3envVKwyBCajNQenoTipxxjmJNikgJ179nOJWw4iMJNYWv', 'yso8TW5HLKXHmGdI3envVKwyBCajNQenoTipxxjmJNikgJ179nOJWw4iMJNYWv', '2022-09-06 09-46-34', '2022-09-06 09:46:34'),
+(80, 'test3@email.com', 'UueEm4dNMCMlTcaHGMzLhuWtu24I7eoYg9iGtfPKKz18sZhMK9BjQkRxcRXRj9', 'UueEm4dNMCMlTcaHGMzLhuWtu24I7eoYg9iGtfPKKz18sZhMK9BjQkRxcRXRj9', '2022-09-07 08-57-06', '2022-09-07 08:57:06'),
+(81, 'test3@email.com', 'e7qNZyViYJgJpyb4o171Szo7BJWASwFnyTot63UYObpDSLu5rCgaLs2eQ2bptm', 'e7qNZyViYJgJpyb4o171Szo7BJWASwFnyTot63UYObpDSLu5rCgaLs2eQ2bptm', '2022-09-08 08-05-11', '2022-09-07 22:19:01'),
+(82, 'test3@email.com', 'eubMP2sFYkWwmGKGXu7mEe5ojKACqsCH7WOQdeCfRdSybKkf4BqpmU3E6NmDQc', 'eubMP2sFYkWwmGKGXu7mEe5ojKACqsCH7WOQdeCfRdSybKkf4BqpmU3E6NmDQc', '2022-09-08 22-09-27', '2022-09-08 22:09:27'),
+(83, 'test3@email.com', 'Iz4skbV7zumjuCZls5M4PfI6KVeqetrkHPGZZ6aUeDU6FUOgIZHafnBfrXzsT5', 'Iz4skbV7zumjuCZls5M4PfI6KVeqetrkHPGZZ6aUeDU6FUOgIZHafnBfrXzsT5', '2022-09-12 09-52-33', '2022-09-12 09:52:33'),
+(84, 'test3@email.com', 'ZynrPuUrpeNcUeQmrGJhJNMDJEdzvG9MgAldafW23WVPD7hd9tQDCiFLRgc9vT', 'ZynrPuUrpeNcUeQmrGJhJNMDJEdzvG9MgAldafW23WVPD7hd9tQDCiFLRgc9vT', '2022-09-12 21-36-37', '2022-09-12 21:36:37');
 
 -- --------------------------------------------------------
 
@@ -562,6 +452,18 @@ ALTER TABLE `lending`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `lendingaction`
+--
+ALTER TABLE `lendingaction`
+  ADD PRIMARY KEY (`count`);
+
+--
+-- Indexes for table `miscellaneous`
+--
+ALTER TABLE `miscellaneous`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `products_name`
 --
 ALTER TABLE `products_name`
@@ -623,25 +525,37 @@ ALTER TABLE `clients_details`
 -- AUTO_INCREMENT for table `lending`
 --
 ALTER TABLE `lending`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `lendingaction`
+--
+ALTER TABLE `lendingaction`
+  MODIFY `count` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `miscellaneous`
+--
+ALTER TABLE `miscellaneous`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `products_name`
 --
 ALTER TABLE `products_name`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `products_orders`
 --
 ALTER TABLE `products_orders`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
 
 --
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `userlogin`

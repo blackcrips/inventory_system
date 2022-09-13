@@ -19,14 +19,20 @@
         <div class="sub-menu-1">
             <ul>
               <li><a href="lending.php">ADD NEW</a><i class="fa fa-angle-right"></i></li>
-              <!-- <li><a href="editLending.php">EDIT RECORD</a><i class="fa fa-angle-right"></i></li> -->
             </ul>
           </div>
       </li>
       <li>ADD/EDIT
       <div class="sub-menu-1">
             <ul>
-              <li><a href="addProduct.php">ADD PRODUCT</a><i class="fa fa-angle-right"></i></li>
+              <li class="show-sub-menu-2">ADD PRODUCT<i class="fa fa-angle-right"></i>
+                  <div class="sub-menu-2">
+                    <ul>
+                      <li><a href="addProduct.php">SELL PRODUCT</a></li>
+                      <li><a href="miscellaneous.php">MISCELLANEOUS</a></li>
+                    </ul>
+                  </div>
+              </li>
               <li><a href="editProducts.php">EDIT PRODUCT</a><i class="fa fa-angle-right"></i></li>
               <li><a href="addSupplier.php">ADD SUPPLIER</a><i class="fa fa-angle-right"></i></li>
             </ul>
@@ -42,6 +48,7 @@
     $productsView = new productsView();
     
     echo "<span class='sales'> Money on hand: P". number_format($productsView->showSales()) . "</span>";
+
 
     ?>
     <div class="header-right">

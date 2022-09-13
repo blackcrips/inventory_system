@@ -577,21 +577,22 @@ class LoginController extends Model
             $amountPaid = 0;
             $action = "Edit record";
             $history = "Change to: " . $borrowerName . " Change to: " . $borrowDate;
-            $this->lendingAction($id[0],$action,$history);
+            
+            $this->lendingAction($id[0],$action,$history,$amountPaid);
             $this->lendingChanges($borrowerName,$borrowDate,$amountTopay,$status,$amountPaid,$id[0]);
         }else {
             $paymentType = htmlspecialchars($_POST['order-status']);
             if($paymentType == 'paid'){
             $action = "Paid borrow amount";
             $history = "Amount paid: " . $amountPaid;
-            $this->lendingAction($id[0],$action,$history);
+            $this->lendingAction($id[0],$action,$history,$amountPaid);
                 $this->lendingChanges($borrowerName,$borrowDate,0,$paymentType,$amountPaid,$id[0]);
             } else {
                 $action = "Partial payment";
                 $history = "Amount paid: " . $amountPaid;
                 $newBorrow = intval($totalBalance) - intval($amountPaid);
                 $newDueDate = date('Y-m-d');
-                $this->lendingAction($id[0],$action,$history);
+                $this->lendingAction($id[0],$action,$history,$amountPaid);
                 $this->lendingChanges($borrowerName,$newDueDate,$newBorrow,$paymentType,$amountPaid,$id[0]);
             }
         }
@@ -630,13 +631,47 @@ class LoginController extends Model
 
     }
 
-    public function lendingAction($id,$action,$history)
+    public function lendingAction($id,$action,$history,$amountPaid)
     {
         $saveId = $id;
         $saveAction = $action;
         $saveHistory = $history;
+        $saveAmount = $amountPaid;
 
-        $this->saveLendingAction($saveId,$saveAction,$saveHistory);
+        $this->saveLendingAction($saveId,$saveAction,$saveHistory,$saveAmount);
+    }
+
+    public function miscellaneousItem()
+    {
+        if(!isset($_POST['item'])){
+            header("Location: ../miscellaneous.php");
+            exit();
+        }
+
+        foreach($_POST as $post){
+            if($post == ''){
+                echo "<script>alert('Please fill up all fields!')</script>";
+                echo "<script>window.location.href = '../miscellaneous.php'</script>";
+                exit();
+            }
+
+        }
+
+        $item = htmlspecialchars($_POST['item']);
+        $productPrice = htmlspecialchars($_POST['product-price']);
+        $quantity = htmlspecialchars($_POST['quantity']);
+        $serviceFee = htmlspecialchars($_POST['service-fee']);
+        $remarks = htmlspecialchars($_POST['remarks']);
+
+        if(!$this->addMiscellaneous($item,$productPrice,$quantity,$serviceFee,$remarks)){
+            echo "<script>alert('Error uploading')</script>";
+            echo "<script>window.location.href = '../miscellaneous.php'</script>";
+            die();
+        } else {
+            echo "<script>alert('Item added')</script>";
+            echo "<script>window.location.href = '../miscellaneous.php'</script>";
+            die();
+        }
     }
 
 

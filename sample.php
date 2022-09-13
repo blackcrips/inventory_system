@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +18,7 @@
   <?php 
   include_once('./includes/autoLoadClassesMain.inc.php');
   $productsView = new productsView();
-  var_dump($productsView->displayAllProducts());
+  var_dump($productsView->showSales());
   ?>
 </body>
 </html>

@@ -768,42 +768,83 @@ protected function displayEditProducts(){
         $stmt->execute([$amountToPay,$interestRate,$id]);
     }
 
-    protected function getAllExpenses()
+    protected function saveLendingAction($saveId,$saveAction,$saveHistory,$saveAmount)
     {
-        $sql = "SELECT SUM(pn.service_fee) AS service_fee, SUM(pp.price) AS price
-        FROM products_name pn 
-        JOIN products_price pp
-            ON pn.product_code = pp.id";
+        $sql = "INSERT INTO lendingAction (`id`,`action`,`history`,`amount`) VALUES (?,?,?,?)";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$saveId,$saveAction,$saveHistory,$saveAmount]);
+    }
+
+    protected function addMiscellaneous($item,$productPrice,$quantity,$serviceFee,$remarks)
+    {
+        $sql = "INSERT INTO miscellaneous (`item`,`product_price`,`quantity`,`service_fee`,`remarks`) VALUES (?,?,?,?,?)";
+        $stmt = $this->connect()->prepare($sql);
+        if(!$stmt->execute([$item,$productPrice,$quantity,$serviceFee,$remarks])){
+            return false;
+        } else {
+            return true;
+        }
+        
+    }
+
+    private function getSales()
+    {
+        $sql = "SELECT SUM(price) as total_sale, SUM(l.amount) AS lending_payment FROM products_orders
+        JOIN lendingaction l";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
 
-        $results = $stmt->fetch();
+        $result = $stmt->fetch();
 
-        $totalExpenses = $results['service_fee'] + $results['price'];
-        return $totalExpenses;
+        return $result;
     }
 
-    protected function getAllSales()
+    private function getLendingExpenses()
     {
-      $sql = "SELECT SUM(price) AS total_price FROM products_orders";  
-      $stmt = $this->connect()->prepare($sql);
-      $stmt->execute();
+        $sql = "SELECT SUM(total_with_interest) as with_interest FROM lending
+        WHERE status = 'active' || status = 'partial' ";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute();
 
-      $results = $stmt->fetch();
+        $result = $stmt->fetch();
 
-      return $results;
+        return $result['with_interest'];
+    }
+
+    private function getMiscellaneousExpenses()
+    {
+        $sql = "SELECT SUM(product_price) as price FROM miscellaneous";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+
+        return $result['price'];
+    }
+
+    private function getBoughtProductsAmount()
+    {
+        $sql = "SELECT SUM(supplier_price) as bought FROM products_price";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+
+        return $result['bought'];
     }
 
     protected function totalMoney()
     {
-        $money = $this->getAllExpenses() - $this->getAllSales()['total_price'];
-        return $money;
-    }
+        $lendingExpenses = $this->getLendingExpenses(); // Total Lending expenses
+        $miscelleneousExpenses = $this->getMiscellaneousExpenses(); // total Miscelleneous expenses
+        $boughtItems = $this->getBoughtProductsAmount();
 
-    protected function saveLendingAction($saveId,$saveAction,$saveHistory)
-    {
-        $sql = "INSERT INTO lendingAction (`id`,`action`,`history`) VALUES (?,?,?)";
-        $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$saveId,$saveAction,$saveHistory]);
+        $totalExpenses = $lendingExpenses + $miscelleneousExpenses + $boughtItems; // total expenses
+        
+        $totalSales = $this->getSales()['total_sale'] + $this->getSales()['lending_payment'];
+
+        $totalMoney = $totalSales - $totalExpenses;
+
+        return $totalMoney;
     }
 }

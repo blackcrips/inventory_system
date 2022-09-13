@@ -141,9 +141,34 @@
 }
 
 .sales {
-    width: 15%;
+    width: 20%;
     padding-left: 40px;
     line-height: 50px;
     color: white;
     font-weight: bold;
+}
+
+.show-sub-menu-2:hover {
+    cursor: pointer;
+}
+
+.show-sub-menu-2:hover .sub-menu-2 {
+    display: block;
+}
+
+.sub-menu-2 {
+    position: absolute;
+    background-color: #0F52BA;
+    right: -103%;
+    top: 5%;
+    display: none;
+}
+
+.sub-menu-2 ul{
+    display: flex;
+}
+
+.sub-menu-2 ul li {
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
