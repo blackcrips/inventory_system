@@ -540,7 +540,7 @@ $(document).on('click', '#back', function(){
   $('#container-description').children().remove();
   $('#container-description').hide();
   $('.main-category').show();
-  console.log(storeCategory);
+  storeCategory = [];
 });
 
 });

@@ -12,6 +12,7 @@
           <ul>
             <li><a href="lendingHistory.php">LENDING HISTORY</a><i class="fa fa-angle-right"></i></li>
             <li><a href="orderHistory.php">ORDER HISTORY</a><i class="fa fa-angle-right"></i></li>
+            <li><a href="miscellaneousHistory.php">MISCELLENEOUS HISTORY</a><i class="fa fa-angle-right"></i></li>
           </ul>
         </div>
       </li>
@@ -47,7 +48,7 @@
     $loginControllerHeader = new LoginController();
     $productsView = new productsView();
     
-    echo "<span class='sales'> Money on hand: P". number_format($productsView->showSales()) . "</span>";
+    echo "<span class='sales'> Money on hand: P ". number_format($productsView->showSales()) . "</span>";
 
 
     ?>

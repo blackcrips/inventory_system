@@ -71,8 +71,8 @@ $productsView = new ProductsView();
 
             </tbody>
         </table>
-    </div>
-</div>
+      </div>
+  </div>
 
 
 

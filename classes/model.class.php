@@ -391,7 +391,10 @@ class Model extends Dbh
 
     protected function getAllCategories()
     {
-        $sql = "SELECT category FROM products_name";
+        $sql = "SELECT pn.category FROM products_name pn 
+        JOIN products_price pp
+            ON pn.product_code = pp.id
+        WHERE pp.quantity >= 1";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
 
@@ -402,7 +405,10 @@ class Model extends Dbh
 
     protected function getProductBycategory($productName)
     {
-        $sql = "SELECT product_name FROM products_name WHERE category = ?";
+        $sql = "SELECT product_name FROM products_name pn 
+        JOIN products_price pp
+            ON pn.product_code = pp.id
+        WHERE category = ? AND pp.quantity >= 1";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$productName]);
 
@@ -768,6 +774,17 @@ protected function displayEditProducts(){
         $stmt->execute([$amountToPay,$interestRate,$id]);
     }
 
+    protected function miscellaneousHistory()
+    {
+        $sql = "SELECT * FROM miscellaneous";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        return $result;
+    }
+
     protected function saveLendingAction($saveId,$saveAction,$saveHistory,$saveAmount)
     {
         $sql = "INSERT INTO lendingAction (`id`,`action`,`history`,`amount`) VALUES (?,?,?,?)";
@@ -789,37 +806,51 @@ protected function displayEditProducts(){
 
     private function getSales()
     {
-        $sql = "SELECT SUM(price) as total_sale, SUM(l.amount) AS lending_payment FROM products_orders
-        JOIN lendingaction l";
+        $sql = "SELECT SUM(price) AS total_sale FROM products_orders WHERE status = 'delivered'";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
 
         $result = $stmt->fetch();
 
-        return $result;
+        return $result['total_sale'];
+    }
+
+    private function lendingPayment()
+    {
+        $sql = "SELECT SUM(amount) as lending_payment FROM lendingaction";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+
+        if(is_null($result['lending_payment'])){
+            return 0;
+        } else {
+            return $result['lending_payment'];
+        }
     }
 
     private function getLendingExpenses()
     {
-        $sql = "SELECT SUM(total_with_interest) as with_interest FROM lending
+        $sql = "SELECT SUM(borrow_amount) as borrowAmount FROM lending
         WHERE status = 'active' || status = 'partial' ";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
 
         $result = $stmt->fetch();
 
-        return $result['with_interest'];
+        return $result['borrowAmount'];
     }
 
     private function getMiscellaneousExpenses()
     {
-        $sql = "SELECT SUM(product_price) as price FROM miscellaneous";
+        $sql = "SELECT SUM(product_price) as price,SUM(service_fee) as fee FROM miscellaneous";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
 
         $result = $stmt->fetch();
 
-        return $result['price'];
+        return $result['price'] + $result['fee'];
     }
 
     private function getBoughtProductsAmount()
@@ -841,9 +872,9 @@ protected function displayEditProducts(){
 
         $totalExpenses = $lendingExpenses + $miscelleneousExpenses + $boughtItems; // total expenses
         
-        $totalSales = $this->getSales()['total_sale'] + $this->getSales()['lending_payment'];
+        $totalSales = $this->getSales() + $this->lendingPayment();
 
-        $totalMoney = $totalSales - $totalExpenses;
+        $totalMoney = ($totalSales - $totalExpenses) + 10000;
 
         return $totalMoney;
     }

@@ -7,7 +7,6 @@
 .container{
     display: flex;
     min-width: 85%;
-    /* background-color: orange; */
     justify-content: center;
     margin-top: 20px;
     flex-direction: column;

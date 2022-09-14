@@ -176,6 +176,10 @@ class productsView extends Model
         return $this->getOrderHistory();
     }
 
+    public function showMiscellaneous()
+    {
+        return $this->miscellaneousHistory();
+    }
     
     public function viewAllOrder(){
         if(!isset($_POST['request-product'])){

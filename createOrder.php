@@ -4,6 +4,7 @@ $productsView = new ProductsView();
 $loginController = new LoginController();
 $loginController->redirectToLogin();
 
+// var_dump($productsView->showCategories());
 ?>
 <!DOCTYPE html>
 <html lang="en">

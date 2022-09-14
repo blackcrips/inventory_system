@@ -145,7 +145,7 @@ class LoginController extends Model
                 $this->insertProductsName($category, $productName, $productDescription,$serviceFee, $serialCode);
                 $this->insertProductPrice($serialCode, $productPrice, $supplierPrice, $quantity, $storeCode);
                 echo "<script>alert('Product Added!')</script>";
-                echo "<script>window.location.href ='../index.php'</script>";
+                echo "<script>window.location.href ='../addProduct.php'</script>";
                 return;
             } else {
                 foreach ($fetchCodes as $value) {
@@ -159,7 +159,7 @@ class LoginController extends Model
                         $this->insertProductsName($category, $productName, $productDescription,$serviceFee, $serialCode);
                         $this->insertProductPrice($serialCode, $productPrice, $supplierPrice, $quantity, $storeCode);
                         echo "<script>alert('Product Added!')</script>";
-                        echo "<script>window.location.href ='../index.php'</script>";
+                        echo "<script>window.location.href ='../addProduct.php'</script>";
                         return;
                     }
                 }
@@ -214,7 +214,7 @@ class LoginController extends Model
                 mkdir($fileDestination, 077, true);
             }
 
-            $fileNewDestination = $fileDestination . "Photo.jpeg";
+            $fileNewDestination = $fileDestination . "Photo0.jpeg";
             $fileTmpDestination = '../images/products/noImageAvailable.jpg';
     
             copy($fileTmpDestination,$fileNewDestination);
