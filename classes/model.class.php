@@ -79,6 +79,7 @@ class Model extends Dbh
         if ($stmt->rowCount() == 0) {
             echo "<script>alert('Invalid username or password!')</script>";
             echo "<script>window.location.href = '../index.php'</script>";
+            die();
         } else {
             $hashedPassword = $stmt->fetch();
             if (password_verify($password, $hashedPassword['password'])) {
@@ -94,6 +95,7 @@ class Model extends Dbh
             } else {
                 echo "<script>alert('Invalid username or password!')</script>";
                 echo "<script>window.location.href = '../index.php'</script>";
+                die();
             }
 
         }
@@ -368,9 +370,11 @@ class Model extends Dbh
         if ($stmt->execute([$storeName, $contactPerson, $contactNo, $address])) {
             echo "<script>alert('Added successfully!')</script>";
             echo "<script>window.location.href ='../createOrder.php'</script>";
+            die();
         } else {
             echo "<script>alert('Error creating data!')</script>";
             echo "<script>window.location.href ='../homePage.php'</script>";
+            die();
         }
     }
 
@@ -760,10 +764,11 @@ protected function displayEditProducts(){
         if($stmt->execute([$borrowerName,$borrowDate,$amountTopay,$status,$amountPaid,$id])){
             echo "<script>alert('Record successfully updated!')</script>";
             echo "<script>window.location.href = '../lendingHistory.php'</script>";
+            die();
         } else {
             echo "<script>alert('Error updating record. Please contact your admin!')</script>";
             echo "<script>window.location.href = '../lendingHistory.php'</script>";
-            exit();
+            die();
         }
     }
 
@@ -877,5 +882,45 @@ protected function displayEditProducts(){
         $totalMoney = ($totalSales - $totalExpenses) + 10000;
 
         return $totalMoney;
+    }
+
+    protected function getSalesReport()
+    {
+        $sql = "SELECT pn.product_name,pn.category,pn.product_code,pn.product_description,pp.price,s.supplier_name
+         FROM products_name pn JOIN
+        products_price pp 
+            ON pn.product_code = pp.id
+        JOIN supplier s
+            ON s.store_code = pp.store_code 
+        ORDER BY pn.product_name";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll();
+
+        return $this->getProductSales($results);
+    }
+
+    private function getProductSales($results)
+    {
+        $results;
+        for ($i=0; $i < count($results); $i++) { 
+            $sql = "SELECT SUM(price) AS total_sale, SUM(quantity) AS total_count FROM products_orders WHERE product_code = '{$results[$i]['product_code']}'";
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->execute();
+            
+            $totalData = $stmt->fetch();
+            if($totalData['total_sale'] ==''){
+                $totalData['total_sale'] = 0;
+                if($totalData['total_count'] == 0){
+                    $totalData['total_count'] = 0;
+                }
+            }
+
+            $results[$i]['total_sale'] = $totalData['total_sale'];
+            $results[$i]['total_count'] = $totalData['total_count'];
+        }
+
+        return $results;
     }
 }

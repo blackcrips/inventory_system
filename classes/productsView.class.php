@@ -220,5 +220,9 @@ class productsView extends Model
         return $this->totalMoney();
     }
 
+    public function viewSalesReport()
+    {
+        return $this->getSalesReport();
+    }
     
 }

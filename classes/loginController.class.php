@@ -40,8 +40,8 @@ class LoginController extends Model
         if ($_POST['username'] == "" || $_POST['password'] == "") {
             echo "<script>alert('Invalid username or password')</script>";
             echo "<script>window.location.href = '../index.php'</script>";
+            die();
         } else {
-            // $this->validateLogin($_POST['username'], $_POST['password']);
             $valUsername = $_POST['username'];
             $valPassword = $_POST['password'];
             return $this->validateLogin($valUsername,$valPassword);
@@ -136,7 +136,7 @@ class LoginController extends Model
                 if ($post == '') {
                     echo "<script>alert('Plase fill up all fields!')</script>";
                     echo "<script>window.location.href ='../addProduct.php'</script>";
-                    return;
+                    die();
                 }
             }
             if($fetchCodes == 0){
@@ -146,7 +146,7 @@ class LoginController extends Model
                 $this->insertProductPrice($serialCode, $productPrice, $supplierPrice, $quantity, $storeCode);
                 echo "<script>alert('Product Added!')</script>";
                 echo "<script>window.location.href ='../addProduct.php'</script>";
-                return;
+                die();
             } else {
                 foreach ($fetchCodes as $value) {
                     if ($value == $generateCode) {
@@ -160,7 +160,7 @@ class LoginController extends Model
                         $this->insertProductPrice($serialCode, $productPrice, $supplierPrice, $quantity, $storeCode);
                         echo "<script>alert('Product Added!')</script>";
                         echo "<script>window.location.href ='../addProduct.php'</script>";
-                        return;
+                        die();
                     }
                 }
             }
@@ -261,7 +261,7 @@ class LoginController extends Model
                 if ($post == '') {
                     echo "<script>alert('Plase fill up all fields!')</script>";
                     echo "<script>window.location.href ='../addSupplier.php'</script>";
-                    return;
+                    die();
                 }
             }
 
@@ -279,11 +279,12 @@ class LoginController extends Model
                         if ($this->insertSupplierName($serialCode, $supplierName, $supplierAddress, $contactNo, $secondaryNo, $contactPerson, $products) == false) {
                             echo "<script>alert('Record already exist!')</script>";
                             echo "<script>window.location.href='../addSupplier.php'</script>";
+                            die();
                         } else {
                             $this->insertSupplierName($serialCode, $supplierName, $supplierAddress, $contactNo, $secondaryNo, $contactPerson, $products);
                             echo "<script>alert('Added successfully!')</script>";
                             echo "<script>window.location.href ='../index.php'</script>";
-                            return;
+                            die();
                         }
                     }
                 }
@@ -305,6 +306,7 @@ class LoginController extends Model
             if (empty($storeName) || empty($contactPerson) || empty($contactNo) || empty($address)) {
                 echo "<script>alert('Please fill up all field!')</script>";
                 echo "<script>window.location.href='../index.php'</script>";
+                die();
             } else {
                 $this->insertClientDetails($storeName, $contactPerson, $contactNo, $address);
             }
@@ -457,6 +459,7 @@ class LoginController extends Model
             
             echo "<script>alert('Product records successfully updated')</script>";
             echo "<script>window.location.href = '../editProducts.php'</script>";
+            die();
 
         }
         
@@ -538,9 +541,11 @@ class LoginController extends Model
         if($this->insertBorrowRecord($borrowerName,$dateBorrowed,$borrowedAmount,$dueDate->format('Y-m-d'),$status)){
             echo "<script>alert('Record added')</script>";
             echo "<script>window.location.href = '../lending.php'</script>";
+            die();
         } else {
             echo "<script>alert('Error server! Contact your admin.')</script>";
             echo "<script>window.location.href = '../lending.php'</script>";
+            die();
         }
 
         
