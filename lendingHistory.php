@@ -75,13 +75,14 @@ $loginController->addInterest();
                         <td><?php echo $value['amount_to_pay']; ?></td>
                         <td><?php echo $value['total_with_interest']; ?></td>
                         <td class="status"><?php echo $value['status']; ?></td>
-                        <td class="status"><?php echo $value['amount_paid']; ?></td>
+                        <td class="payment"><?php echo $value['amount_paid']; ?></td>
                         <td class="nth-td">
                           <?php 
                           if($value['status'] == "paid"){
                             echo "<button class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>View</button>";
                           } else {
-                            echo "<button class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Edit</button>";
+                            echo "<button class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Edit</button>
+                            ";
                           }
                           ?>
                           <button class="btn btn-danger delete">Delete</button>

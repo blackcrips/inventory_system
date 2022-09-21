@@ -41,6 +41,18 @@ input[type="date"]:disabled {
 
 .preview-order {
     position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.preview-order-content {
+    display: flex;
+    border: 1px solid black;
+}
+
+.preview-order-content div {
+    width: 50%;
+    text-align: center;
 }
 
 .preview-order .preview-details {
@@ -114,6 +126,9 @@ input[type="date"]:disabled {
     text-align: center;
 }
 
-.nth-td button {
-    width: 40%;
+.payment.history {
+    cursor: pointer;
+    text-decoration: underline;
+    text-align: center;
+    font-weight: bolder;
 }

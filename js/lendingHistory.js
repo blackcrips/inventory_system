@@ -70,11 +70,68 @@ $(document).ready(function(){
           }
         });
       });
-  
+
+      checkHistory();
+
+      $('.payment').on('click', function(){
+        if($('.preview-order').length > 0){
+          $('.preview-order').remove();
+        }
+
+        
+        let id = $(this).parent().children('.order-id').html();
+        lendingHistory(id);
+      });
       }
     }); //end of data tables
-    
 
+    function lendingHistory(id)
+    {
+      let createOrders = `<div class="preview-order">
+                            <div class='preview-order-content'>
+                              <div class='content-1'>Amount</div>
+                              <div class='content-2'>Date Paid</div>
+                            </div>
+                          </div>`;
+
+      // console.log($('#exampleModalLabel'));
+      $('.modal-body').append(createOrders);
+      $('.modal-header').children('h5').html(`Payment history for id: ${id}`);
+                          
+      $.ajax(
+        {
+          type: 'POST',
+          url: "./includes/paymentHistory.inc.php",
+          data: {
+            "id": id
+          },
+          success: function(data){
+            let parseData = JSON.parse(data);
+            let sumData = 0;
+
+            for (let index = 0; index < parseData.length; index++) {
+              paymentHistoryTemplate(parseData[index].amount,parseData[index].added_at);
+              sumData += parseInt(parseData[index].amount);
+            }
+
+            paymentHistoryTemplate('TOTAL',sumData)
+
+          }
+        }
+      );
+    }
+
+    function paymentHistoryTemplate(amount,date)
+    {
+      
+      let content = `<div class='preview-order-content'>
+                        <div class='content-1'>${amount}</div>
+                        <div class='content-2'>${date}</div>
+                      </div>`;
+
+      $('.preview-order').append(content);
+    }
+    
     function appendPreviewOrder(orders){
         for(let i = 0; i < orders.length; i++){
             let createOrders = `<div class="preview-order-details">
@@ -113,6 +170,19 @@ $(document).ready(function(){
             </div>`;
             
             $('.preview-orders').append(createOrders);
+        }
+      }
+
+      function checkHistory()
+      {
+        for (let index = 0; index < $('.payment').length; index++) {
+
+          if($('.payment')[index].innerText != ''){
+            $('.payment')[index].classList.add('history');
+            $('.payment')[index].setAttribute("data-bs-toggle","modal");
+            $('.payment')[index].setAttribute("data-bs-target",'#exampleModal');
+          }
+          
         }
       }
 

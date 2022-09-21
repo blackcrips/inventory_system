@@ -225,4 +225,10 @@ class productsView extends Model
         return $this->getSalesReport();
     }
     
+    public function paymentHistory()
+    {
+        $id = htmlspecialchars($_POST['id']);
+        
+        return $this->showPaymentHistory($id);
+    }
 }

@@ -860,13 +860,15 @@ protected function displayEditProducts(){
 
     private function getBoughtProductsAmount()
     {
-        $sql = "SELECT SUM(supplier_price) as bought FROM products_price";
+        $sql = "SELECT SUM(pp.supplier_price) as bought, SUM(pn.service_fee) as fee FROM products_price pp
+        JOIN products_name pn
+            ON pn.product_code = pp.id";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
 
         $result = $stmt->fetch();
 
-        return $result['bought'];
+        return $result['bought'] + $result['fee'];
     }
 
     protected function totalMoney()
@@ -922,5 +924,16 @@ protected function displayEditProducts(){
         }
 
         return $results;
+    }
+
+    protected function showPaymentHistory($id)
+    {
+        $sql = "SELECT amount,added_at FROM lendingaction WHERE id = ?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$id]);
+
+        $results = $stmt->fetchAll();
+
+        exit(json_encode($results));
     }
 }
