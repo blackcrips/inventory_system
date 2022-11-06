@@ -1,14 +1,13 @@
 # inventory_system
 
 I disabled the session and cookie functions due to error upon deploying online hence it is working offline.
+<html>
+to check the website, here is the <a href ="https://blackcrips-inventory.000webhostapp.com" target"_blank">LINK</a>
 
-to check the website, here is the link:
-https://blackcrips-inventory.000webhostapp.com
-
-Username: test3@email.com
+Username: test3@email.com <br>
 password: 123456
 
-
+</html>
 * Created using
   - HTML
   - CSS
