@@ -5,6 +5,9 @@ I disabled the session and cookie functions due to error upon deploying online h
 to check the website, here is the link:
 https://blackcrips-inventory.000webhostapp.com
 
+Username: test3@email.com
+password: 123456
+
 
 * Created using
   - HTML
